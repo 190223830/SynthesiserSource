@@ -1,13 +1,24 @@
+/*
+  ==============================================================================
+
+    This file contains the basic framework code for a JUCE plugin processor.
+
+  ==============================================================================
+*/
+
 #pragma once
 
 #include <JuceHeader.h>
 
-class NewProjectAudioProcessor  : public juce::AudioProcessor
+//==============================================================================
+/**
+*/
+class OscAudioProcessor  : public juce::AudioProcessor
 {
 public:
     //==============================================================================
-    NewProjectAudioProcessor();
-    ~NewProjectAudioProcessor() override;
+    OscAudioProcessor();
+    ~OscAudioProcessor() override;
 
     //==============================================================================
     void prepareToPlay (double sampleRate, int samplesPerBlock) override;
@@ -44,7 +55,10 @@ public:
 
 private:
 
-    juce::dsp::Oscillator<float> osc{ [](float x) {return std::sin(x);  }};
+    juce::dsp::Oscillator<float> oscSin{ [](float x) {return std::sin(x); } };                              //sine wave
+    juce::dsp::Oscillator<float> oscSaw{ [](float x) {return x/juce::MathConstants<float>::pi; } };         //saw wave
+    juce::dsp::Oscillator<float> oscSqu{ [](float x) {return x < 0.0f ? -1.0f : 1.0f; } };                     //square wave
+    juce::dsp::Gain<float> gain;
     //==============================================================================
-    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (NewProjectAudioProcessor)
+    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (OscAudioProcessor)
 };
