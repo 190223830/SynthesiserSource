@@ -28,6 +28,8 @@ private:
     juce::ADSR adsr;
     juce::ADSR::Parameters adsrParams;
 
+    juce::AudioBuffer<float> oscBuffer;
+
     juce::dsp::Oscillator<float> oscSin{ [](float x) {return std::sin(x); } };                              //sine wave
     juce::dsp::Oscillator<float> oscSaw{ [](float x) {return x / juce::MathConstants<float>::pi; } };         //saw wave
     juce::dsp::Oscillator<float> oscSqu{ [](float x) {return x < 0.0f ? -1.0f : 1.0f; } };                     //square wave
