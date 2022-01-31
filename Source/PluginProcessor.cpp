@@ -1,16 +1,7 @@
-/*
-  ==============================================================================
-
-    This file contains the basic framework code for a JUCE plugin processor.
-
-  ==============================================================================
-*/
-
 #include "PluginProcessor.h"
 #include "PluginEditor.h"
 
-//==============================================================================
-OscAudioProcessor::OscAudioProcessor()
+SynthOneAudioProcessor::SynthOneAudioProcessor()
 #ifndef JucePlugin_PreferredChannelConfigurations
      : AudioProcessor (BusesProperties()
                      #if ! JucePlugin_IsMidiEffect
@@ -19,22 +10,24 @@ OscAudioProcessor::OscAudioProcessor()
                       #endif
                        .withOutput ("Output", juce::AudioChannelSet::stereo(), true)
                      #endif
-                       )
+                       ), valueTreeState (*this, nullptr, "Params", createParams())
 #endif
 {
+    synth.addSound(new SynthSound());
+    synth.addVoice(new SynthVoice());
 }
 
-OscAudioProcessor::~OscAudioProcessor()
+SynthOneAudioProcessor::~SynthOneAudioProcessor()
 {
+
 }
 
-//==============================================================================
-const juce::String OscAudioProcessor::getName() const
+const juce::String SynthOneAudioProcessor::getName() const
 {
     return JucePlugin_Name;
 }
 
-bool OscAudioProcessor::acceptsMidi() const
+bool SynthOneAudioProcessor::acceptsMidi() const
 {
    #if JucePlugin_WantsMidiInput
     return true;
@@ -43,7 +36,7 @@ bool OscAudioProcessor::acceptsMidi() const
    #endif
 }
 
-bool OscAudioProcessor::producesMidi() const
+bool SynthOneAudioProcessor::producesMidi() const
 {
    #if JucePlugin_ProducesMidiOutput
     return true;
@@ -52,7 +45,7 @@ bool OscAudioProcessor::producesMidi() const
    #endif
 }
 
-bool OscAudioProcessor::isMidiEffect() const
+bool SynthOneAudioProcessor::isMidiEffect() const
 {
    #if JucePlugin_IsMidiEffect
     return true;
@@ -61,70 +54,60 @@ bool OscAudioProcessor::isMidiEffect() const
    #endif
 }
 
-double OscAudioProcessor::getTailLengthSeconds() const
+double SynthOneAudioProcessor::getTailLengthSeconds() const
 {
     return 0.0;
 }
 
-int OscAudioProcessor::getNumPrograms()
+int SynthOneAudioProcessor::getNumPrograms()
 {
-    return 1;   // NB: some hosts don't cope very well if you tell them there are 0 programs,
-                // so this should be at least 1, even if you're not really implementing programs.
+    return 1;   // this should be at least 1, even if you're not really implementing programs.    
 }
 
-int OscAudioProcessor::getCurrentProgram()
+int SynthOneAudioProcessor::getCurrentProgram()
 {
     return 0;
 }
 
-void OscAudioProcessor::setCurrentProgram (int index)
+void SynthOneAudioProcessor::setCurrentProgram (int index)
 {
 }
 
-const juce::String OscAudioProcessor::getProgramName (int index)
+const juce::String SynthOneAudioProcessor::getProgramName (int index)
 {
     return {};
 }
 
-void OscAudioProcessor::changeProgramName (int index, const juce::String& newName)
+void SynthOneAudioProcessor::changeProgramName (int index, const juce::String& newName)
 {
 }
 
-//==============================================================================
-void OscAudioProcessor::prepareToPlay (double sampleRate, int samplesPerBlock)
+void SynthOneAudioProcessor::prepareToPlay (double sampleRate, int samplesPerBlock)
 {
-    // Use this method as the place to do any pre-playback
-    // initialisation that you need..
+    // pre-playback initialisation
 
-    juce::dsp::ProcessSpec spec;
-    spec.maximumBlockSize = samplesPerBlock;
-    spec.sampleRate = sampleRate;
-    spec.numChannels = getTotalNumOutputChannels();
-
-    oscSin.prepare(spec);
-    gain.prepare(spec);
-
-    gain.setGainLinear(0.01f);
-    oscSin.setFrequency(440.0f);
+    synth.setCurrentPlaybackSampleRate(sampleRate);
+    for (int i = 0; i < synth.getNumVoices(); i++) {
+        if (auto voice = dynamic_cast<SynthVoice*>(synth.getVoice(i))) {
+            voice->prepareToPlay(sampleRate, samplesPerBlock, getTotalNumOutputChannels());
+        };
+    };
 }
 
-void OscAudioProcessor::releaseResources()
+void SynthOneAudioProcessor::releaseResources()
 {
-    // When playback stops, you can use this as an opportunity to free up any
-    // spare memory, etc.
+    // When playback stops
 }
 
 #ifndef JucePlugin_PreferredChannelConfigurations
-bool OscAudioProcessor::isBusesLayoutSupported (const BusesLayout& layouts) const
+bool SynthOneAudioProcessor::isBusesLayoutSupported (const BusesLayout& layouts) const
 {
   #if JucePlugin_IsMidiEffect
     juce::ignoreUnused (layouts);
     return true;
   #else
-    // This is the place where you check if the layout is supported.
-    // In this template code we only support mono or stereo.
-    // Some plugin hosts, such as certain GarageBand versions, will only
-    // load plugins that support stereo bus layouts.
+    // check if the layout is supported.
+
     if (layouts.getMainOutputChannelSet() != juce::AudioChannelSet::mono()
      && layouts.getMainOutputChannelSet() != juce::AudioChannelSet::stereo())
         return false;
@@ -140,49 +123,62 @@ bool OscAudioProcessor::isBusesLayoutSupported (const BusesLayout& layouts) cons
 }
 #endif
 
-void OscAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer, juce::MidiBuffer& midiMessages)
+void SynthOneAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer, juce::MidiBuffer& midiMessages)
 {
     juce::ScopedNoDenormals noDenormals;
     auto totalNumInputChannels  = getTotalNumInputChannels();
     auto totalNumOutputChannels = getTotalNumOutputChannels();
 
-   
     for (auto i = totalNumInputChannels; i < totalNumOutputChannels; ++i)
         buffer.clear (i, 0, buffer.getNumSamples());
 
-    juce::dsp::AudioBlock<float> audioBlock{ buffer };
-    oscSin.process(juce::dsp::ProcessContextReplacing<float> (audioBlock));
-    gain.process(juce::dsp::ProcessContextReplacing<float>(audioBlock));
+    for (int i = 0; i < synth.getNumVoices(); i++) {
+        if (auto voice = dynamic_cast<juce::SynthesiserVoice*>(synth.getVoice(i))) {
+            //Osc controls
+            //ADSR
+            //LFO
+
+        };
+    };
+
+    synth.renderNextBlock(buffer, midiMessages, 0, buffer.getNumSamples());
 }
 
-//==============================================================================
-bool OscAudioProcessor::hasEditor() const
+bool SynthOneAudioProcessor::hasEditor() const
 {
-    return true; // (change this to false if you choose to not supply an editor)
+    return true;    // creates GUI
 }
 
-juce::AudioProcessorEditor* OscAudioProcessor::createEditor()
+juce::AudioProcessorEditor* SynthOneAudioProcessor::createEditor()
 {
-    return new OscAudioProcessorEditor (*this);
+    return new SynthOneAudioProcessorEditor (*this);
 }
 
-//==============================================================================
-void OscAudioProcessor::getStateInformation (juce::MemoryBlock& destData)
+void SynthOneAudioProcessor::getStateInformation (juce::MemoryBlock& destData)
 {
-    // You should use this method to store your parameters in the memory block.
-    // You could do that either as raw data, or use the XML or ValueTree classes
-    // as intermediaries to make it easy to save and load complex data.
+    // use this method to store your parameters in the memory block
 }
 
-void OscAudioProcessor::setStateInformation (const void* data, int sizeInBytes)
+void SynthOneAudioProcessor::setStateInformation (const void* data, int sizeInBytes)
 {
-    // You should use this method to restore your parameters from this memory block,
-    // whose contents will have been created by the getStateInformation() call.
+    // use this method to restore your parameters from this memory block
 }
 
-//==============================================================================
-// This creates new instances of the plugin..
+// create new instances of the plugin
 juce::AudioProcessor* JUCE_CALLTYPE createPluginFilter()
 {
-    return new OscAudioProcessor();
+    return new SynthOneAudioProcessor();
+}
+
+//Value tree
+juce::AudioProcessorValueTreeState::ParameterLayout SynthOneAudioProcessor::createParams() {        // create parameters for user input
+    std::vector<std::unique_ptr<juce::RangedAudioParameter>> params;
+    params.push_back(std::make_unique<juce::AudioParameterFloat>("ATTACK", "Attack", 0.00f, 1.00f, 0.10f));
+    params.push_back(std::make_unique<juce::AudioParameterFloat>("DECAY", "Decay", 0.00f, 1.00f, 0.50f));
+    params.push_back(std::make_unique<juce::AudioParameterFloat>("SUSTAIN", "Sustain", 0.00f, 1.00f, 1.00f));
+    params.push_back(std::make_unique<juce::AudioParameterFloat>("RELEASE", "Release", 0.00f, 1.00f, 0.00f));
+    params.push_back(std::make_unique<juce::AudioParameterFloat>("GAIN", "Gain", 0.00f, 1.00f, 0.50f));
+    params.push_back(std::make_unique<juce::AudioParameterChoice>("WAVE", "Wave type", juce::StringArray{ "Sine", "Saw", "Square"}, 0));
+
+    return { params.begin(), params.end() };
 }

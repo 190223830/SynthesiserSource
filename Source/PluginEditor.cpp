@@ -1,40 +1,29 @@
-/*
-  ==============================================================================
-
-    This file contains the basic framework code for a JUCE plugin editor.
-
-  ==============================================================================
-*/
-
 #include "PluginProcessor.h"
 #include "PluginEditor.h"
 
-//==============================================================================
-OscAudioProcessorEditor::OscAudioProcessorEditor (OscAudioProcessor& p)
+SynthOneAudioProcessorEditor::SynthOneAudioProcessorEditor (SynthOneAudioProcessor& p)
     : AudioProcessorEditor (&p), audioProcessor (p)
 {
-    // Make sure that before the constructor has finished, you've set the
-    // editor's size to whatever you need it to be.
+    //set the editor's size
     setSize (400, 300);
 }
 
-OscAudioProcessorEditor::~OscAudioProcessorEditor()
+SynthOneAudioProcessorEditor::~SynthOneAudioProcessorEditor()
 {
+
 }
 
-//==============================================================================
-void OscAudioProcessorEditor::paint (juce::Graphics& g)
+void SynthOneAudioProcessorEditor::paint (juce::Graphics& g)
 {
-    // (Our component is opaque, so we must completely fill the background with a solid colour)
+    // fill the background with a solid colour
     g.fillAll (getLookAndFeel().findColour (juce::ResizableWindow::backgroundColourId));
 
     g.setColour (juce::Colours::white);
     g.setFont (15.0f);
-    g.drawFittedText ("Hello World!", getLocalBounds(), juce::Justification::centred, 1);
+    g.drawFittedText ("SynthOne", getLocalBounds(), juce::Justification::centred, 1);
 }
 
-void OscAudioProcessorEditor::resized()
+void SynthOneAudioProcessorEditor::resized()
 {
-    // This is generally where you'll want to lay out the positions of any
-    // subcomponents in your editor..
+    // lay out the positions of any subcomponents
 }
