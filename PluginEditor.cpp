@@ -6,11 +6,18 @@ SynthOneAudioProcessorEditor::SynthOneAudioProcessorEditor (SynthOneAudioProcess
 {
     //set the editor's size
     setSize (400, 300);
+
+    attackAttachment = std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(audioProcessor.valueTreeState, "ATTACK", attackSlider);
+    decayAttachment = std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(audioProcessor.valueTreeState, "DECAY", decaySlider);;
+    sustainAttachment = std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(audioProcessor.valueTreeState, "SUSTAIN", sustainSlider);;
+    releaseAttachment = std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(audioProcessor.valueTreeState, "RELEASE", releaseSlider);;
+
+    //gainAttachment = std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(audioProcessor.valueTreeState, "GAIN", gainSlider);;
+    waveSelectAttachment = std::make_unique<juce::AudioProcessorValueTreeState::ComboBoxAttachment>(audioProcessor.valueTreeState, "WAVE", waveSelect);;
 }
 
 SynthOneAudioProcessorEditor::~SynthOneAudioProcessorEditor()
 {
-
 }
 
 void SynthOneAudioProcessorEditor::paint (juce::Graphics& g)

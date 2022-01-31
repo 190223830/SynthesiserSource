@@ -38,7 +38,7 @@ public:
     void getStateInformation (juce::MemoryBlock& destData) override;
     void setStateInformation (const void* data, int sizeInBytes) override;
 
-    juce::AudioProcessorValueTreeState valueTreeState;
+    juce::AudioProcessorValueTreeState valueTreeState;  //this should probably be private with a get method
 
 private:
     juce::Synthesiser synth;
