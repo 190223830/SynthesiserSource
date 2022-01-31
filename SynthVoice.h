@@ -23,6 +23,7 @@ public:
     void pitchWheelMoved(int newPitchWheelValue) override;
 
     void prepareToPlay(double sampleRate, int samplesPerBlock, int outputChannels);
+    void updateADSR(const float attack, const float decay, const float sustain, const float release);
 
 private:
     juce::ADSR adsr;
@@ -33,6 +34,7 @@ private:
     juce::dsp::Oscillator<float> oscSin{ [](float x) {return std::sin(x); } };                              //sine wave
     juce::dsp::Oscillator<float> oscSaw{ [](float x) {return x / juce::MathConstants<float>::pi; } };         //saw wave
     juce::dsp::Oscillator<float> oscSqu{ [](float x) {return x < 0.0f ? -1.0f : 1.0f; } };                     //square wave
+
     juce::dsp::Gain<float> gain;
     bool isPrepared {false};
 
