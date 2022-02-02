@@ -142,7 +142,7 @@ void SynthOneAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer, juc
             auto& decay = *valueTreeState.getRawParameterValue("DECAY");
             auto& sustain = *valueTreeState.getRawParameterValue("SUSTAIN");
             auto& release = *valueTreeState.getRawParameterValue("RELEASE");
-            voice->updateADSR(attack.load(), decay.load(), sustain.load(), release.load()); //.load() is because its an atomic float, uses a lot more power than a normal float (not actually necessary but good for reference)
+            voice->update(attack.load(), decay.load(), sustain.load(), release.load()); //.load() is because its an atomic float, uses a lot more power than a normal float (not actually necessary but good for reference)
 
             //GAIN
             auto& gain = *valueTreeState.getRawParameterValue("GAIN");
