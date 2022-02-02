@@ -135,7 +135,8 @@ void SynthOneAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer, juc
     for (int i = 0; i < synth.getNumVoices(); i++) {
         if (auto voice = dynamic_cast<SynthVoice*>(synth.getVoice(i))) {
             //Osc controls
-            
+            auto& waveType = *valueTreeState.getRawParameterValue("WAVE");
+            voice->getOsc().setWaveType(waveType);
 
             //ADSR
             auto& attack = *valueTreeState.getRawParameterValue("ATTACK");
@@ -192,7 +193,7 @@ juce::AudioProcessorValueTreeState::ParameterLayout SynthOneAudioProcessor::crea
     params.push_back(std::make_unique<juce::AudioParameterFloat>("RELEASE", "Release", juce::NormalisableRange<float>{0.001f, 5.00f}, 0.05f));
 
     params.push_back(std::make_unique<juce::AudioParameterFloat>("GAIN", "Gain", juce::NormalisableRange<float>{0.001f, 1.00f}, 0.50f));
-    params.push_back(std::make_unique<juce::AudioParameterChoice>("WAVE", "Wave type", juce::StringArray{ "Sine", "Saw", "Square"}, 0));
+    params.push_back(std::make_unique<juce::AudioParameterChoice>("WAVE", "Wave Type", juce::StringArray{ "Sine", "Saw", "Square"}, 0));
 
     return { params.begin(), params.end() };
 }

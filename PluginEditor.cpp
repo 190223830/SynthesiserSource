@@ -2,20 +2,21 @@
 #include "PluginEditor.h"
 
 SynthOneAudioProcessorEditor::SynthOneAudioProcessorEditor (SynthOneAudioProcessor& p)
-    : AudioProcessorEditor (&p), audioProcessor (p), adsr(audioProcessor.valueTreeState)
+    : AudioProcessorEditor (&p), audioProcessor (p), adsr(audioProcessor.valueTreeState), osc(audioProcessor.valueTreeState, "WAVE")
 {
     //set the editor's size
     setSize (800, 400);
 
     gainAttachment = std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(audioProcessor.valueTreeState, "GAIN", gainSlider);;
-    waveSelectAttachment = std::make_unique<juce::AudioProcessorValueTreeState::ComboBoxAttachment>(audioProcessor.valueTreeState, "WAVE", waveSelect);
+    //waveSelectAttachment = std::make_unique<juce::AudioProcessorValueTreeState::ComboBoxAttachment>(audioProcessor.valueTreeState, "WAVE", waveSelect);
 
     gainSlider.setSliderStyle(juce::Slider::SliderStyle::LinearVertical);
     gainSlider.setTextBoxStyle(juce::Slider::TextBoxAbove, false, 50, 20);
     addAndMakeVisible(gainSlider);
 
-    //make adsr visible
+    //make adsr and osc visible
     addAndMakeVisible(adsr);
+    addAndMakeVisible(osc);
 
 }
 
@@ -39,7 +40,7 @@ void SynthOneAudioProcessorEditor::resized()
     
     //set adsr bounds
     adsr.setBounds(getWidth()/2, 20, getWidth()/2, getHeight()/4);
-
+    osc.setBounds(100, (getHeight()/2)-20, 100, 40);
     gainSlider.setBounds(10, 20, 50, getHeight()-40);
 
     

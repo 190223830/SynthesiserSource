@@ -3,6 +3,7 @@
 #include <JuceHeader.h>
 #include "PluginProcessor.h"
 #include "ADSR.h"
+#include "Osc.h"
 
 class SynthOneAudioProcessorEditor  : public juce::AudioProcessorEditor
 {
@@ -19,12 +20,13 @@ private:
     SynthOneAudioProcessor& audioProcessor;
 
     ADSR adsr;
+    Osc osc;
 
     juce::Slider gainSlider;
-    juce::ComboBox waveSelect;
+    //juce::ComboBox waveSelect;
 
     std::unique_ptr<juce::AudioProcessorValueTreeState::SliderAttachment> gainAttachment;
-    std::unique_ptr<juce::AudioProcessorValueTreeState::ComboBoxAttachment> waveSelectAttachment;
+    //std::unique_ptr<juce::AudioProcessorValueTreeState::ComboBoxAttachment> waveSelectAttachment;
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (SynthOneAudioProcessorEditor)
 };

@@ -10,11 +10,12 @@
 
 #include "SynthVoice.h"
 
+
 bool SynthVoice::canPlaySound(juce::SynthesiserSound* sound) {
     return dynamic_cast<juce::SynthesiserSound*>(sound) != nullptr;
 };
 void SynthVoice::startNote(int midiNoteNumber, float velocity, juce::SynthesiserSound* sound, int currentPitchWheelPosition) {
-    oscSin.setFrequency(juce::MidiMessage::getMidiNoteInHertz(midiNoteNumber));
+    osc.setFrequency(juce::MidiMessage::getMidiNoteInHertz(midiNoteNumber));
     adsr.noteOn();
 };
 void SynthVoice::stopNote(float velocity, bool allowTailOff) {
@@ -39,7 +40,7 @@ void SynthVoice::renderNextBlock(juce::AudioBuffer<float>& outputBuffer, int sta
     juce::dsp::AudioBlock<float> audioBlock{ oscBuffer };
 
     //juce::dsp::AudioBlock<float> audioBlock{ outputBuffer };
-    oscSin.process(juce::dsp::ProcessContextReplacing<float>(audioBlock));
+    osc.process(juce::dsp::ProcessContextReplacing<float>(audioBlock));
     gain.process(juce::dsp::ProcessContextReplacing<float>(audioBlock));
 
     //adsr.applyEnvelopeToBuffer(outputBuffer, startSample, numSamples);
@@ -67,7 +68,7 @@ void SynthVoice::prepareToPlay(double sampleRate, int samplesPerBlock, int outpu
 
     adsr.setSampleRate(sampleRate);
 
-    oscSin.prepare(spec);
+    osc.prepare(spec);
     gain.prepare(spec);
 
     isPrepared = true;
@@ -77,6 +78,6 @@ void SynthVoice::update(const float attack, const float decay, const float susta
     adsr.updateADSR(attack, decay, sustain, release);
 }
 
-void SynthVoice::updateGain(const float gainValue) {
+void SynthVoice::updateGain(const float gainValue) {    //TODO: Incorporate into update method
     gain.setGainLinear(gainValue);
 }
