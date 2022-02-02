@@ -32,3 +32,15 @@ void OscData::setWaveType(const int waveType) {
         break;
     }
 }
+
+void OscData::prepareToPlay(juce::dsp::ProcessSpec& spec) {
+    prepare(spec);
+}
+
+void OscData::processBlock(juce::dsp::AudioBlock<float>& block) {
+    process(juce::dsp::ProcessContextReplacing<float>(block));
+}
+
+void OscData::setFreq(const int midiNoteNumber) {
+    setFrequency(midiNoteNumber);
+}
