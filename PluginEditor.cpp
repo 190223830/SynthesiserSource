@@ -12,26 +12,26 @@ SynthOneAudioProcessorEditor::SynthOneAudioProcessorEditor (SynthOneAudioProcess
     sustainAttachment = std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(audioProcessor.valueTreeState, "SUSTAIN", sustainSlider);
     releaseAttachment = std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(audioProcessor.valueTreeState, "RELEASE", releaseSlider);
 
-    //gainAttachment = std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(audioProcessor.valueTreeState, "GAIN", gainSlider);;
+    gainAttachment = std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(audioProcessor.valueTreeState, "GAIN", gainSlider);;
     waveSelectAttachment = std::make_unique<juce::AudioProcessorValueTreeState::ComboBoxAttachment>(audioProcessor.valueTreeState, "WAVE", waveSelect);
 
     attackSlider.setSliderStyle(juce::Slider::SliderStyle::RotaryHorizontalVerticalDrag);     //TODO: make a method for this to keep the code dry
     decaySlider.setSliderStyle(juce::Slider::SliderStyle::RotaryHorizontalVerticalDrag);
     sustainSlider.setSliderStyle(juce::Slider::SliderStyle::RotaryHorizontalVerticalDrag);
     releaseSlider.setSliderStyle(juce::Slider::SliderStyle::RotaryHorizontalVerticalDrag);
-    //gainSlider.setSliderStyle(juce::Slider::SliderStyle::LinearVertical);
+    gainSlider.setSliderStyle(juce::Slider::SliderStyle::LinearVertical);
 
     attackSlider.setTextBoxStyle(juce::Slider::TextBoxAbove, false, 50, 20);
     decaySlider.setTextBoxStyle(juce::Slider::TextBoxAbove, false, 50, 20);
     sustainSlider.setTextBoxStyle(juce::Slider::TextBoxAbove, false, 50, 20);
     releaseSlider.setTextBoxStyle(juce::Slider::TextBoxAbove, false, 50, 20);
-    //gainSlider.setTextBoxStyle(juce::Slider::TextBoxAbove, false, 50, 20);
+    gainSlider.setTextBoxStyle(juce::Slider::TextBoxAbove, false, 50, 20);
 
     addAndMakeVisible(attackSlider);
     addAndMakeVisible(decaySlider);
     addAndMakeVisible(sustainSlider);
     addAndMakeVisible(releaseSlider);
-    //addAndMakeVisible(gainSlider);
+    addAndMakeVisible(gainSlider);
 }
 
 SynthOneAudioProcessorEditor::~SynthOneAudioProcessorEditor()
@@ -62,6 +62,9 @@ void SynthOneAudioProcessorEditor::resized()
     decaySlider.setBounds(attackSlider.getRight()+adsrPadding, adsrSliderY, adsrSliderWidth, adsrSliderHeight);
     sustainSlider.setBounds(decaySlider.getRight() + adsrPadding, adsrSliderY, adsrSliderWidth, adsrSliderHeight);
     releaseSlider.setBounds(sustainSlider.getRight() + adsrPadding, adsrSliderY, adsrSliderWidth, adsrSliderHeight);
-
+    
     //TODO: add gain slider here
+    gainSlider.setBounds(20, 20, 50, 200);
+
+    
 }

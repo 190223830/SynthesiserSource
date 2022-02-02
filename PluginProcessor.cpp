@@ -145,6 +145,8 @@ void SynthOneAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer, juc
             voice->updateADSR(attack.load(), decay.load(), sustain.load(), release.load()); //.load() is because its an atomic float, uses a lot more power than a normal float (not actually necessary but good for reference)
 
             //GAIN
+            auto& gain = *valueTreeState.getRawParameterValue("GAIN");
+            voice->updateGain(gain.load());
 
             //LFO
 
@@ -189,7 +191,7 @@ juce::AudioProcessorValueTreeState::ParameterLayout SynthOneAudioProcessor::crea
     params.push_back(std::make_unique<juce::AudioParameterFloat>("SUSTAIN", "Sustain", juce::NormalisableRange<float>{0.0000001f, 1.00f}, 1.00f));
     params.push_back(std::make_unique<juce::AudioParameterFloat>("RELEASE", "Release", juce::NormalisableRange<float>{0.001f, 5.00f}, 0.05f));
 
-    //params.push_back(std::make_unique<juce::AudioParameterFloat>("GAIN", "Gain", 0.00f, 1.00f, 0.50f));
+    params.push_back(std::make_unique<juce::AudioParameterFloat>("GAIN", "Gain", juce::NormalisableRange<float>{0.001f, 1.00f}, 0.50f));
     params.push_back(std::make_unique<juce::AudioParameterChoice>("WAVE", "Wave type", juce::StringArray{ "Sine", "Saw", "Square"}, 0));
 
     return { params.begin(), params.end() };

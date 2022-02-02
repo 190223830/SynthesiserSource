@@ -24,6 +24,7 @@ public:
 
     void prepareToPlay(double sampleRate, int samplesPerBlock, int outputChannels);
     void updateADSR(const float attack, const float decay, const float sustain, const float release);
+    void updateGain(const float gain);
 
 private:
     juce::ADSR adsr;

@@ -70,10 +70,9 @@ void SynthVoice::prepareToPlay(double sampleRate, int samplesPerBlock, int outpu
     oscSin.prepare(spec);
     gain.prepare(spec);
 
-    gain.setGainLinear(0.5f);
+    //gain.setGainLinear(0.5f);       //placeholder values if needed
     //oscSin.setFrequency(440.0f);
-
-    /*adsrParams.attack = 0.5f;         //placeholder values if needed
+    /*adsrParams.attack = 0.5f;         
     adsrParams.decay = 0.5f;
     adsrParams.sustain = 0.5f;
     adsrParams.release = 2.0f;
@@ -89,4 +88,8 @@ void SynthVoice::updateADSR(const float attack, const float decay, const float s
     adsrParams.sustain = sustain;
     adsrParams.release = release;
     adsr.setParameters(adsrParams);
+}
+
+void SynthVoice::updateGain(const float gainValue) {
+    gain.setGainLinear(gainValue);
 }
