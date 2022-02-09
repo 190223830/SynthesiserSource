@@ -15,7 +15,8 @@ bool SynthVoice::canPlaySound(juce::SynthesiserSound* sound) {
     return dynamic_cast<juce::SynthesiserSound*>(sound) != nullptr;
 };
 void SynthVoice::startNote(int midiNoteNumber, float velocity, juce::SynthesiserSound* sound, int currentPitchWheelPosition) {
-    osc.setFreq(juce::MidiMessage::getMidiNoteInHertz(midiNoteNumber));
+
+    osc.setFreq(midiNoteNumber);
     adsr.noteOn();
 };
 void SynthVoice::stopNote(float velocity, bool allowTailOff) {

@@ -34,13 +34,28 @@ void OscData::setWaveType(const int waveType) {
 }
 
 void OscData::prepareToPlay(juce::dsp::ProcessSpec& spec) {
+    
     prepare(spec);
+    modOneOsc.prepare(spec);
 }
 
 void OscData::processBlock(juce::dsp::AudioBlock<float>& block) {
+    for (int channel = 0; channel < block.getNumChannels(); channel++) {
+        for (int sample = 0; sample < block.getNumSamples(); sample++) {
+            modOne = modOneOsc.processSample(block.getSample(channel, sample))*modOneInt;
+        }
+    }
     process(juce::dsp::ProcessContextReplacing<float>(block));
 }
 
 void OscData::setFreq(const int midiNoteNumber) {
-    setFrequency(midiNoteNumber);
+    setFrequency(juce::MidiMessage::getMidiNoteInHertz(midiNoteNumber) + modOne);
+    midiNote = midiNoteNumber;
+}
+
+void OscData:: setModParams(const float freq, const float intensity) {
+    modOneOsc.setFrequency(freq);
+    modOneInt = intensity;
+    auto currentFreq(juce::MidiMessage::getMidiNoteInHertz(midiNote) + modOne);
+    setFrequency(currentFreq >= 0 ? currentFreq : currentFreq * -1.0f);
 }

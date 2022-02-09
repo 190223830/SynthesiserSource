@@ -18,7 +18,11 @@ public:
     void processBlock(juce::dsp::AudioBlock<float>& block);
     void OscData::setFreq(const int midiNoteNumber);
 
+    void setModParams(const float intensity, const float freq);
+
 private:
-
-
+    juce::dsp::Oscillator<float>modOneOsc{ [](float x) {return std::sin(x); } };
+    float modOne{ 0.0f };
+    float modOneInt{ 0.0f };
+    int midiNote{0};
 };

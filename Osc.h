@@ -28,5 +28,15 @@ private:
     juce::ComboBox waveSelect;
     std::unique_ptr<juce::AudioProcessorValueTreeState::ComboBoxAttachment> waveSelectAttachment;
 
+    juce::Slider modOneFreqSlider;
+    juce::Slider modOneIntSlider;
+
+    std::unique_ptr<juce::AudioProcessorValueTreeState::SliderAttachment> modOneFreqAttachment;
+    juce::Label modOneFreqLabel{ "modOneFreqLabel", "Frequency"};
+    std::unique_ptr<juce::AudioProcessorValueTreeState::SliderAttachment> modOneIntAttachment;
+    juce::Label modOneIntLabel{ "modOneIntLabel", "Intensity" };
+
+    
+
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (Osc)
 };
