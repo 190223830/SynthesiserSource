@@ -3,7 +3,7 @@
 #include <JuceHeader.h>
 #include "SynthSound.h"
 #include "SynthVoice.h"
-#include "FilterData.h"
+//#include "FilterData.h"
 
 class SynthOneAudioProcessor  : public juce::AudioProcessor
 {
@@ -43,7 +43,6 @@ public:
 
 private:
     juce::Synthesiser synth;
-    FilterData filter;
     juce::AudioProcessorValueTreeState::ParameterLayout createParams();
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (SynthOneAudioProcessor)

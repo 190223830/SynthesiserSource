@@ -93,7 +93,7 @@ void SynthOneAudioProcessor::prepareToPlay (double sampleRate, int samplesPerBlo
         };
     };
 
-    filter.prepareToPlay(sampleRate, samplesPerBlock, getTotalNumOutputChannels());
+    //filter.prepareToPlay(sampleRate, samplesPerBlock, getTotalNumOutputChannels());
 
 }
 
@@ -141,7 +141,7 @@ void SynthOneAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer, juc
             auto& waveType = *valueTreeState.getRawParameterValue("WAVE");
             voice->getOsc().setWaveType(waveType);
 
-            //ADSR
+            //AMP EG
             auto& attack = *valueTreeState.getRawParameterValue("ATTACK");
             auto& decay = *valueTreeState.getRawParameterValue("DECAY");
             auto& sustain = *valueTreeState.getRawParameterValue("SUSTAIN");
@@ -158,19 +158,25 @@ void SynthOneAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer, juc
             auto& modOneWaveType = *valueTreeState.getRawParameterValue("MODONEWAVE");
             voice->getOsc().setModParams(modOneFreq, modOneInt, modOneWaveType);
 
-            
+            //MOD EG
+            auto& EGAttack = *valueTreeState.getRawParameterValue("EGATTACK");
+            auto& EGDecay = *valueTreeState.getRawParameterValue("EGDECAY");
+            auto& EGSustain = *valueTreeState.getRawParameterValue("EGSUSTAIN");
+            auto& EGRelease = *valueTreeState.getRawParameterValue("EGRELEASE");
 
+            //FILTER
+            auto& filterType = *valueTreeState.getRawParameterValue("FILTERTYPE");
+            auto& filterCutoff = *valueTreeState.getRawParameterValue("CUTOFF");
+            auto& filterResonance = *valueTreeState.getRawParameterValue("RESONANCE");
+
+            voice->updateModEG(EGAttack, EGDecay, EGSustain, EGRelease);
+            voice->updateFilter(filterType.load(), filterCutoff.load(), filterResonance.load());
+            
         };
     };
 
     synth.renderNextBlock(buffer, midiMessages, 0, buffer.getNumSamples());
 
-    //FILTER
-    auto& filterType = *valueTreeState.getRawParameterValue("FILTERTYPE");
-    auto& filterCutoff = *valueTreeState.getRawParameterValue("CUTOFF");
-    auto& filterResonance = *valueTreeState.getRawParameterValue("RESONANCE");
-    filter.updateParams(filterType, filterCutoff, filterResonance);
-    filter.prepare(buffer);
 }
 
 bool SynthOneAudioProcessor::hasEditor() const
@@ -202,20 +208,31 @@ juce::AudioProcessor* JUCE_CALLTYPE createPluginFilter()
 //Value tree
 juce::AudioProcessorValueTreeState::ParameterLayout SynthOneAudioProcessor::createParams() {        // create parameters for user input
     std::vector<std::unique_ptr<juce::RangedAudioParameter>> params;
+    //AMP EG
     params.push_back(std::make_unique<juce::AudioParameterFloat>("ATTACK", "Attack", juce::NormalisableRange<float>{0.001f, 5.00f, 0.01f}, 0.050f));
     params.push_back(std::make_unique<juce::AudioParameterFloat>("DECAY", "Decay", juce::NormalisableRange<float>{0.003f, 5.00f, 0.01f}, 0.50f));
     params.push_back(std::make_unique<juce::AudioParameterFloat>("SUSTAIN", "Sustain", juce::NormalisableRange<float>{0.004f, 1.00f, 0.01f}, 1.00f));
     params.push_back(std::make_unique<juce::AudioParameterFloat>("RELEASE", "Release", juce::NormalisableRange<float>{0.004f, 5.00f, 0.01f}, 0.00f));
 
+    //GAIN
     params.push_back(std::make_unique<juce::AudioParameterFloat>("GAIN", "Gain", juce::NormalisableRange<float>{0.001f, 1.00f, 0.01f}, 0.50f));
     params.push_back(std::make_unique<juce::AudioParameterChoice>("WAVE", "Wave Type", juce::StringArray{ "Sine", "Saw", "Square"}, 0));
 
+    //FM MOD ONE
     params.push_back(std::make_unique<juce::AudioParameterFloat>("MODONEFREQ", "Modulator 1 Frequency", juce::NormalisableRange<float>{0.0f, 1000.0f, 1.0f, 0.2f}, 0.0f));
     params.push_back(std::make_unique<juce::AudioParameterFloat>("MODONEINT", "Modulator 1 Intensity", juce::NormalisableRange<float>{0.0f, 1000.0f, 1.0f, 0.3f}, 0.0f));
     params.push_back(std::make_unique<juce::AudioParameterChoice>("MODONEWAVE", "Wave Type", juce::StringArray{ "Sine", "Saw", "Square" }, 0));
 
+    //FILTER
     params.push_back(std::make_unique<juce::AudioParameterChoice>("FILTERTYPE", "Filter Type", juce::StringArray{ "LPF", "BPF", "HPF" }, 0));
     params.push_back(std::make_unique<juce::AudioParameterFloat>("CUTOFF", "Filter Cutoff Frequency", juce::NormalisableRange<float>{20.0f, 20000.0f, 0.0f, 0.3f}, 20000.0f));
     params.push_back(std::make_unique<juce::AudioParameterFloat>("RESONANCE", "Filter Resonance", juce::NormalisableRange<float>{0.1f, 10.0f, 0.0f, 0.2f}, 0.0f));
+    
+    //MOD EG
+    params.push_back(std::make_unique<juce::AudioParameterFloat>("EGATTACK", "Attack", juce::NormalisableRange<float>{0.001f, 5.00f, 0.01f}, 0.050f));
+    params.push_back(std::make_unique<juce::AudioParameterFloat>("EGDECAY", "Decay", juce::NormalisableRange<float>{0.003f, 5.00f, 0.01f}, 0.50f));
+    params.push_back(std::make_unique<juce::AudioParameterFloat>("EGSUSTAIN", "Sustain", juce::NormalisableRange<float>{0.004f, 1.00f, 0.01f}, 1.00f));
+    params.push_back(std::make_unique<juce::AudioParameterFloat>("EGRELEASE", "Release", juce::NormalisableRange<float>{0.004f, 5.00f, 0.01f}, 0.00f));
+    
     return { params.begin(), params.end() };
 }

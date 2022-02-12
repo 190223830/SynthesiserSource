@@ -14,20 +14,26 @@
 bool SynthVoice::canPlaySound(juce::SynthesiserSound* sound) {
     return dynamic_cast<juce::SynthesiserSound*>(sound) != nullptr;
 };
+
 void SynthVoice::startNote(int midiNoteNumber, float velocity, juce::SynthesiserSound* sound, int currentPitchWheelPosition) {
 
     osc.setFreq(midiNoteNumber);
     adsr.noteOn();
+    modEG.noteOn();
 };
+
 void SynthVoice::stopNote(float velocity, bool allowTailOff) {
     adsr.noteOff();
+    modEG.noteOff();
     if (!adsr.isActive() || !allowTailOff) {
         clearCurrentNote(); //if envelope is finished, no need to output
     };
 };
+
 void SynthVoice::controllerMoved(int ControllerNumber, int newControllerValue) {
 
 };
+
 void SynthVoice::renderNextBlock(juce::AudioBuffer<float>& outputBuffer, int startSample, int numSamples) {
     jassert(isPrepared);
 
@@ -37,6 +43,8 @@ void SynthVoice::renderNextBlock(juce::AudioBuffer<float>& outputBuffer, int sta
 
     //clear outputBuffer to realign phase of osc - fixes clicking sound on attack and release
     oscBuffer.setSize(outputBuffer.getNumChannels(), numSamples, false, false, true);
+    modEG.applyEnvelopeToBuffer(oscBuffer, 0, numSamples);
+    filter.prepare(oscBuffer);
     oscBuffer.clear();
     juce::dsp::AudioBlock<float> audioBlock{ oscBuffer };
 
@@ -56,6 +64,8 @@ void SynthVoice::renderNextBlock(juce::AudioBuffer<float>& outputBuffer, int sta
             clearCurrentNote(); //if envelope is finished, no need to output
         };
     };
+
+    
 };
 
 void SynthVoice::pitchWheelMoved(int newPitchWheelValue) {
@@ -73,7 +83,8 @@ void SynthVoice::prepareToPlay(double sampleRate, int samplesPerBlock, int outpu
 
     osc.prepareToPlay(spec);
     gain.prepare(spec);
-
+    filter.prepareToPlay(sampleRate, samplesPerBlock, outputChannels);
+    modEG.setSampleRate(sampleRate);
     
 
     isPrepared = true;
@@ -81,10 +92,19 @@ void SynthVoice::prepareToPlay(double sampleRate, int samplesPerBlock, int outpu
 
 void SynthVoice::update(const float attack, const float decay, const float sustain, const float release) {
     adsr.updateADSR(attack, decay, sustain, release);
+
 }
 
 void SynthVoice::updateGain(const float gainValue) {    //TODO: Incorporate into update method
     gain.setGainLinear(gainValue);
 }
 
+void SynthVoice::updateFilter(const int filterType, const float filterCutoff, const float filterResonance) {
+    auto mod = modEG.getNextSample();
+    filter.updateParams(filterType, filterCutoff, filterResonance, mod);
+}
+
+void SynthVoice::updateModEG(const float attack, const float decay, const float sustain, const float release) {
+    modEG.updateADSR(attack, decay, sustain, release);
+}
 

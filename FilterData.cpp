@@ -25,7 +25,7 @@ void FilterData::reset() {
     filter.reset();
 }
 
-void FilterData::updateParams(const int type, float cutoff, float resonance) {
+void FilterData::updateParams(const int type, float cutoff, float resonance, const float mod) {
 
     using filterType = juce::dsp::StateVariableTPTFilterType; //TODO: use this to clean up everything
     switch (type)
@@ -44,7 +44,8 @@ void FilterData::updateParams(const int type, float cutoff, float resonance) {
         break;
     }
 
-    filter.setCutoffFrequency(cutoff);
+    float cutoffWithMod = std::fmin(std::fmax(cutoff * mod, 20.0f), 20000.0f);//Prevents filter going above max or below min
+    filter.setCutoffFrequency(cutoffWithMod);
     filter.setResonance(resonance);
     
 }

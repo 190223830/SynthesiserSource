@@ -11,14 +11,14 @@
 #include <JuceHeader.h>
 #include "ADSR.h"
 
-ADSR::ADSR(juce::AudioProcessorValueTreeState& valueTreeState)
+ADSR::ADSR(juce::AudioProcessorValueTreeState& valueTreeState,
+           juce::String attackID, juce::String decayID, juce::String sustainID, juce::String releaseID)
 {
 
-    attackAttachment = std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(valueTreeState, "ATTACK", attackSlider);
-    decayAttachment = std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(valueTreeState, "DECAY", decaySlider);
-    sustainAttachment = std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(valueTreeState, "SUSTAIN", sustainSlider);
-    releaseAttachment = std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(valueTreeState, "RELEASE", releaseSlider);
-
+    attackAttachment = std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(valueTreeState, attackID, attackSlider);
+    decayAttachment = std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(valueTreeState, decayID, decaySlider);
+    sustainAttachment = std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(valueTreeState, sustainID, sustainSlider);
+    releaseAttachment = std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(valueTreeState, releaseID, releaseSlider);
 
     attackSlider.setSliderStyle(juce::Slider::SliderStyle::RotaryHorizontalVerticalDrag);     //TODO: make a method for this to keep the code dry
     decaySlider.setSliderStyle(juce::Slider::SliderStyle::RotaryHorizontalVerticalDrag);

@@ -2,8 +2,11 @@
 #include "PluginEditor.h"
 
 SynthOneAudioProcessorEditor::SynthOneAudioProcessorEditor (SynthOneAudioProcessor& p)
-    : AudioProcessorEditor (&p), audioProcessor (p), adsr(audioProcessor.valueTreeState),
-    osc(audioProcessor.valueTreeState, "WAVE", "MODONEFREQ", "MODONEINT", "MODONEWAVE"), filter(audioProcessor.valueTreeState, "FILTERTYPE")
+    : AudioProcessorEditor (&p), audioProcessor (p),
+    adsr(audioProcessor.valueTreeState, "ATTACK", "DECAY", "SUSTAIN", "RELEASE"),
+    osc(audioProcessor.valueTreeState, "WAVE", "MODONEFREQ", "MODONEINT", "MODONEWAVE"),
+    filter(audioProcessor.valueTreeState, "FILTERTYPE"),
+    modEG(audioProcessor.valueTreeState, "EGATTACK", "EGDECAY", "EGSUSTAIN", "EGRELEASE")
 {
     //set the editor's size
     setSize (800, 400);
@@ -22,6 +25,7 @@ SynthOneAudioProcessorEditor::SynthOneAudioProcessorEditor (SynthOneAudioProcess
     addAndMakeVisible(adsr);
     addAndMakeVisible(osc);
     addAndMakeVisible(filter);
+    addAndMakeVisible(modEG);
 
 }
 
@@ -44,12 +48,13 @@ void SynthOneAudioProcessorEditor::resized()
     // lay out the positions of any subcomponents
     
     //set adsr bounds
-    adsr.setBounds(getWidth()/2, 20, getWidth()/2, (getHeight()/4)+50);
+    adsr.setBounds(getWidth()/2, 20, getWidth()/2, (getHeight()/8)+80);
     osc.setBounds(100, 0, getWidth()/2-120, getHeight());
 
     gainSlider.setBounds(10, 10, 50, getHeight()-40);
     gainLabel.setBounds(gainSlider.getX(), gainSlider.getY() + gainSlider.getHeight()-5, gainSlider.getWidth(), 20);
 
+    filter.setBounds(getWidth()/2, getHeight()/2+60, getWidth()/2, getHeight()/2);
 
-    filter.setBounds(getWidth()/2, getHeight()/2, getWidth()/2, getHeight()/2);
+    modEG.setBounds(getWidth() / 2, 20+ (getHeight() / 8) + 50, getWidth() / 2, (getHeight() / 8) + 80);
 }
