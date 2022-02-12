@@ -53,7 +53,7 @@ void Osc::resized()
 {
     waveSelect.setBounds(15, getHeight()/2, 100, 40);
 
-    modOneFreqSlider.setBounds(0, (getHeight()/2)+64, 70, 100); //create a new class/component that has a constructor that does all of this
+    modOneFreqSlider.setBounds(0, (getHeight()/2)+64, 70, 100); //TODO: create a new class/component that has a constructor that does all of this
     modOneFreqLabel.setBounds(modOneFreqSlider.getX(), modOneFreqSlider.getY()+ modOneFreqSlider.getHeight(), modOneFreqSlider.getWidth(), 20);
 
     modOneIntSlider.setBounds(70, (getHeight()/2)+64, 70, 100);

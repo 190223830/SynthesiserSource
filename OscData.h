@@ -21,7 +21,7 @@ public:
     void setModParams(const float intensity, const float freq);
 
 private:
-    juce::dsp::Oscillator<float>modOneOsc{ [](float x) {return std::sin(x); } };
+    juce::dsp::Oscillator<float>modOneOsc{ [](float x) {return std::sin(x); } }; //TODO: call setWaveType() here
     float modOne{ 0.0f };
     float modOneInt{ 0.0f };
     int midiNote{0};

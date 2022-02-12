@@ -92,6 +92,9 @@ void SynthOneAudioProcessor::prepareToPlay (double sampleRate, int samplesPerBlo
             voice->prepareToPlay(sampleRate, samplesPerBlock, getTotalNumOutputChannels());
         };
     };
+
+    
+
 }
 
 void SynthOneAudioProcessor::releaseResources()

@@ -12,9 +12,6 @@
 
 #include <JuceHeader.h>
 
-//==============================================================================
-/*
-*/
 class Osc  : public juce::Component
 {
 public:

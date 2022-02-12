@@ -39,5 +39,12 @@ private:
     juce::dsp::Gain<float> gain;
     bool isPrepared {false};
 
+    //This may need to go in the SynthVoice class
+    enum FilterType { LPF, BPF, HPF };
+    juce::dsp::StateVariableTPTFilter<float> filter; // TODO: look at creating own filter with different dB/Oct types
+    void filterReset(); //override;
+    void setType();
+    FilterType filterType{ FilterType::LPF };
+
 
 };

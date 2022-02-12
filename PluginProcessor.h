@@ -38,12 +38,11 @@ public:
     void getStateInformation (juce::MemoryBlock& destData) override;
     void setStateInformation (const void* data, int sizeInBytes) override;
 
-    juce::AudioProcessorValueTreeState valueTreeState;  //this should probably be private with a get method
+    juce::AudioProcessorValueTreeState valueTreeState;  //TODO: make private with a get method
 
 private:
     juce::Synthesiser synth;
     juce::AudioProcessorValueTreeState::ParameterLayout createParams();
-    
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (SynthOneAudioProcessor)
 };

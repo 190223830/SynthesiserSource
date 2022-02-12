@@ -12,9 +12,6 @@
 
 #include <JuceHeader.h>
 
-//==============================================================================
-/*
-*/
 class ADSR  : public juce::Component
 {
 public:
