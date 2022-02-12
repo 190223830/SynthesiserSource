@@ -15,7 +15,7 @@
 class Osc  : public juce::Component
 {
 public:
-    Osc(juce::AudioProcessorValueTreeState& valueTreeState, juce::String wave, juce::String modOneFreqID, juce::String modOneIntID);
+    Osc(juce::AudioProcessorValueTreeState& valueTreeState, juce::String wave, juce::String modOneFreqID, juce::String modOneIntID, juce::String modOneWaveID);
     ~Osc() override;
 
     void paint (juce::Graphics&) override;
@@ -27,6 +27,8 @@ private:
 
     juce::Slider modOneFreqSlider;
     juce::Slider modOneIntSlider;
+    juce::ComboBox modOneWaveSelect;
+    std::unique_ptr<juce::AudioProcessorValueTreeState::ComboBoxAttachment> modOneWaveSelectAttachment;
 
     std::unique_ptr<juce::AudioProcessorValueTreeState::SliderAttachment> modOneFreqAttachment;
     juce::Label modOneFreqLabel{ "modOneFreqLabel", "Frequency"};

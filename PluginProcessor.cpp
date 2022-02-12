@@ -155,7 +155,8 @@ void SynthOneAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer, juc
             //LFO/FM MODS
             auto& modOneFreq = *valueTreeState.getRawParameterValue("MODONEFREQ");
             auto& modOneInt = *valueTreeState.getRawParameterValue("MODONEINT");
-            voice->getOsc().setModParams(modOneFreq, modOneInt);
+            auto& modOneWaveType = *valueTreeState.getRawParameterValue("MODONEWAVE");
+            voice->getOsc().setModParams(modOneFreq, modOneInt, modOneWaveType);
 
             
 
@@ -211,6 +212,7 @@ juce::AudioProcessorValueTreeState::ParameterLayout SynthOneAudioProcessor::crea
 
     params.push_back(std::make_unique<juce::AudioParameterFloat>("MODONEFREQ", "Modulator 1 Frequency", juce::NormalisableRange<float>{0.0f, 1000.0f, 1.0f, 0.2f}, 0.0f));
     params.push_back(std::make_unique<juce::AudioParameterFloat>("MODONEINT", "Modulator 1 Intensity", juce::NormalisableRange<float>{0.0f, 1000.0f, 1.0f, 0.3f}, 0.0f));
+    params.push_back(std::make_unique<juce::AudioParameterChoice>("MODONEWAVE", "Wave Type", juce::StringArray{ "Sine", "Saw", "Square" }, 0));
 
     params.push_back(std::make_unique<juce::AudioParameterChoice>("FILTERTYPE", "Filter Type", juce::StringArray{ "LPF", "BPF", "HPF" }, 0));
     params.push_back(std::make_unique<juce::AudioParameterFloat>("CUTOFF", "Filter Cutoff Frequency", juce::NormalisableRange<float>{20.0f, 20000.0f, 0.0f, 0.3f}, 20000.0f));

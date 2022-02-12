@@ -3,7 +3,7 @@
 
 SynthOneAudioProcessorEditor::SynthOneAudioProcessorEditor (SynthOneAudioProcessor& p)
     : AudioProcessorEditor (&p), audioProcessor (p), adsr(audioProcessor.valueTreeState),
-    osc(audioProcessor.valueTreeState, "WAVE", "MODONEFREQ", "MODONEINT"), filter(audioProcessor.valueTreeState, "FILTERTYPE")
+    osc(audioProcessor.valueTreeState, "WAVE", "MODONEFREQ", "MODONEINT", "MODONEWAVE"), filter(audioProcessor.valueTreeState, "FILTERTYPE")
 {
     //set the editor's size
     setSize (800, 400);

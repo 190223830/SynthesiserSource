@@ -53,7 +53,25 @@ void OscData::setFreq(const int midiNoteNumber) {
     midiNote = midiNoteNumber;
 }
 
-void OscData:: setModParams(const float freq, const float intensity) {
+void OscData:: setModParams(const float freq, const float intensity, const int waveType) {
+    //modOneOsc.initialise(setWaveType(waveType));
+
+    switch (waveType)
+    {
+    case 0:
+        modOneOsc.initialise([](float x) {return std::sin(x); });
+        break;
+    case 1:
+        modOneOsc.initialise([](float x) {return x / juce::MathConstants<float>::pi; });
+        break;
+    case 2:
+        modOneOsc.initialise([](float x) {return x < 0.0f ? -1.0f : 1.0f; });
+        break;
+    default:
+        jassertfalse; //error
+        break;
+    }
+
     modOneOsc.setFrequency(freq);
     modOneInt = intensity;
     auto currentFreq(juce::MidiMessage::getMidiNoteInHertz(midiNote) + modOne);
