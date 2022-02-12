@@ -11,7 +11,7 @@
 #include <JuceHeader.h>
 #include "Osc.h"
 
-Osc::Osc(juce::AudioProcessorValueTreeState& valueTreeState, juce::String wave)
+Osc::Osc(juce::AudioProcessorValueTreeState& valueTreeState, juce::String wave, juce::String modOneFreqID, juce::String modOneIntID)
 {
     juce::StringArray waves{ "Sine", "Saw", "Square"};
     waveSelect.addItemList(waves, 1);
@@ -24,7 +24,14 @@ Osc::Osc(juce::AudioProcessorValueTreeState& valueTreeState, juce::String wave)
     modOneIntSlider.setTextBoxStyle(juce::Slider::TextBoxAbove, false, 50, 20);
     
     addAndMakeVisible(modOneFreqSlider);
+    modOneFreqLabel.setFont(15.0f);
+    modOneFreqLabel.setJustificationType(juce::Justification::centred);
+    addAndMakeVisible(modOneFreqLabel);
+
     addAndMakeVisible(modOneIntSlider);
+    modOneIntLabel.setFont(15.0f);
+    modOneIntLabel.setJustificationType(juce::Justification::centred);
+    addAndMakeVisible(modOneIntLabel);
     
     modOneFreqAttachment = std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(valueTreeState, "MODONEFREQ", modOneFreqSlider);
     modOneIntAttachment = std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(valueTreeState, "MODONEINT", modOneIntSlider);
@@ -37,12 +44,18 @@ Osc::~Osc()
 void Osc::paint (juce::Graphics& g)
 {
     g.fillAll (getLookAndFeel().findColour (juce::ResizableWindow::backgroundColourId));
+    /*g.setColour(juce::Colours::white);
+    g.drawRect(getLocalBounds());*/
 
 }
 
 void Osc::resized()
 {
-    waveSelect.setBounds(0, getHeight()/2-20, 100, 40);
-    modOneFreqSlider.setBounds(0, (getHeight()/2)+50, 50, 100);
-    modOneIntSlider.setBounds(50, getHeight()/2+50, 50, 100);
+    waveSelect.setBounds(15, getHeight()/2, 100, 40);
+
+    modOneFreqSlider.setBounds(0, (getHeight()/2)+64, 70, 100); //create a new class/component that has a constructor that does all of this
+    modOneFreqLabel.setBounds(modOneFreqSlider.getX(), modOneFreqSlider.getY()+ modOneFreqSlider.getHeight(), modOneFreqSlider.getWidth(), 20);
+
+    modOneIntSlider.setBounds(70, (getHeight()/2)+64, 70, 100);
+    modOneIntLabel.setBounds(modOneIntSlider.getX(), modOneIntSlider.getY()+ modOneIntSlider.getHeight(), modOneIntSlider.getWidth(), 20);
 }

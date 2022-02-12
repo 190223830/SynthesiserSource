@@ -18,7 +18,7 @@
 class Osc  : public juce::Component
 {
 public:
-    Osc(juce::AudioProcessorValueTreeState& valueTreeState, juce::String wave);
+    Osc(juce::AudioProcessorValueTreeState& valueTreeState, juce::String wave, juce::String modOneFreqID, juce::String modOneIntID);
     ~Osc() override;
 
     void paint (juce::Graphics&) override;

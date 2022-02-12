@@ -19,6 +19,7 @@ ADSR::ADSR(juce::AudioProcessorValueTreeState& valueTreeState)
     sustainAttachment = std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(valueTreeState, "SUSTAIN", sustainSlider);
     releaseAttachment = std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(valueTreeState, "RELEASE", releaseSlider);
 
+
     attackSlider.setSliderStyle(juce::Slider::SliderStyle::RotaryHorizontalVerticalDrag);     //TODO: make a method for this to keep the code dry
     decaySlider.setSliderStyle(juce::Slider::SliderStyle::RotaryHorizontalVerticalDrag);
     sustainSlider.setSliderStyle(juce::Slider::SliderStyle::RotaryHorizontalVerticalDrag);
@@ -33,6 +34,22 @@ ADSR::ADSR(juce::AudioProcessorValueTreeState& valueTreeState)
     addAndMakeVisible(decaySlider);
     addAndMakeVisible(sustainSlider);
     addAndMakeVisible(releaseSlider);
+
+    attackLabel.setFont(15.0f);
+    attackLabel.setJustificationType(juce::Justification::centred);
+    addAndMakeVisible(attackLabel);
+
+    decayLabel.setFont(15.0f);
+    decayLabel.setJustificationType(juce::Justification::centred);
+    addAndMakeVisible(decayLabel);
+
+    sustainLabel.setFont(15.0f);
+    sustainLabel.setJustificationType(juce::Justification::centred);
+    addAndMakeVisible(sustainLabel);
+
+    releaseLabel.setFont(15.0f);
+    releaseLabel.setJustificationType(juce::Justification::centred);
+    addAndMakeVisible(releaseLabel);
 }
 
 ADSR::~ADSR()
@@ -54,13 +71,20 @@ void ADSR::resized()
     const auto adsrSection = getLocalBounds();
     const auto adsrPadding = 10;
     const auto adsrSliderWidth = adsrSection.getWidth() / 4 - adsrPadding;
-    const auto adsrSliderHeight = adsrSection.getHeight();
+    const auto adsrSliderHeight = adsrSection.getHeight()-50;
     const auto adsrSliderX = 0;
     const auto adsrSliderY = 0;
 
     attackSlider.setBounds(adsrSliderX, adsrSliderY, adsrSliderWidth, adsrSliderHeight);
+    attackLabel.setBounds(attackSlider.getX(), attackSlider.getY() + attackSlider.getHeight(), attackSlider.getWidth(), 20);
+
     decaySlider.setBounds(attackSlider.getRight() + adsrPadding, adsrSliderY, adsrSliderWidth, adsrSliderHeight);
+    decayLabel.setBounds(decaySlider.getX(), decaySlider.getY() + decaySlider.getHeight(), decaySlider.getWidth(), 20);
+    
     sustainSlider.setBounds(decaySlider.getRight() + adsrPadding, adsrSliderY, adsrSliderWidth, adsrSliderHeight);
+    sustainLabel.setBounds(sustainSlider.getX(), sustainSlider.getY() + sustainSlider.getHeight(), sustainSlider.getWidth(), 20);
+    
     releaseSlider.setBounds(sustainSlider.getRight() + adsrPadding, adsrSliderY, adsrSliderWidth, adsrSliderHeight);
+    releaseLabel.setBounds(releaseSlider.getX(), releaseSlider.getY() + releaseSlider.getHeight(), releaseSlider.getWidth(), 20);
 
 }
