@@ -2,7 +2,8 @@
 #include "PluginEditor.h"
 
 SynthOneAudioProcessorEditor::SynthOneAudioProcessorEditor (SynthOneAudioProcessor& p)
-    : AudioProcessorEditor (&p), audioProcessor (p), adsr(audioProcessor.valueTreeState), osc(audioProcessor.valueTreeState, "WAVE", "MODONEFREQ", "MODONEINT")
+    : AudioProcessorEditor (&p), audioProcessor (p), adsr(audioProcessor.valueTreeState),
+    osc(audioProcessor.valueTreeState, "WAVE", "MODONEFREQ", "MODONEINT"), filter(audioProcessor.valueTreeState, "FILTERTYPE")
 {
     //set the editor's size
     setSize (800, 400);
@@ -20,6 +21,7 @@ SynthOneAudioProcessorEditor::SynthOneAudioProcessorEditor (SynthOneAudioProcess
     //make adsr and osc visible
     addAndMakeVisible(adsr);
     addAndMakeVisible(osc);
+    addAndMakeVisible(filter);
 
 }
 
@@ -48,5 +50,6 @@ void SynthOneAudioProcessorEditor::resized()
     gainSlider.setBounds(10, 10, 50, getHeight()-40);
     gainLabel.setBounds(gainSlider.getX(), gainSlider.getY() + gainSlider.getHeight()-5, gainSlider.getWidth(), 20);
 
-    
+
+    filter.setBounds(getWidth()/2, getHeight()/2, getWidth()/2, getHeight()/2);
 }

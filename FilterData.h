@@ -13,13 +13,17 @@
 
 class FilterData {
 public:
-    void prepareToPlay(double sampleRate, int samplesPerBlock);
+    void prepareToPlay(double sampleRate, int samplesPerBlock, int outputChannels);
     void prepare(juce::AudioBuffer<float>& buffer);
     void reset();
 
 
     void updateParams(const int type, float cutoff, float resonance);
+    
 
 private:
+    juce::dsp::StateVariableTPTFilter<float> filter; // TODO: look at creating own filter with different dB/Oct types
 
+    //enum FilterType { LPF, BPF, HPF };
+    //FilterType filterType{ FilterType::LPF };
 };

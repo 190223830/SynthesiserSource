@@ -44,9 +44,7 @@ void SynthVoice::renderNextBlock(juce::AudioBuffer<float>& outputBuffer, int sta
     osc.processBlock(audioBlock);
     gain.process(juce::dsp::ProcessContextReplacing<float>(audioBlock));
 
-    filter.setCutoffFrequency(400.0f);
-    filter.setResonance(5.0f);
-    filter.process(juce::dsp::ProcessContextReplacing<float>(audioBlock));
+    
 
     //adsr.applyEnvelopeToBuffer(outputBuffer, startSample, numSamples);
     adsr.applyEnvelopeToBuffer(oscBuffer, 0, oscBuffer.getNumSamples());
@@ -76,9 +74,7 @@ void SynthVoice::prepareToPlay(double sampleRate, int samplesPerBlock, int outpu
     osc.prepareToPlay(spec);
     gain.prepare(spec);
 
-    //This may need to go in the SynthVoice class
-    filter.prepare(spec);
-    filterReset();
+    
 
     isPrepared = true;
 }
@@ -91,25 +87,4 @@ void SynthVoice::updateGain(const float gainValue) {    //TODO: Incorporate into
     gain.setGainLinear(gainValue);
 }
 
-void SynthVoice::filterReset() {
-    filter.reset();
-}
 
-void SynthVoice::setType() {
-    using type = juce::dsp::StateVariableTPTFilterType; //TODO: use this to clean up everything
-    switch (filterType)
-    {
-    case FilterType::LPF:
-        filter.setType(type::lowpass);
-        break;
-    case FilterType::BPF:
-        filter.setType(type::bandpass);
-        break;
-    case FilterType::HPF:
-        filter.setType(type::highpass);
-        break;
-    default:
-        jassertfalse; //error
-        break;
-    }
-}

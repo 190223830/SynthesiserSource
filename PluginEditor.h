@@ -4,6 +4,7 @@
 #include "PluginProcessor.h"
 #include "ADSR.h"
 #include "Osc.h"
+#include "Filter.h"
 
 class SynthOneAudioProcessorEditor  : public juce::AudioProcessorEditor
 {
@@ -21,6 +22,7 @@ private:
 
     ADSR adsr;
     Osc osc;
+    Filter filter;
 
     juce::Slider gainSlider;
     //juce::ComboBox waveSelect;
