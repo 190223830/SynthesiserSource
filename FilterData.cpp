@@ -44,8 +44,9 @@ void FilterData::updateParams(const int type, float cutoff, float resonance, con
         break;
     }
 
-    float cutoffWithMod = std::fmin(std::fmax(cutoff * mod, 20.0f), 20000.0f);//Prevents filter going above max or below min
-    filter.setCutoffFrequency(cutoffWithMod);
+    float modulatedCutoff = std::fmin(std::fmax(mod * cutoff, 20.0f), 20000.0f); //sets upper and lower bounds for cutoff
+
+    filter.setCutoffFrequency(modulatedCutoff);
     filter.setResonance(resonance);
     
 }

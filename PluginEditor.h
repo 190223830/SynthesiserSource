@@ -23,7 +23,7 @@ private:
     ADSR adsr;
     Osc osc;
     Filter filter;
-    ADSR modEG;
+    ADSR egAdsr;
 
     juce::Slider gainSlider;
     //juce::ComboBox waveSelect;

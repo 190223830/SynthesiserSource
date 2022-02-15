@@ -15,8 +15,9 @@
 class ADSR  : public juce::Component
 {
 public:
-    ADSR(juce::AudioProcessorValueTreeState& valueTreeState, 
-        juce::String attackID, juce::String decayID, juce::String sustainID, juce::String releaseID);
+    ADSR(juce::AudioProcessorValueTreeState& valueTreeState,
+        juce::String attackID, juce::String decayID, juce::String sustainID, juce::String releaseID, 
+        juce::String modulationTarget = "");
     ~ADSR() override;
 
     void paint (juce::Graphics&) override;
