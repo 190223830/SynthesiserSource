@@ -45,17 +45,17 @@ Filter::~Filter()
 void Filter::paint (juce::Graphics& g)
 {
     g.fillAll(getLookAndFeel().findColour(juce::ResizableWindow::backgroundColourId));
-    //g.setColour(juce::Colours::white);
-    //g.drawRect(getLocalBounds());
+    /*g.setColour(juce::Colours::white);
+    g.drawRect(getLocalBounds());*/
 }
 
 void Filter::resized()
 {
-    filterType.setBounds(0, (getHeight()/2)+50, 100, 40);
+    filterType.setBounds(0, (getHeight()/2)-20, 100, 40);
 
-    filterCutoff.setBounds(70, 0, getWidth()-70, 100); //TODO: create a new class/component that has a constructor that does all of this
+    filterCutoff.setBounds(170, 0, getWidth()-170, 100); //TODO: create a new class/component that has a constructor that does all of this
     filterCutoffLabel.setBounds(filterCutoff.getX(), 100, filterCutoff.getWidth(), 20);
 
-    filterResonance.setBounds(0, 0, 70, 100);
+    filterResonance.setBounds(100, 0, 70, 100);
     filterResonanceLabel.setBounds(filterResonance.getX(), filterResonance.getY() + filterResonance.getHeight(), filterResonance.getWidth(), 20);
 }

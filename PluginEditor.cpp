@@ -54,7 +54,7 @@ void SynthOneAudioProcessorEditor::resized()
     gainSlider.setBounds(10, 10, 50, getHeight()-40);
     gainLabel.setBounds(gainSlider.getX(), gainSlider.getY() + gainSlider.getHeight()-5, gainSlider.getWidth(), 20);
 
-    filter.setBounds(getWidth()/2, getHeight()/2+60, getWidth()/2, getHeight()/2);
+    filter.setBounds(getWidth()/2, getHeight()/2+60, getWidth()/2, getHeight()/2-60);
 
     modEG.setBounds(getWidth() / 2, 20+ (getHeight() / 8) + 50, getWidth() / 2, (getHeight() / 8) + 80);
 }
