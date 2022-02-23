@@ -14,7 +14,9 @@ SynthOneAudioProcessor::SynthOneAudioProcessor()
 #endif
 {
     synth.addSound(new SynthSound());
-    synth.addVoice(new SynthVoice());
+    for (int i = 0; i < 5; i++) {           //make it create a new voice whenever a new midi note is pressed
+        synth.addVoice(new SynthVoice());
+    }
 }
 
 SynthOneAudioProcessor::~SynthOneAudioProcessor()
