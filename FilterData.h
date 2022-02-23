@@ -18,7 +18,7 @@ public:
     void reset();
 
 
-    void updateParams(const int type, float cutoff, float resonance, const float mod = 1.0f);
+    void updateParams(const int type, float cutoff, float resonance, const float intensity, const float mod = 1.0f);
     
 
 private:

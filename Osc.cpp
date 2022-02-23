@@ -18,6 +18,10 @@ Osc::Osc(juce::AudioProcessorValueTreeState& valueTreeState, juce::String wave, 
     addAndMakeVisible(waveSelect);
     waveSelectAttachment = std::make_unique<juce::AudioProcessorValueTreeState::ComboBoxAttachment>(valueTreeState, wave, waveSelect);
 
+    waveSelectLabel.setFont(15.0f);
+    waveSelectLabel.setJustificationType(juce::Justification::centred);
+    addAndMakeVisible(waveSelectLabel);
+
     modOneFreqSlider.setSliderStyle(juce::Slider::SliderStyle::LinearVertical);
     modOneFreqSlider.setTextBoxStyle(juce::Slider::TextBoxAbove, false, 50, 20);
     modOneIntSlider.setSliderStyle(juce::Slider::SliderStyle::LinearVertical);
@@ -36,6 +40,10 @@ Osc::Osc(juce::AudioProcessorValueTreeState& valueTreeState, juce::String wave, 
     modOneWaveSelect.addItemList(waves, 1);
     addAndMakeVisible(modOneWaveSelect);
     modOneWaveSelectAttachment = std::make_unique<juce::AudioProcessorValueTreeState::ComboBoxAttachment>(valueTreeState, modOneWaveID, modOneWaveSelect);
+
+    modOneWaveSelectLabel.setFont(15.0f);
+    modOneWaveSelectLabel.setJustificationType(juce::Justification::centred);
+    addAndMakeVisible(modOneWaveSelectLabel);
 
     modOneFreqAttachment = std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(valueTreeState, modOneFreqID, modOneFreqSlider);
     modOneIntAttachment = std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(valueTreeState, modOneIntID, modOneIntSlider);
@@ -56,6 +64,8 @@ void Osc::paint (juce::Graphics& g)
 void Osc::resized()
 {
     waveSelect.setBounds(15, 20, 100, 40);
+    waveSelectLabel.setBounds(waveSelect.getX() + waveSelect.getWidth() + 10, waveSelect.getY() + waveSelect.getHeight() / 4, 150, 20);
+    
 
     modOneFreqSlider.setBounds(0, (getHeight()/2)+64, 70, 100); //TODO: create a new class/component that has a constructor that does all of this
     modOneFreqLabel.setBounds(modOneFreqSlider.getX(), modOneFreqSlider.getY()+ modOneFreqSlider.getHeight(), modOneFreqSlider.getWidth(), 20);
@@ -63,5 +73,6 @@ void Osc::resized()
     modOneIntSlider.setBounds(70, (getHeight()/2)+64, 70, 100);
     modOneIntLabel.setBounds(modOneIntSlider.getX(), modOneIntSlider.getY()+ modOneIntSlider.getHeight(), modOneIntSlider.getWidth(), 20);
     modOneWaveSelect.setBounds(15, getHeight() / 2, 100, 40);
+    modOneWaveSelectLabel.setBounds(modOneWaveSelect.getX()+ modOneWaveSelect.getWidth()+10, modOneWaveSelect.getY()+ modOneWaveSelect.getHeight()/4, 150, 20);
    
 }

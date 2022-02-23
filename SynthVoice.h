@@ -29,7 +29,7 @@ public:
     void update(const float attack, const float decay, const float sustain, const float release);
     void updateGain(const float gain);
     OscData& getOsc() { return osc; };
-    void updateFilter(const int filterType, const float filterCutoff, const float filterResonance);
+    void updateFilter(const int filterType, const float filterCutoff, const float filterResonance, const float intensity);
     void updateEGADSR(const float attack, const float decay, const float sustain, const float release);
 
 private:

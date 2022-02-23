@@ -64,9 +64,9 @@ void SynthVoice::renderNextBlock(juce::AudioBuffer<float>& outputBuffer, int sta
     
 };
 
-void SynthVoice::updateFilter(const int filterType, const float filterCutoff, const float filterResonance) {
+void SynthVoice::updateFilter(const int filterType, const float filterCutoff, const float filterResonance, const float intensity) {
     float mod = egADSR.getNextSample();
-    filter.updateParams(filterType, filterCutoff, filterResonance, mod);
+    filter.updateParams(filterType, filterCutoff, filterResonance, intensity, mod);
 }
 
 void SynthVoice::updateEGADSR(const float attack, const float decay, const float sustain, const float release) {

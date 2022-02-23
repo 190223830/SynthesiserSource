@@ -25,7 +25,7 @@ void FilterData::reset() {
     filter.reset();
 }
 
-void FilterData::updateParams(const int type, float cutoff, float resonance, const float mod) {
+void FilterData::updateParams(const int type, float cutoff, float resonance, const float intensity, const float mod) {
 
     using filterType = juce::dsp::StateVariableTPTFilterType; //TODO: use this to clean up everything
     switch (type)
@@ -44,9 +44,13 @@ void FilterData::updateParams(const int type, float cutoff, float resonance, con
         break;
     }
 
-    float modulatedCutoff = std::fmin(std::fmax(mod * cutoff, 20.0f), 20000.0f); //sets upper and lower bounds for cutoff
+    //float difference =  (mod * cutoff);
+    float dInt = intensity * mod * cutoff;
+    float modulatedCutoff = cutoff + dInt;  //  this feels incorrect
 
-    filter.setCutoffFrequency(modulatedCutoff);
+    float modulatedCutoffWithinBounds = std::fmin(std::fmax(modulatedCutoff, 20.0f), 20000.0f); //sets upper and lower bounds for cutoff
+
+    filter.setCutoffFrequency(modulatedCutoffWithinBounds);
     filter.setResonance(resonance);
     
 }

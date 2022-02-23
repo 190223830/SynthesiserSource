@@ -27,11 +27,14 @@ private:
 
     juce::Slider filterCutoff;
     juce::Slider filterResonance;
+    juce::Slider modIntensity;
 
     std::unique_ptr<juce::AudioProcessorValueTreeState::SliderAttachment> filterCutoffAttachment;
     juce::Label filterCutoffLabel{ "filterCutoffLabel", "Cutoff Frequency" };
     std::unique_ptr<juce::AudioProcessorValueTreeState::SliderAttachment> filterResonanceAttachment;
     juce::Label filterResonanceLabel{ "filterResonanceLabel", "Resonance" };
+    std::unique_ptr<juce::AudioProcessorValueTreeState::SliderAttachment> modIntensityAttachment;
+    juce::Label modIntensityLabel{ "modIntensityLabel", "Intensity" };
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (Filter)
 };

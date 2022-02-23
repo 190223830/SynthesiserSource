@@ -170,7 +170,8 @@ void SynthOneAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer, juc
             auto& filterType = *valueTreeState.getRawParameterValue("FILTERTYPE");
             auto& filterCutoff = *valueTreeState.getRawParameterValue("CUTOFF");
             auto& filterResonance = *valueTreeState.getRawParameterValue("RESONANCE");
-            voice->updateFilter(filterType.load(), filterCutoff.load(), filterResonance.load());
+            auto& modIntensity = *valueTreeState.getRawParameterValue("EGINT"); //this should probably be done within egADSR
+            voice->updateFilter(filterType.load(), filterCutoff.load(), filterResonance.load(), modIntensity.load());
         };
     };
 
@@ -217,7 +218,7 @@ juce::AudioProcessorValueTreeState::ParameterLayout SynthOneAudioProcessor::crea
     params.push_back(std::make_unique<juce::AudioParameterFloat>("GAIN", "Gain", juce::NormalisableRange<float>{0.001f, 1.00f, 0.01f}, 0.50f));
     params.push_back(std::make_unique<juce::AudioParameterChoice>("WAVE", "Wave Type", juce::StringArray{ "Sine", "Saw", "Square"}, 0));
 
-    params.push_back(std::make_unique<juce::AudioParameterFloat>("MODONEFREQ", "Modulator 1 Frequency", juce::NormalisableRange<float>{0.0f, 1000.0f, 1.0f, 0.2f}, 0.0f));
+    params.push_back(std::make_unique<juce::AudioParameterFloat>("MODONEFREQ", "Modulator 1 Frequency", juce::NormalisableRange<float>{0.0f, 1000.0f, 0.1f, 0.2f}, 0.0f));
     params.push_back(std::make_unique<juce::AudioParameterFloat>("MODONEINT", "Modulator 1 Intensity", juce::NormalisableRange<float>{0.0f, 1000.0f, 1.0f, 0.3f}, 0.0f));
     params.push_back(std::make_unique<juce::AudioParameterChoice>("MODONEWAVE", "Wave Type", juce::StringArray{ "Sine", "Saw", "Square" }, 0));
 
@@ -229,5 +230,6 @@ juce::AudioProcessorValueTreeState::ParameterLayout SynthOneAudioProcessor::crea
     params.push_back(std::make_unique<juce::AudioParameterFloat>("EGDECAY", "EG Decay", juce::NormalisableRange<float>{0.003f, 5.00f, 0.01f}, 0.50f));
     params.push_back(std::make_unique<juce::AudioParameterFloat>("EGSUSTAIN", "EG Sustain", juce::NormalisableRange<float>{0.004f, 1.00f, 0.01f}, 1.00f));
     params.push_back(std::make_unique<juce::AudioParameterFloat>("EGRELEASE", "EG Release", juce::NormalisableRange<float>{0.004f, 5.00f, 0.01f}, 0.00f));
+    params.push_back(std::make_unique<juce::AudioParameterFloat>("EGINT", "EG Intensity", juce::NormalisableRange<float>{-1.0f, 10.0f, 0.1f, 0.3f}, 0.00f));
     return { params.begin(), params.end() };
 }

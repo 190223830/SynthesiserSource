@@ -48,13 +48,23 @@ void SynthOneAudioProcessorEditor::resized()
     // lay out the positions of any subcomponents
     
     //set adsr bounds
-    adsr.setBounds(getWidth()/2, 0, getWidth()/2, (getHeight()/4));
-    osc.setBounds(100, 0, getWidth()/2-120, getHeight());
+    //adsr.setBounds(getWidth()/2, 0, getWidth()/2, (getHeight()/4));
+    //osc.setBounds(100, 0, getWidth()/2-120, getHeight());
 
-    gainSlider.setBounds(10, 10, 50, getHeight()-40);
-    gainLabel.setBounds(gainSlider.getX(), gainSlider.getY() + gainSlider.getHeight()-5, gainSlider.getWidth(), 20);
+    //gainSlider.setBounds(10, 10, 50, getHeight()-40);
+    //gainLabel.setBounds(gainSlider.getX(), gainSlider.getY() + gainSlider.getHeight()-5, gainSlider.getWidth(), 20);
 
 
-    filter.setBounds(getWidth()/2, getHeight()/2, getWidth()/2, getHeight()/2);
-    egAdsr.setBounds(getWidth() / 2, getHeight() / 4, getWidth() / 2, (getHeight() / 4));
+    //filter.setBounds(getWidth()/2, getHeight()/2, getWidth()/2, getHeight()/2);
+    //egAdsr.setBounds(getWidth() / 2, getHeight() / 4, getWidth() / 2, (getHeight() / 4));
+
+    adsr.setBounds(getWidth() / 2, 20, getWidth() / 2, (getHeight() / 8) + 80);
+    osc.setBounds(100, 0, getWidth() / 2 - 120, getHeight());
+
+    gainSlider.setBounds(10, 10, 50, getHeight() - 40);
+    gainLabel.setBounds(gainSlider.getX(), gainSlider.getY() + gainSlider.getHeight() - 5, gainSlider.getWidth(), 20);
+
+    filter.setBounds(getWidth() / 2, getHeight() / 2 + 60, getWidth() / 2, getHeight() / 2 - 60);
+
+    egAdsr.setBounds(getWidth() / 2, 20 + (getHeight() / 8) + 50, getWidth() / 2, (getHeight() / 8) + 80);
 }

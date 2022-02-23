@@ -23,6 +23,8 @@ Filter::Filter(juce::AudioProcessorValueTreeState& valueTreeState, juce::String 
     filterCutoff.setTextBoxStyle(juce::Slider::TextBoxAbove, false, 150, 20);
     filterResonance.setSliderStyle(juce::Slider::SliderStyle::RotaryHorizontalVerticalDrag);
     filterResonance.setTextBoxStyle(juce::Slider::TextBoxAbove, false, 50, 20);
+    modIntensity.setSliderStyle(juce::Slider::SliderStyle::LinearVertical);
+    modIntensity.setTextBoxStyle(juce::Slider::TextBoxAbove, false, 50, 20);
 
     addAndMakeVisible(filterCutoff);
     filterCutoffLabel.setFont(15.0f);
@@ -34,8 +36,14 @@ Filter::Filter(juce::AudioProcessorValueTreeState& valueTreeState, juce::String 
     filterResonanceLabel.setJustificationType(juce::Justification::centred);
     addAndMakeVisible(filterResonanceLabel);
 
+    addAndMakeVisible(modIntensity);
+    modIntensityLabel.setFont(15.0f);
+    modIntensityLabel.setJustificationType(juce::Justification::centred);
+    addAndMakeVisible(modIntensityLabel);
+
     filterCutoffAttachment = std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(valueTreeState, "CUTOFF", filterCutoff);
     filterResonanceAttachment = std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(valueTreeState, "RESONANCE", filterResonance);
+    modIntensityAttachment = std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(valueTreeState, "EGINT", modIntensity);
 }
 
 Filter::~Filter()
@@ -51,11 +59,22 @@ void Filter::paint (juce::Graphics& g)
 
 void Filter::resized()
 {
-    filterType.setBounds(0, (getHeight()/2)+50, 100, 40);
+    //filterType.setBounds(0, (getHeight()/2)+50, 100, 40);
 
-    filterCutoff.setBounds(70, 0, getWidth()-70, 100); //TODO: create a new class/component that has a constructor that does all of this
+    //filterCutoff.setBounds(70, 0, getWidth()-70, 100); //TODO: create a new class/component that has a constructor that does all of this
+    //filterCutoffLabel.setBounds(filterCutoff.getX(), 100, filterCutoff.getWidth(), 20);
+
+    //filterResonance.setBounds(0, 0, 70, 100);
+    //filterResonanceLabel.setBounds(filterResonance.getX(), filterResonance.getY() + filterResonance.getHeight(), filterResonance.getWidth(), 20);
+
+    filterType.setBounds(0, (getHeight() / 2) - 20, 70, 40);
+
+    filterCutoff.setBounds(210, 0, getWidth() - 210, 100); //TODO: create a new class/component that has a constructor that does all of this
     filterCutoffLabel.setBounds(filterCutoff.getX(), 100, filterCutoff.getWidth(), 20);
 
-    filterResonance.setBounds(0, 0, 70, 100);
+    filterResonance.setBounds(140, 0, 70, 100);
     filterResonanceLabel.setBounds(filterResonance.getX(), filterResonance.getY() + filterResonance.getHeight(), filterResonance.getWidth(), 20);
+
+    modIntensity.setBounds(70, 0, 70, 100);
+    modIntensityLabel.setBounds(modIntensity.getX(), modIntensity.getY() + modIntensity.getHeight(), modIntensity.getWidth(), 20);
 }
