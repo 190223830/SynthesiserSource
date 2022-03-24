@@ -41,7 +41,7 @@ Osc::~Osc()
 
 void Osc::paint (juce::Graphics& g)
 {
-    g.fillAll (getLookAndFeel().findColour (juce::ResizableWindow::backgroundColourId));
+    //g.fillAll (getLookAndFeel().findColour (juce::ResizableWindow::backgroundColourId));
     /*g.setColour(juce::Colours::white);
     g.drawRect(getLocalBounds());*/
 
@@ -55,6 +55,6 @@ void Osc::resized()
     modOneWaveSelect.setBounds(15, getHeight() / 2, 100, 40);
     modOneWaveSelectLabel.setBounds(modOneWaveSelect.getX() + modOneWaveSelect.getWidth() + 10, modOneWaveSelect.getY() + modOneWaveSelect.getHeight() / 4, 150, 20);
 
-    modOneFreqSlider.setBounds(0, (getHeight()/2)+64, 70, 100); //TODO: create a new class/component that has a constructor that does all of this
+    modOneFreqSlider.setBounds(0, (getHeight()/2)+64, 70, 100); 
     modOneIntSlider.setBounds(70, (getHeight()/2)+64, 70, 100);
 }

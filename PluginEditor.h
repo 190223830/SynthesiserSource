@@ -5,6 +5,7 @@
 #include "ADSR.h"
 #include "Osc.h"
 #include "Filter.h"
+#include "Utils.h"
 
 class SynthOneAudioProcessorEditor  : public juce::AudioProcessorEditor
 {
@@ -25,11 +26,12 @@ private:
     Filter filter;
     ADSR egAdsr;
 
-    juce::Slider gainSlider;
+    //juce::Slider gainSlider;
+    GenericSlider gainSlider;
     //juce::ComboBox waveSelect;
 
-    std::unique_ptr<juce::AudioProcessorValueTreeState::SliderAttachment> gainAttachment;
-    juce::Label gainLabel{ "gainLabel", "Gain" };
+    //std::unique_ptr<juce::AudioProcessorValueTreeState::SliderAttachment> gainAttachment;
+    //juce::Label gainLabel{ "gainLabel", "Gain" };
     //std::unique_ptr<juce::AudioProcessorValueTreeState::ComboBoxAttachment> waveSelectAttachment;
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (SynthOneAudioProcessorEditor)

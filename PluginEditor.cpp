@@ -6,20 +6,14 @@ SynthOneAudioProcessorEditor::SynthOneAudioProcessorEditor (SynthOneAudioProcess
     adsr(audioProcessor.valueTreeState, "ATTACK", "DECAY", "SUSTAIN", "RELEASE"),
     osc(audioProcessor.valueTreeState, "WAVE", "MODONEFREQ", "MODONEINT", "MODONEWAVE"),
     filter(audioProcessor.valueTreeState, "FILTERTYPE"),
-    egAdsr(audioProcessor.valueTreeState, "EGATTACK", "EGDECAY", "EGSUSTAIN", "EGRELEASE")
+    egAdsr(audioProcessor.valueTreeState, "EGATTACK", "EGDECAY", "EGSUSTAIN", "EGRELEASE"),
+    gainSlider("Gain", "GAIN", audioProcessor.valueTreeState, juce::Slider::SliderStyle::RotaryHorizontalVerticalDrag)
 {
     //set the editor's size
-    setSize (800, 600);
+    setSize (800, 800);
 
-    gainAttachment = std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(audioProcessor.valueTreeState, "GAIN", gainSlider);
-    //waveSelectAttachment = std::make_unique<juce::AudioProcessorValueTreeState::ComboBoxAttachment>(audioProcessor.valueTreeState, "WAVE", waveSelect);
-
-    gainSlider.setSliderStyle(juce::Slider::SliderStyle::LinearVertical);
-    gainSlider.setTextBoxStyle(juce::Slider::TextBoxAbove, false, 50, 20);
     addAndMakeVisible(gainSlider);
-    gainLabel.setFont(15.0f);
-    gainLabel.setJustificationType(juce::Justification::centred);
-    addAndMakeVisible(gainLabel);
+
 
     //make adsr and osc visible
     addAndMakeVisible(adsr);
@@ -35,36 +29,16 @@ SynthOneAudioProcessorEditor::~SynthOneAudioProcessorEditor()
 
 void SynthOneAudioProcessorEditor::paint (juce::Graphics& g)
 {
-    // fill the background with a solid colour
     g.fillAll (getLookAndFeel().findColour (juce::ResizableWindow::backgroundColourId));
 
-    g.setColour (juce::Colours::white);
-    g.setFont (15.0f);
-    //g.drawFittedText ("SynthOne", getLocalBounds(), juce::Justification::centred, 1);
+
 }
 
 void SynthOneAudioProcessorEditor::resized()
 {
-    // lay out the positions of any subcomponents
-    
-    //set adsr bounds
-    //adsr.setBounds(getWidth()/2, 0, getWidth()/2, (getHeight()/4));
-    //osc.setBounds(100, 0, getWidth()/2-120, getHeight());
-
-    //gainSlider.setBounds(10, 10, 50, getHeight()-40);
-    //gainLabel.setBounds(gainSlider.getX(), gainSlider.getY() + gainSlider.getHeight()-5, gainSlider.getWidth(), 20);
-
-
-    //filter.setBounds(getWidth()/2, getHeight()/2, getWidth()/2, getHeight()/2);
-    //egAdsr.setBounds(getWidth() / 2, getHeight() / 4, getWidth() / 2, (getHeight() / 4));
-
-    adsr.setBounds(getWidth() / 2, 20, getWidth() / 2, (getHeight() / 8) + 80);
-    osc.setBounds(100, 0, getWidth() / 2 - 120, getHeight());
-
-    gainSlider.setBounds(10, 10, 50, getHeight() - 40);
-    gainLabel.setBounds(gainSlider.getX(), gainSlider.getY() + gainSlider.getHeight() - 5, gainSlider.getWidth(), 20);
-
-    filter.setBounds(getWidth() / 2, getHeight() / 2 + 60, getWidth() / 2, getHeight() / 2 - 60);
-
-    egAdsr.setBounds(getWidth() / 2, 20 + (getHeight() / 8) + 50, getWidth() / 2, (getHeight() / 8) + 80);
+    adsr.setBounds(getWidth() / 2 + 80, 20, getWidth() / 2 - 80, (getHeight() / 8) + 80);
+    osc.setBounds(0, 0, getWidth() / 2 - 120, getHeight());
+    gainSlider.setBounds(osc.getRight(), 20, 90, getHeight()/8 + 80);
+    filter.setBounds(getWidth() / 2, getHeight() / 2, getWidth() / 2, getHeight() / 4 + 80);
+    egAdsr.setBounds(getWidth() /2 + 80, filter.getY()+getHeight()/8 +40, getWidth() /2 -80, (getHeight() / 8 + 80));
 }
