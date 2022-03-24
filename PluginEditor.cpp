@@ -9,7 +9,7 @@ SynthOneAudioProcessorEditor::SynthOneAudioProcessorEditor (SynthOneAudioProcess
     egAdsr(audioProcessor.valueTreeState, "EGATTACK", "EGDECAY", "EGSUSTAIN", "EGRELEASE")
 {
     //set the editor's size
-    setSize (800, 400);
+    setSize (800, 600);
 
     gainAttachment = std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(audioProcessor.valueTreeState, "GAIN", gainSlider);
     //waveSelectAttachment = std::make_unique<juce::AudioProcessorValueTreeState::ComboBoxAttachment>(audioProcessor.valueTreeState, "WAVE", waveSelect);

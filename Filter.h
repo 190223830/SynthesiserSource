@@ -11,6 +11,7 @@
 #pragma once
 
 #include <JuceHeader.h>
+#include "Utils.h"
 
 class Filter  : public juce::Component
 {
@@ -25,16 +26,9 @@ private:
     juce::ComboBox filterType;
     std::unique_ptr<juce::AudioProcessorValueTreeState::ComboBoxAttachment> waveSelectAttachment;
 
-    juce::Slider filterCutoff;
-    juce::Slider filterResonance;
-    juce::Slider modIntensity;
-
-    std::unique_ptr<juce::AudioProcessorValueTreeState::SliderAttachment> filterCutoffAttachment;
-    juce::Label filterCutoffLabel{ "filterCutoffLabel", "Cutoff Frequency" };
-    std::unique_ptr<juce::AudioProcessorValueTreeState::SliderAttachment> filterResonanceAttachment;
-    juce::Label filterResonanceLabel{ "filterResonanceLabel", "Resonance" };
-    std::unique_ptr<juce::AudioProcessorValueTreeState::SliderAttachment> modIntensityAttachment;
-    juce::Label modIntensityLabel{ "modIntensityLabel", "Intensity" };
+    GenericSlider filterCutoffSlider;
+    GenericSlider filterResonanceSlider;
+    GenericSlider modIntensitySlider;
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (Filter)
 };

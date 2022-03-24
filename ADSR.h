@@ -11,6 +11,7 @@
 #pragma once
 
 #include <JuceHeader.h>
+#include "Utils.h"
 
 class ADSR  : public juce::Component
 {
@@ -24,19 +25,8 @@ public:
     void resized() override;
 
 private:
-    juce::Slider attackSlider;
-    juce::Slider decaySlider;
-    juce::Slider sustainSlider;
-    juce::Slider releaseSlider;
-
-    std::unique_ptr<juce::AudioProcessorValueTreeState::SliderAttachment> attackAttachment;
-    juce::Label attackLabel{ "attackLabel", "Attack" };
-    std::unique_ptr<juce::AudioProcessorValueTreeState::SliderAttachment> decayAttachment;
-    juce::Label decayLabel{ "decayLabel", "Decay" };
-    std::unique_ptr<juce::AudioProcessorValueTreeState::SliderAttachment> sustainAttachment;
-    juce::Label sustainLabel{ "sustainLabel", "Sustain" };
-    std::unique_ptr<juce::AudioProcessorValueTreeState::SliderAttachment> releaseAttachment;
-    juce::Label releaseLabel{ "releaseLabel", "Release" };
+    
+    GenericSlider attackSlider, decaySlider, sustainSlider, releaseSlider;
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (ADSR)
 };

@@ -13,37 +13,20 @@
 
 
 Filter::Filter(juce::AudioProcessorValueTreeState& valueTreeState, juce::String type)
+
+    : filterCutoffSlider("Cutoff", "CUTOFF", valueTreeState, juce::Slider::SliderStyle::RotaryHorizontalVerticalDrag),
+    filterResonanceSlider("Resonance", "RESONANCE", valueTreeState, juce::Slider::SliderStyle::RotaryHorizontalVerticalDrag),
+    modIntensitySlider("Intensity", "EGINT", valueTreeState, juce::Slider::SliderStyle::RotaryHorizontalVerticalDrag)
 {
     juce::StringArray types{ "LPF", "BPF", "HPF" };
     filterType.addItemList(types, 1);
     addAndMakeVisible(filterType);
     waveSelectAttachment = std::make_unique<juce::AudioProcessorValueTreeState::ComboBoxAttachment>(valueTreeState, type, filterType);
 
-    filterCutoff.setSliderStyle(juce::Slider::SliderStyle::LinearHorizontal);
-    filterCutoff.setTextBoxStyle(juce::Slider::TextBoxAbove, false, 150, 20);
-    filterResonance.setSliderStyle(juce::Slider::SliderStyle::RotaryHorizontalVerticalDrag);
-    filterResonance.setTextBoxStyle(juce::Slider::TextBoxAbove, false, 50, 20);
-    modIntensity.setSliderStyle(juce::Slider::SliderStyle::LinearVertical);
-    modIntensity.setTextBoxStyle(juce::Slider::TextBoxAbove, false, 50, 20);
+    addAndMakeVisible(filterCutoffSlider);
+    addAndMakeVisible(filterResonanceSlider);
+    addAndMakeVisible(modIntensitySlider);
 
-    addAndMakeVisible(filterCutoff);
-    filterCutoffLabel.setFont(15.0f);
-    filterCutoffLabel.setJustificationType(juce::Justification::centred);
-    addAndMakeVisible(filterCutoffLabel);
-
-    addAndMakeVisible(filterResonance);
-    filterResonanceLabel.setFont(15.0f);
-    filterResonanceLabel.setJustificationType(juce::Justification::centred);
-    addAndMakeVisible(filterResonanceLabel);
-
-    addAndMakeVisible(modIntensity);
-    modIntensityLabel.setFont(15.0f);
-    modIntensityLabel.setJustificationType(juce::Justification::centred);
-    addAndMakeVisible(modIntensityLabel);
-
-    filterCutoffAttachment = std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(valueTreeState, "CUTOFF", filterCutoff);
-    filterResonanceAttachment = std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(valueTreeState, "RESONANCE", filterResonance);
-    modIntensityAttachment = std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(valueTreeState, "EGINT", modIntensity);
 }
 
 Filter::~Filter()
@@ -59,22 +42,8 @@ void Filter::paint (juce::Graphics& g)
 
 void Filter::resized()
 {
-    //filterType.setBounds(0, (getHeight()/2)+50, 100, 40);
-
-    //filterCutoff.setBounds(70, 0, getWidth()-70, 100); //TODO: create a new class/component that has a constructor that does all of this
-    //filterCutoffLabel.setBounds(filterCutoff.getX(), 100, filterCutoff.getWidth(), 20);
-
-    //filterResonance.setBounds(0, 0, 70, 100);
-    //filterResonanceLabel.setBounds(filterResonance.getX(), filterResonance.getY() + filterResonance.getHeight(), filterResonance.getWidth(), 20);
-
-    filterType.setBounds(0, (getHeight() / 2) - 20, 70, 40);
-
-    filterCutoff.setBounds(210, 0, getWidth() - 210, 100); //TODO: create a new class/component that has a constructor that does all of this
-    filterCutoffLabel.setBounds(filterCutoff.getX(), 100, filterCutoff.getWidth(), 20);
-
-    filterResonance.setBounds(140, 0, 70, 100);
-    filterResonanceLabel.setBounds(filterResonance.getX(), filterResonance.getY() + filterResonance.getHeight(), filterResonance.getWidth(), 20);
-
-    modIntensity.setBounds(70, 0, 70, 100);
-    modIntensityLabel.setBounds(modIntensity.getX(), modIntensity.getY() + modIntensity.getHeight(), modIntensity.getWidth(), 20);
+    filterType.setBounds(getWidth()/3, 35, getWidth()/6, 40);
+    filterCutoffSlider.setBounds(getWidth()/2, 0, getWidth()/4, getHeight()/2);
+    filterResonanceSlider.setBounds(filterCutoffSlider.getRight(), 0, getWidth()/4, getHeight() / 2);
+    modIntensitySlider.setBounds(0, getHeight()/2, getWidth()/5, getHeight()/2);
 }

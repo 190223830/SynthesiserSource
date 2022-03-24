@@ -11,6 +11,7 @@
 #pragma once
 
 #include <JuceHeader.h>
+#include "Utils.h"
 
 class Osc  : public juce::Component
 {
@@ -26,20 +27,13 @@ private:
     std::unique_ptr<juce::AudioProcessorValueTreeState::ComboBoxAttachment> waveSelectAttachment;
     juce::Label waveSelectLabel{ "waveSelectLabel", "Oscillator Wave Type" };
 
-    juce::Slider modOneFreqSlider;
-    juce::Slider modOneIntSlider;
     juce::ComboBox modOneWaveSelect;
     std::unique_ptr<juce::AudioProcessorValueTreeState::ComboBoxAttachment> modOneWaveSelectAttachment;
     juce::Label modOneWaveSelectLabel{ "modOneWaveSelectLabel", "Modulator Wave Type" };
 
-    std::unique_ptr<juce::AudioProcessorValueTreeState::SliderAttachment> modOneFreqAttachment;
-    juce::Label modOneFreqLabel{ "modOneFreqLabel", "Frequency"};
-    std::unique_ptr<juce::AudioProcessorValueTreeState::SliderAttachment> modOneIntAttachment;
-    juce::Label modOneIntLabel{ "modOneIntLabel", "Intensity" };
-
-    
-
-    
+    GenericSlider modOneFreqSlider;
+    GenericSlider modOneIntSlider;
+  
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (Osc)
 };
