@@ -54,7 +54,6 @@ void OscData::setFreq(const int midiNoteNumber) {
 }
 
 void OscData:: setModParams(const float freq, const float intensity, const int waveType) {
-    //modOneOsc.initialise(setWaveType(waveType));
 
     switch (waveType)
     {

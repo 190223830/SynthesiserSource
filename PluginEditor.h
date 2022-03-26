@@ -6,6 +6,7 @@
 #include "Osc.h"
 #include "Filter.h"
 #include "Utils.h"
+#include "LFO.h"
 
 class SynthOneAudioProcessorEditor  : public juce::AudioProcessorEditor
 {
@@ -25,6 +26,7 @@ private:
     Osc osc;
     Filter filter;
     ADSR egAdsr;
+    LFO lfo;
 
     //juce::Slider gainSlider;
     GenericSlider gainSlider;

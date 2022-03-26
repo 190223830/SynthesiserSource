@@ -15,7 +15,7 @@
 using SliderAttachment = juce::AudioProcessorValueTreeState::SliderAttachment;
 using SliderStyle = juce::Slider::SliderStyle;
 
-GenericSlider::GenericSlider(juce::String labelName, juce::String parameter, juce::AudioProcessorValueTreeState& apvts, SliderStyle style)
+GenericSlider::GenericSlider(juce::String labelName, juce::String parameter, juce::AudioProcessorValueTreeState& valueTreeState, SliderStyle style)
 {
     slider.setSliderStyle(style);
     slider.setTextBoxStyle(juce::Slider::TextBoxAbove, false, textBoxWidth, textBoxHeight);
@@ -26,7 +26,7 @@ GenericSlider::GenericSlider(juce::String labelName, juce::String parameter, juc
     label.setJustificationType(juce::Justification::centred);
     addAndMakeVisible(label);
 
-    attachment = std::make_unique<SliderAttachment>(apvts, parameter, slider);
+    attachment = std::make_unique<SliderAttachment>(valueTreeState, parameter, slider);
 }
 
 void GenericSlider::resized()

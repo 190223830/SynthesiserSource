@@ -160,6 +160,11 @@ void SynthOneAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer, juc
             auto& modOneWaveType = *valueTreeState.getRawParameterValue("MODONEWAVE");
             voice->getOsc().setModParams(modOneFreq, modOneInt, modOneWaveType);
 
+            auto& lfoRate = *valueTreeState.getRawParameterValue("LFORATE");
+            auto& lfoInt = *valueTreeState.getRawParameterValue("LFOINT");
+            auto& lfoWaveType = *valueTreeState.getRawParameterValue("LFOWAVE");
+            voice->getOsc().setModParams(lfoRate, lfoInt, lfoWaveType);
+
             //EG ADSR
             auto& egAttack = *valueTreeState.getRawParameterValue("EGATTACK");
             auto& egDecay = *valueTreeState.getRawParameterValue("EGDECAY");
@@ -233,5 +238,9 @@ juce::AudioProcessorValueTreeState::ParameterLayout SynthOneAudioProcessor::crea
     params.push_back(std::make_unique<juce::AudioParameterFloat>("EGSUSTAIN", "EG Sustain", juce::NormalisableRange<float>{0.004f, 1.00f, 0.01f}, 1.00f));
     params.push_back(std::make_unique<juce::AudioParameterFloat>("EGRELEASE", "EG Release", juce::NormalisableRange<float>{0.004f, 5.00f, 0.01f}, 0.00f));
     params.push_back(std::make_unique<juce::AudioParameterFloat>("EGINT", "EG Intensity", juce::NormalisableRange<float>{-1.0f, 10.0f, 0.1f, 0.3f}, 0.00f));
+
+    params.push_back(std::make_unique<juce::AudioParameterFloat>("LFORATE", "LFO Rate", juce::NormalisableRange<float>{0.0f, 1000.0f, 0.1f, 0.2f}, 0.0f));
+    params.push_back(std::make_unique<juce::AudioParameterFloat>("LFOINT", "LFO Intensity", juce::NormalisableRange<float>{0.0f, 1000.0f, 1.0f, 0.3f}, 0.0f));
+    params.push_back(std::make_unique<juce::AudioParameterChoice>("LFOWAVE", "LFO Wave Type", juce::StringArray{ "Sine", "Saw", "Square" }, 0));
     return { params.begin(), params.end() };
 }

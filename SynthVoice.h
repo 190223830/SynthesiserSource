@@ -15,6 +15,7 @@
 #include "ADSRData.h"
 #include "OscData.h"
 #include "FilterData.h"
+//#include "LFO.h"
 
 class SynthVoice : public juce::SynthesiserVoice {
 public:
@@ -38,6 +39,7 @@ private:
     OscData osc;
     FilterData filter;
     ADSRData egADSR;
+    juce::dsp::Oscillator<float> lfo; //Create new LFOData class and move/inherit the stuff from OscData, or try and use OscData (but that sounds like it's gonna suck)
 
     juce::AudioBuffer<float> oscBuffer;
                         

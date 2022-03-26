@@ -7,6 +7,7 @@ SynthOneAudioProcessorEditor::SynthOneAudioProcessorEditor (SynthOneAudioProcess
     osc(audioProcessor.valueTreeState, "WAVE", "MODONEFREQ", "MODONEINT", "MODONEWAVE"),
     filter(audioProcessor.valueTreeState, "FILTERTYPE"),
     egAdsr(audioProcessor.valueTreeState, "EGATTACK", "EGDECAY", "EGSUSTAIN", "EGRELEASE"),
+    lfo(audioProcessor.valueTreeState, "LFORATE", "LFOINT", "LFOWAVE"),
     gainSlider("Gain", "GAIN", audioProcessor.valueTreeState, juce::Slider::SliderStyle::RotaryHorizontalVerticalDrag)
 {
     //set the editor's size
@@ -20,6 +21,7 @@ SynthOneAudioProcessorEditor::SynthOneAudioProcessorEditor (SynthOneAudioProcess
     addAndMakeVisible(osc);
     addAndMakeVisible(filter);
     addAndMakeVisible(egAdsr);
+    addAndMakeVisible(lfo);
 
 }
 
@@ -41,4 +43,5 @@ void SynthOneAudioProcessorEditor::resized()
     gainSlider.setBounds(osc.getRight(), 20, 90, getHeight()/8 + 80);
     filter.setBounds(getWidth() / 2, getHeight() / 2, getWidth() / 2, getHeight() / 4 + 80);
     egAdsr.setBounds(getWidth() /2 + 80, filter.getY()+getHeight()/8 +40, getWidth() /2 -80, (getHeight() / 8 + 80));
+    lfo.setBounds(getWidth()/2, 700, getWidth()/2, 100);
 }
