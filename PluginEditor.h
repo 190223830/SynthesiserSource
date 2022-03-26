@@ -26,7 +26,7 @@ private:
     Osc osc;
     Filter filter;
     ADSR egAdsr;
-    LFO lfo;
+    LFO lfo1, lfo2;
 
     //juce::Slider gainSlider;
     GenericSlider gainSlider;

@@ -26,4 +26,5 @@ private:
     float modOne{ 0.0f };
     float modOneInt{ 0.0f };
     int midiNote{0};
+    float modTotal{ 0.0f };
 };

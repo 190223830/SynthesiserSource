@@ -15,7 +15,7 @@
 #include "ADSRData.h"
 #include "OscData.h"
 #include "FilterData.h"
-//#include "LFO.h"
+#include "LFOData.h"
 
 class SynthVoice : public juce::SynthesiserVoice {
 public:
@@ -30,6 +30,7 @@ public:
     void update(const float attack, const float decay, const float sustain, const float release);
     void updateGain(const float gain);
     OscData& getOsc() { return osc; };
+    //LFOData& getLFO() { return lfo; };
     void updateFilter(const int filterType, const float filterCutoff, const float filterResonance, const float intensity);
     void updateEGADSR(const float attack, const float decay, const float sustain, const float release);
 
@@ -39,7 +40,7 @@ private:
     OscData osc;
     FilterData filter;
     ADSRData egADSR;
-    juce::dsp::Oscillator<float> lfo; //Create new LFOData class and move/inherit the stuff from OscData, or try and use OscData (but that sounds like it's gonna suck)
+    //LFOData lfo; //Create new LFOData class and move/inherit the stuff from OscData, or try and use OscData (but that sounds like it's gonna suck)
 
     juce::AudioBuffer<float> oscBuffer;
                         

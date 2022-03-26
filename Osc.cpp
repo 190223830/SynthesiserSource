@@ -23,7 +23,8 @@ Osc::Osc(juce::AudioProcessorValueTreeState& valueTreeState, juce::String wave, 
     waveSelectLabel.setFont(15.0f);
     waveSelectLabel.setJustificationType(juce::Justification::centred);
     addAndMakeVisible(waveSelectLabel);
-    modOneWaveSelect.addItemList(waves, 1);
+
+    /*modOneWaveSelect.addItemList(waves, 1);
     addAndMakeVisible(modOneWaveSelect);
     modOneWaveSelectAttachment = std::make_unique<juce::AudioProcessorValueTreeState::ComboBoxAttachment>(valueTreeState, modOneWaveID, modOneWaveSelect);
 
@@ -32,7 +33,7 @@ Osc::Osc(juce::AudioProcessorValueTreeState& valueTreeState, juce::String wave, 
     addAndMakeVisible(modOneWaveSelectLabel);
 
     addAndMakeVisible(modOneFreqSlider);
-    addAndMakeVisible(modOneIntSlider);
+    addAndMakeVisible(modOneIntSlider);*/
 }
 
 Osc::~Osc()
@@ -52,9 +53,9 @@ void Osc::resized()
     waveSelect.setBounds(15, 20, 100, 40);
     waveSelectLabel.setBounds(waveSelect.getX() + waveSelect.getWidth() + 10, waveSelect.getY() + waveSelect.getHeight() / 4, 150, 20);
     
-    modOneWaveSelect.setBounds(15, getHeight() / 2, 100, 40);
+    /*modOneWaveSelect.setBounds(15, getHeight() / 2, 100, 40);
     modOneWaveSelectLabel.setBounds(modOneWaveSelect.getX() + modOneWaveSelect.getWidth() + 10, modOneWaveSelect.getY() + modOneWaveSelect.getHeight() / 4, 150, 20);
 
     modOneFreqSlider.setBounds(0, (getHeight()/2)+64, 70, 100); 
-    modOneIntSlider.setBounds(70, (getHeight()/2)+64, 70, 100);
+    modOneIntSlider.setBounds(70, (getHeight()/2)+64, 70, 100);*/
 }

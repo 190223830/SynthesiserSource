@@ -90,8 +90,8 @@ void SynthVoice::prepareToPlay(double sampleRate, int samplesPerBlock, int outpu
     filter.prepareToPlay(sampleRate, samplesPerBlock, outputChannels);
     gain.prepare(spec);
     egADSR.setSampleRate(sampleRate);
-    lfo.prepare(spec);
-    lfo.initialise([](float x) { return std::sin(x); });
+    //lfo.prepare(spec);
+    //lfo.initialise([](float x) { return std::sin(x); });
 
     
 
