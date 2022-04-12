@@ -1,5 +1,6 @@
 #include "PluginProcessor.h"
 #include "PluginEditor.h"
+#include "Utils.h"
 
 SynthOneAudioProcessor::SynthOneAudioProcessor()
 #ifndef JucePlugin_PreferredChannelConfigurations
@@ -14,7 +15,7 @@ SynthOneAudioProcessor::SynthOneAudioProcessor()
 #endif
 {
     synth.addSound(new SynthSound());
-    for (int i = 0; i < 5; i++) {           //make it create a new voice whenever a new midi note is pressed
+    for (int i = 0; i < 20; i++) {           //make it create a new voice whenever a new midi note is pressed
         synth.addVoice(new SynthVoice());
     }
 }
@@ -94,7 +95,7 @@ void SynthOneAudioProcessor::prepareToPlay (double sampleRate, int samplesPerBlo
             voice->prepareToPlay(sampleRate, samplesPerBlock, getTotalNumOutputChannels());
         };
     };
-
+    
     //filter.prepareToPlay(sampleRate, samplesPerBlock, getTotalNumOutputChannels());
 
 }
@@ -189,7 +190,9 @@ void SynthOneAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer, juc
         };
     };
 
+
     synth.renderNextBlock(buffer, midiMessages, 0, buffer.getNumSamples());
+    visualiser.pushBuffer(buffer);
 
     /*filter.updateParams(filterType, filterCutoff, filterResonance);
     filter.prepare(buffer);*/
@@ -253,5 +256,11 @@ juce::AudioProcessorValueTreeState::ParameterLayout SynthOneAudioProcessor::crea
     params.push_back(std::make_unique<juce::AudioParameterFloat>("LFO2RATE", "LFO Rate", juce::NormalisableRange<float>{0.0f, 20.0f, 0.1f, 0.2f}, 0.0f));
     params.push_back(std::make_unique<juce::AudioParameterFloat>("LFO2INT", "LFO Intensity", juce::NormalisableRange<float>{0.0f, 1000.0f, 1.0f, 0.3f}, 0.0f));
     params.push_back(std::make_unique<juce::AudioParameterChoice>("LFO2WAVE", "LFO Wave Type", juce::StringArray{ "Sine", "Saw", "Square" }, 0));
+
     return { params.begin(), params.end() };
 }
+
+//Visualiser SynthOneAudioProcessor::getVisualiser()
+//{
+//    return visualiser;
+//}

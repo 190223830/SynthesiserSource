@@ -3,6 +3,7 @@
 #include <JuceHeader.h>
 #include "SynthSound.h"
 #include "SynthVoice.h"
+#include "Utils.h"
 //#include "FilterData.h"
 
 class SynthOneAudioProcessor  : public juce::AudioProcessor
@@ -30,6 +31,7 @@ public:
     bool isMidiEffect() const override;
     double getTailLengthSeconds() const override;
 
+
     int getNumPrograms() override;
     int getCurrentProgram() override;
     void setCurrentProgram (int index) override;
@@ -38,13 +40,17 @@ public:
 
     void getStateInformation (juce::MemoryBlock& destData) override;
     void setStateInformation (const void* data, int sizeInBytes) override;
-
     juce::AudioProcessorValueTreeState valueTreeState;  //TODO: make private with a get method
+
+    Visualiser getVisualiser();
+    Visualiser visualiser;
 
 private:
     juce::Synthesiser synth;
     //FilterData filter;
     juce::AudioProcessorValueTreeState::ParameterLayout createParams();
+    
+    
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (SynthOneAudioProcessor)
 };

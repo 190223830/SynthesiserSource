@@ -46,3 +46,11 @@ private:
     juce::Label label;
     std::unique_ptr<SliderAttachment> attachment;
 };
+
+class Visualiser : public juce::AudioVisualiserComponent {
+public:
+    Visualiser() : AudioVisualiserComponent(2) {
+        setBufferSize(512);
+        setSamplesPerBlock(16);
+    };
+};

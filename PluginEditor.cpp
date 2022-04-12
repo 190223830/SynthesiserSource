@@ -25,6 +25,10 @@ SynthOneAudioProcessorEditor::SynthOneAudioProcessorEditor (SynthOneAudioProcess
     addAndMakeVisible(lfo1);
     addAndMakeVisible(lfo2);
 
+    setVisualiser();
+    addAndMakeVisible(audioProcessor.visualiser);
+    
+
 }
 
 SynthOneAudioProcessorEditor::~SynthOneAudioProcessorEditor()
@@ -47,4 +51,10 @@ void SynthOneAudioProcessorEditor::resized()
     egAdsr.setBounds(getWidth() /2 + 80, filter.getY()+getHeight()/8 +40, getWidth() /2 -80, (getHeight() / 8 + 80));
     lfo1.setBounds(getWidth()/2, 700, getWidth()/2, 100);
     lfo2.setBounds(getWidth() / 2, 800, getWidth() / 2, 100);
+    audioProcessor.visualiser.setBounds(25, getHeight() - 100, getWidth() / 2 -50, 80);
+}
+
+void SynthOneAudioProcessorEditor::setVisualiser() {
+    //visualiserToShow = audioProcessor.visualiser;
+    
 }
