@@ -42,13 +42,15 @@ public:
     void setStateInformation (const void* data, int sizeInBytes) override;
     juce::AudioProcessorValueTreeState valueTreeState;  //TODO: make private with a get method
 
-    Visualiser getVisualiser();
+    //Visualiser getVisualiser();
     Visualiser visualiser;
 
 private:
     juce::Synthesiser synth;
     //FilterData filter;
     juce::AudioProcessorValueTreeState::ParameterLayout createParams();
+
+    int userSetVoices = 20;
     
     
 

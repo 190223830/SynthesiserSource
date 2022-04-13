@@ -50,7 +50,7 @@ private:
 class Visualiser : public juce::AudioVisualiserComponent {
 public:
     Visualiser() : AudioVisualiserComponent(2) {
-        setBufferSize(512);
+        setBufferSize(128);
         setSamplesPerBlock(16);
     };
 };

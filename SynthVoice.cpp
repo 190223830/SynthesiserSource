@@ -17,15 +17,18 @@ bool SynthVoice::canPlaySound(juce::SynthesiserSound* sound) {
 void SynthVoice::startNote(int midiNoteNumber, float velocity, juce::SynthesiserSound* sound, int currentPitchWheelPosition) {
 
     osc.setFreq(midiNoteNumber);
+    osc2.setFreq(midiNoteNumber);
     adsr.noteOn();
     egADSR.noteOn();
 };
 void SynthVoice::stopNote(float velocity, bool allowTailOff) {
     adsr.noteOff();
     egADSR.noteOff();
-    if (!adsr.isActive() || !allowTailOff) {
+    if (!adsr.isActive()) {
         clearCurrentNote(); //if envelope is finished, no need to output
+        adsr.reset();
     };
+    
 };
 void SynthVoice::controllerMoved(int ControllerNumber, int newControllerValue) {
 
@@ -45,7 +48,9 @@ void SynthVoice::renderNextBlock(juce::AudioBuffer<float>& outputBuffer, int sta
 
     //juce::dsp::AudioBlock<float> audioBlock{ outputBuffer };
     osc.processBlock(audioBlock);
+    osc2.processBlock(audioBlock);
     gain.process(juce::dsp::ProcessContextReplacing<float>(audioBlock));
+    gain2.process(juce::dsp::ProcessContextReplacing<float>(audioBlock));
     filter.prepare(oscBuffer);
     
 
@@ -87,8 +92,10 @@ void SynthVoice::prepareToPlay(double sampleRate, int samplesPerBlock, int outpu
 
     adsr.setSampleRate(sampleRate);
     osc.prepareToPlay(spec);
+    osc2.prepareToPlay(spec);
     filter.prepareToPlay(sampleRate, samplesPerBlock, outputChannels);
     gain.prepare(spec);
+    gain2.prepare(spec);
     egADSR.setSampleRate(sampleRate);
     //lfo.prepare(spec);
     //lfo.initialise([](float x) { return std::sin(x); });
@@ -102,8 +109,21 @@ void SynthVoice::update(const float attack, const float decay, const float susta
     adsr.updateADSR(attack, decay, sustain, release);
 }
 
-void SynthVoice::updateGain(const float gainValue) {    //TODO: Incorporate into update method
+void SynthVoice::updateGain(const float gainValue, const float gain2Value) {    //TODO: Incorporate into update method
     gain.setGainLinear(gainValue);
+    gain2.setGainLinear(gain2Value);
+}
+
+
+OscData& SynthVoice::getOsc(int i) {
+    switch (i) {
+    case 1:
+        return osc;
+    case 2:
+        return osc2;
+    default:
+        jassertfalse;
+    }
 }
 
 

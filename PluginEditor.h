@@ -26,13 +26,14 @@ private:
 
     ADSR adsr;
     Osc osc;
+    Osc osc2;
     Filter filter;
     ADSR egAdsr;
     LFO lfo1, lfo2;
     Visualiser visualiserToShow;
 
     //juce::Slider gainSlider;
-    GenericSlider gainSlider;
+    GenericSlider gainSlider, gain2Slider;
     //juce::ComboBox waveSelect;
 
     //std::unique_ptr<juce::AudioProcessorValueTreeState::SliderAttachment> gainAttachment;

@@ -28,8 +28,8 @@ public:
 
     void prepareToPlay(double sampleRate, int samplesPerBlock, int outputChannels);
     void update(const float attack, const float decay, const float sustain, const float release);
-    void updateGain(const float gain);
-    OscData& getOsc() { return osc; };
+    void updateGain(const float gain, const float gain2);
+    OscData& getOsc(int i);
     //LFOData& getLFO() { return lfo; };
     void updateFilter(const int filterType, const float filterCutoff, const float filterResonance, const float intensity);
     void updateEGADSR(const float attack, const float decay, const float sustain, const float release);
@@ -37,14 +37,15 @@ public:
 private:
     //juce::ADSR adsr;
     ADSRData adsr;
-    OscData osc;
+    OscData osc, osc2;
+    
     FilterData filter;
     ADSRData egADSR;
     //LFOData lfo; //Create new LFOData class and move/inherit the stuff from OscData, or try and use OscData (but that sounds like it's gonna suck)
 
     juce::AudioBuffer<float> oscBuffer;
                         
-    juce::dsp::Gain<float> gain;
+    juce::dsp::Gain<float> gain, gain2;
     bool isPrepared {false};
 
 
