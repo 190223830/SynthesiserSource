@@ -12,7 +12,7 @@
 
 void OscData::setWaveType(const int waveType) {
 
-    switch (waveType)
+    switch ((int)waveType)
     {
     case 0:
         initialise([](float x) {return std::sin(x); });

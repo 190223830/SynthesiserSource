@@ -24,16 +24,15 @@ private:
     // This reference is provided as a quick way for your editor to access the processor object that created it
     SynthOneAudioProcessor& audioProcessor;
 
-    ADSR adsr;
-    Osc osc;
-    Osc osc2;
+    ADSR adsr0, adsr1, adsr2, adsr3;
+    Osc osc0, osc1, osc2, osc3;
     Filter filter;
     ADSR egAdsr;
     LFO lfo1, lfo2;
     Visualiser visualiserToShow;
 
     //juce::Slider gainSlider;
-    GenericSlider gainSlider, gain2Slider;
+    GenericSlider gainSlider0, gainSlider1, gainSlider2, gainSlider3;
     //juce::ComboBox waveSelect;
 
     //std::unique_ptr<juce::AudioProcessorValueTreeState::SliderAttachment> gainAttachment;
