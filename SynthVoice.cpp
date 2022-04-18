@@ -16,7 +16,7 @@ bool SynthVoice::canPlaySound(juce::SynthesiserSound* sound) {
 };
 void SynthVoice::startNote(int midiNoteNumber, float velocity, juce::SynthesiserSound* sound, int currentPitchWheelPosition) {
 
-    osc.setFreq(midiNoteNumber);
+    osc.setFreq(midiNoteNumber, detune);
     adsr.noteOn();
     egADSR.noteOn();
 };
@@ -74,6 +74,8 @@ void SynthVoice::updateFilter(const int filterType, const float filterCutoff, co
 void SynthVoice::updateEGADSR(const float attack, const float decay, const float sustain, const float release) {
     egADSR.updateADSR(attack, decay, sustain, release);
 }
+
+void SynthVoice::updateDetune(const int detuneValue) {detune = detuneValue;}
 
 
 void SynthVoice::pitchWheelMoved(int newPitchWheelValue) {

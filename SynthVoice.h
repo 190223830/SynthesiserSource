@@ -29,6 +29,7 @@ public:
     void prepareToPlay(double sampleRate, int samplesPerBlock, int outputChannels);
     void update(const float attack, const float decay, const float sustain, const float release);
     void updateGain(const float gainValue);
+    void updateDetune(const int detuneValue);
     OscData& getOsc();
     //LFOData& getLFO() { return lfo; };
     void updateFilter(const int filterType, const float filterCutoff, const float filterResonance, const float intensity);
@@ -38,6 +39,7 @@ private:
     //juce::ADSR adsr;
     ADSRData adsr;
     OscData osc;
+    int detune;
     
     FilterData filter;
     ADSRData egADSR;

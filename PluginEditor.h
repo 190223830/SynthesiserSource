@@ -20,7 +20,7 @@ public:
     
 
 private:
-    void setVisualiser();
+    //void setVisualiser();
     // This reference is provided as a quick way for your editor to access the processor object that created it
     SynthOneAudioProcessor& audioProcessor;
 
@@ -33,6 +33,8 @@ private:
 
     //juce::Slider gainSlider;
     GenericSlider gainSlider0, gainSlider1, gainSlider2, gainSlider3;
+    GenericSlider detuneSlider0, detuneSlider1, detuneSlider2, detuneSlider3;
+    GenericSlider voiceSlider, unisonSlider;
     //juce::ComboBox waveSelect;
 
     //std::unique_ptr<juce::AudioProcessorValueTreeState::SliderAttachment> gainAttachment;

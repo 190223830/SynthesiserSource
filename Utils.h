@@ -25,7 +25,6 @@ public:
 
 private:
     juce::String thisName{""};
-
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(Utils)
 };
 
@@ -53,4 +52,16 @@ public:
         setBufferSize(128);
         setSamplesPerBlock(16);
     };
+};
+
+class SynthesiserPlusAddons : public juce::Synthesiser {
+public:
+    void noteOn(const int midiChannel,
+        const int midiNoteNumber,
+        const float velocity) override;
+
+    void setUnisonNo(const int unisonId);
+
+private:
+    int unisonNo = 1;
 };

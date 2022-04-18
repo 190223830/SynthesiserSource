@@ -52,3 +52,33 @@ void Utils::paint(juce::Graphics& g)
 void Utils::resized()
 {
 }
+
+
+
+void SynthesiserPlusAddons::noteOn(const int midiChannel,
+    const int midiNoteNumber,
+    const float velocity)
+{
+    //const ScopedLock sl(lock);
+
+    for (auto* sound : sounds)
+    {
+        if (sound->appliesToNote(midiNoteNumber) && sound->appliesToChannel(midiChannel))
+        {
+            // If hitting a note that's still ringing, stop it first (it could be
+            // still playing because of the sustain or sostenuto pedal).
+            for (auto* voice : voices)
+                if (voice->getCurrentlyPlayingNote() == midiNoteNumber && voice->isPlayingChannel(midiChannel))
+                    stopVoice(voice, 1.0f, true);
+            for (int i = 0; i < unisonNo; i++) {
+                startVoice(findFreeVoice(sound, midiChannel, midiNoteNumber, true),
+                    sound, midiChannel, midiNoteNumber, velocity);
+            }
+        }
+    }
+}
+
+void SynthesiserPlusAddons::setUnisonNo(const int unisonId)
+{
+    unisonNo = unisonId;
+}

@@ -139,6 +139,9 @@ void SynthOneAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer, juc
     for (auto i = totalNumInputChannels; i < totalNumOutputChannels; ++i)
         buffer.clear (i, 0, buffer.getNumSamples());
 
+    userSetVoices = *valueTreeState.getRawParameterValue("VOICES");
+    if (userSetVoices != synth.getNumVoices()) voiceChange();
+
     for (int i = 0; i < synth.getNumVoices(); i++) {                                //TODO:Make different for each voice, and set each osc to its own voice.
         if (auto voice = dynamic_cast<SynthVoice*>(synth.getVoice(i))) {
             juce::String oscNumStr = std::to_string((i + 1) % 4);
@@ -148,10 +151,16 @@ void SynthOneAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer, juc
             float sustain = *valueTreeState.getRawParameterValue("SUSTAIN" + oscNumStr);
             float release = *valueTreeState.getRawParameterValue("RELEASE" + oscNumStr);
             float gain = *valueTreeState.getRawParameterValue("GAIN" + oscNumStr);
+            int detune = *valueTreeState.getRawParameterValue("DETUNE" + oscNumStr);
 
             voice->getOsc().setWaveType(waveType);
             voice->update(attack, decay, sustain, release);
             voice->updateGain(gain);
+            voice->updateDetune(detune);
+            
+            auto& unisonNo = *valueTreeState.getRawParameterValue("UNISON");
+            synth.setUnisonNo(unisonNo);
+
             
 
             //LFO/FM MODS
@@ -234,6 +243,7 @@ juce::AudioProcessorValueTreeState::ParameterLayout SynthOneAudioProcessor::crea
         params.push_back(std::make_unique<juce::AudioParameterFloat>("RELEASE" + str, "Release", juce::NormalisableRange<float>{0.004f, 5.00f, 0.01f}, 0.00f));
         params.push_back(std::make_unique<juce::AudioParameterFloat>("GAIN" + str, "Gain", juce::NormalisableRange<float>{0.001f, 1.00f, 0.01f}, 0.50f));
         params.push_back(std::make_unique<juce::AudioParameterChoice>("WAVE" + str, "Wave Type", juce::StringArray{ "Sine", "Saw", "Square" }, 0));
+        params.push_back(std::make_unique<juce::AudioParameterInt>("DETUNE" + str, "Detune", 0, 100, 0));
     }
 
     //params.push_back(std::make_unique<juce::AudioParameterFloat>("MODONEFREQ", "Modulator 1 Frequency", juce::NormalisableRange<float>{0.0f, 1000.0f, 0.1f, 0.2f}, 0.0f));
@@ -263,5 +273,19 @@ juce::AudioProcessorValueTreeState::ParameterLayout SynthOneAudioProcessor::crea
     params.push_back(std::make_unique<juce::AudioParameterFloat>("LFO2INT", "LFO Intensity", juce::NormalisableRange<float>{0.0f, 1000.0f, 1.0f, 0.3f}, 0.0f));
     params.push_back(std::make_unique<juce::AudioParameterChoice>("LFO2WAVE", "LFO Wave Type", juce::StringArray{ "Sine", "Saw", "Square" }, 0));
 
+    params.push_back(std::make_unique<juce::AudioParameterInt>("UNISON", "Poly/Unison", 1, 4, 1));
+    params.push_back(std::make_unique<juce::AudioParameterInt>("VOICES", "Voices", 1, 64, 20));
+
     return { params.begin(), params.end() };
+}
+
+void SynthOneAudioProcessor::voiceChange() {
+    while (userSetVoices != synth.getNumVoices()) {
+        if (userSetVoices > synth.getNumVoices()) {
+            synth.addVoice(new SynthVoice);
+        }
+        else {
+            synth.removeVoice(synth.getNumVoices());
+        }
+    }
 }

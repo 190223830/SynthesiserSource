@@ -46,9 +46,11 @@ public:
     Visualiser visualiser;
 
 private:
-    juce::Synthesiser synth;
+    SynthesiserPlusAddons synth;
     //FilterData filter;
     juce::AudioProcessorValueTreeState::ParameterLayout createParams();
+
+    void voiceChange();
 
     int userSetVoices = 20;
     

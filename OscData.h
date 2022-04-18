@@ -16,7 +16,7 @@ public:
     void OscData::setWaveType(const int waveType);
     void prepareToPlay(juce::dsp::ProcessSpec& spec);
     void processBlock(juce::dsp::AudioBlock<float>& block);
-    void OscData::setFreq(const int midiNoteNumber);
+    void OscData::setFreq(const int midiNoteNumber, const int detune);
 
     void setModParams(const float intensity, const float freq, const int waveType);
 

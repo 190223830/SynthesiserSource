@@ -44,9 +44,10 @@ void OscData::processBlock(juce::dsp::AudioBlock<float>& block) {
     process(juce::dsp::ProcessContextReplacing<float>(block));
 }
 
-void OscData::setFreq(const int midiNoteNumber) {
-    setFrequency(juce::MidiMessage::getMidiNoteInHertz(midiNoteNumber) + modOne);
-    midiNote = midiNoteNumber;
+void OscData::setFreq(const int midiNoteNumber, const int detune) {
+    midiNote = midiNoteNumber + (detune/100); //hundred cents in a note
+    setFrequency(juce::MidiMessage::getMidiNoteInHertz(midiNote) + modOne);
+    
 }
 
 void OscData:: setModParams(const float freq, const float intensity, const int waveType) {
