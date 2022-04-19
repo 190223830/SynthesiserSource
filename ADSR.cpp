@@ -44,14 +44,10 @@ void ADSR::paint (juce::Graphics& g)
 
 void ADSR::resized()
 {
-    const auto adsrPadding = 0;
-    const auto adsrSliderX = 0;
-    const auto adsrSliderY = 0;
-    const auto sliderWidth = 60, sliderHeight = getHeight();
 
-    attackSlider.setBounds(adsrSliderX, adsrSliderY, sliderWidth, getHeight());
-    decaySlider.setBounds(attackSlider.getRight() + adsrPadding, adsrSliderY, sliderWidth, sliderHeight);
-    sustainSlider.setBounds(decaySlider.getRight() + adsrPadding, adsrSliderY, sliderWidth, sliderHeight);
-    releaseSlider.setBounds(sustainSlider.getRight() + adsrPadding, adsrSliderY, sliderWidth, sliderHeight);
+    attackSlider.setBounds(0, 0, 75, 100);
+    decaySlider.setBounds(attackSlider.getRight(), 0, 75, 100);
+    sustainSlider.setBounds(decaySlider.getRight(), 0, 75, 100);
+    releaseSlider.setBounds(sustainSlider.getRight(), 0, 75, 100);
 
 }

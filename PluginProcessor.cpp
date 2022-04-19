@@ -134,6 +134,7 @@ void SynthOneAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer, juc
     juce::ScopedNoDenormals noDenormals;
     auto totalNumInputChannels  = getTotalNumInputChannels();
     auto totalNumOutputChannels = getTotalNumOutputChannels();
+    keyboardState.processNextMidiBuffer(midiMessages, 0, buffer.getNumSamples(), true);
 
     for (auto i = totalNumInputChannels; i < totalNumOutputChannels; ++i)
         buffer.clear (i, 0, buffer.getNumSamples());
@@ -267,7 +268,7 @@ juce::AudioProcessorValueTreeState::ParameterLayout SynthOneAudioProcessor::crea
     params.push_back(std::make_unique<juce::AudioParameterFloat>("EGDECAY", "EG Decay", juce::NormalisableRange<float>{0.003f, 5.00f, 0.01f}, 0.50f));
     params.push_back(std::make_unique<juce::AudioParameterFloat>("EGSUSTAIN", "EG Sustain", juce::NormalisableRange<float>{0.004f, 1.00f, 0.01f}, 1.00f));
     params.push_back(std::make_unique<juce::AudioParameterFloat>("EGRELEASE", "EG Release", juce::NormalisableRange<float>{0.004f, 5.00f, 0.01f}, 0.00f));
-    params.push_back(std::make_unique<juce::AudioParameterFloat>("EGINT", "EG Intensity", juce::NormalisableRange<float>{-10.0f, 100.0f, 0.1f, 0.3f}, 0.00f));
+    params.push_back(std::make_unique<juce::AudioParameterFloat>("EGINT", "EG Intensity", juce::NormalisableRange<float>{-1.0f, 100.0f, 0.1f, 0.3f}, 0.00f));
 
     params.push_back(std::make_unique<juce::AudioParameterFloat>("LFO1RATE", "LFO Rate", juce::NormalisableRange<float>{0.0f, 20.0f, 0.1f, 0.2f}, 0.0f));
     params.push_back(std::make_unique<juce::AudioParameterFloat>("LFO1INT", "LFO Intensity", juce::NormalisableRange<float>{0.0f, 1000.0f, 1.0f, 0.3f}, 0.0f));

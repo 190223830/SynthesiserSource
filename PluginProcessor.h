@@ -44,6 +44,7 @@ public:
 
     //Visualiser getVisualiser();
     Visualiser visualiser;
+    juce::MidiKeyboardState keyboardState;
 
 private:
     SynthesiserPlusAddons synth;

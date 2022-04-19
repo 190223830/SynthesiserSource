@@ -37,6 +37,8 @@ private:
     GenericSlider courseTuneSlider0, courseTuneSlider1, courseTuneSlider2, courseTuneSlider3;
     GenericSlider panSlider0, panSlider1, panSlider2, panSlider3;
     GenericSlider voiceSlider, unisonSlider;
+
+    juce::MidiKeyboardComponent keyboard;
     //juce::ComboBox waveSelect;
 
     //std::unique_ptr<juce::AudioProcessorValueTreeState::SliderAttachment> gainAttachment;
