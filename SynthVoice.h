@@ -37,6 +37,7 @@ public:
     void setPanValue(const float pan);
 
 private:
+    juce::dsp::ProcessSpec spec;
     //juce::ADSR adsr;
     ADSRData adsr;
     OscData osc;

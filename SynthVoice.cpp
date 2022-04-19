@@ -49,7 +49,7 @@ void SynthVoice::renderNextBlock(juce::AudioBuffer<float>& outputBuffer, int sta
     osc.processBlock(audioBlock);
     gain.process(juce::dsp::ProcessContextReplacing<float>(audioBlock));
     filter.prepare(oscBuffer);
-    
+    panner.process(juce::dsp::ProcessContextReplacing<float>(audioBlock));
 
     //adsr.applyEnvelopeToBuffer(outputBuffer, startSample, numSamples);
     adsr.applyEnvelopeToBuffer(oscBuffer, 0, oscBuffer.getNumSamples());
@@ -57,6 +57,7 @@ void SynthVoice::renderNextBlock(juce::AudioBuffer<float>& outputBuffer, int sta
 
     for (int channel = 0; channel < outputBuffer.getNumChannels(); channel++) {
         outputBuffer.addFrom(channel, startSample, oscBuffer, channel, 0, numSamples);
+        
         if (!adsr.isActive()) {
             clearCurrentNote(); //if envelope is finished, no need to output
         };
@@ -87,7 +88,6 @@ void SynthVoice::pitchWheelMoved(int newPitchWheelValue) {
 
 void SynthVoice::prepareToPlay(double sampleRate, int samplesPerBlock, int outputChannels) {
 
-    juce::dsp::ProcessSpec spec;
     spec.maximumBlockSize = samplesPerBlock;
     spec.sampleRate = sampleRate;
     spec.numChannels = outputChannels;
@@ -97,6 +97,8 @@ void SynthVoice::prepareToPlay(double sampleRate, int samplesPerBlock, int outpu
     filter.prepareToPlay(sampleRate, samplesPerBlock, outputChannels);
     gain.prepare(spec);
     egADSR.setSampleRate(sampleRate);
+    panner.prepare(spec);
+    
     //lfo.prepare(spec);
     //lfo.initialise([](float x) { return std::sin(x); });
 
