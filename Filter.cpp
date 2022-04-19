@@ -42,8 +42,8 @@ void Filter::paint (juce::Graphics& g)
 
 void Filter::resized()
 {
-    filterType.setBounds(getWidth()/3, 35, getWidth()/6, 40);
-    filterCutoffSlider.setBounds(getWidth()/2, 0, getWidth()/4, getHeight()/2);
-    filterResonanceSlider.setBounds(filterCutoffSlider.getRight(), 0, getWidth()/4, getHeight() / 2);
-    modIntensitySlider.setBounds(0, getHeight()/2, getWidth()/5, getHeight()/2);
+    filterType.setBounds(0, 35, 75, 40);
+    filterCutoffSlider.setBounds(filterType.getRight(), 0, 75, 100);
+    filterResonanceSlider.setBounds(filterCutoffSlider.getRight(), 0, 75, 100);
+    modIntensitySlider.setBounds(0, 100, 75, 100);
 }

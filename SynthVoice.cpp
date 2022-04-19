@@ -87,6 +87,7 @@ void SynthVoice::pitchWheelMoved(int newPitchWheelValue) {
 };
 
 void SynthVoice::prepareToPlay(double sampleRate, int samplesPerBlock, int outputChannels) {
+    juce::dsp::ProcessSpec spec;
 
     spec.maximumBlockSize = samplesPerBlock;
     spec.sampleRate = sampleRate;

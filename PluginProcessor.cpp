@@ -142,7 +142,7 @@ void SynthOneAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer, juc
     //userSetVoices = *valueTreeState.getRawParameterValue("VOICES");
     //if (userSetVoices != synth.getNumVoices()) voiceChange();
 
-    for (int i = 0; i < synth.getNumVoices(); i++) {                                //TODO:Make different for each voice, and set each osc to its own voice.
+    for (int i = 0; i < synth.getNumVoices(); i++) { 
         if (auto voice = dynamic_cast<SynthVoice*>(synth.getVoice(i))) {
             juce::String oscNumStr = std::to_string((i + 1) % 4);
             int waveType = *valueTreeState.getRawParameterValue("WAVE" + oscNumStr);
@@ -248,7 +248,7 @@ juce::AudioProcessorValueTreeState::ParameterLayout SynthOneAudioProcessor::crea
         params.push_back(std::make_unique<juce::AudioParameterChoice>("WAVE" + str, "Wave Type", juce::StringArray{ "Sine", "Saw", "Square" }, 0));
         params.push_back(std::make_unique<juce::AudioParameterInt>("DETUNE" + str, "Detune", -100, 100, 0));
         params.push_back(std::make_unique<juce::AudioParameterInt>("COURSETUNE" + str, "Course Tune", -100, 100, 0));
-        params.push_back(std::make_unique<juce::AudioParameterFloat>("PAN" + str, "Pan", -1.0, 1.0, 0));
+        params.push_back(std::make_unique<juce::AudioParameterFloat>("PAN" + str, "Pan", -1.0f, 1.0f, 0.0f));
     }
 
     //params.push_back(std::make_unique<juce::AudioParameterFloat>("MODONEFREQ", "Modulator 1 Frequency", juce::NormalisableRange<float>{0.0f, 1000.0f, 0.1f, 0.2f}, 0.0f));

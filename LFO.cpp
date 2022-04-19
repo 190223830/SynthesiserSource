@@ -29,9 +29,19 @@ LFO::~LFO()
 {
 }
 
+void LFO::paint(juce::Graphics& g)
+{
+
+
+    //g.fillAll (getLookAndFeel().findColour (juce::ResizableWindow::backgroundColourId));   // clear the background
+
+    //g.setColour (juce::Colours::grey);
+    //g.drawRect (getLocalBounds(), 1);   // draw an outline around the component
+}
+
 void LFO::resized()
 {
-    lfoWaveSelect.setBounds(0, 0, 100, 50);
-    lfoRate.setBounds(getWidth()/2, 0, 100, getHeight());
-    lfoInt.setBounds(getWidth() /2 + 100, 0, 100, getHeight());
+    lfoWaveSelect.setBounds(0, 35, 75, 40);
+    lfoRate.setBounds(lfoWaveSelect.getRight(), 0, 75, 100);
+    lfoInt.setBounds(lfoRate.getRight(), 0, 75, 100);
 }

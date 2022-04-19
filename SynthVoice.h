@@ -37,11 +37,11 @@ public:
     void setPanValue(const float pan);
 
 private:
-    juce::dsp::ProcessSpec spec;
+    
     //juce::ADSR adsr;
     ADSRData adsr;
     OscData osc;
-    int detune, courseTune;
+    int detune{ 0 }, courseTune{ 0 };
     juce::dsp::Panner<float> panner;
     
     FilterData filter;

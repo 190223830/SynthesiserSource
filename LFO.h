@@ -19,6 +19,7 @@ class LFO : public Utils
 public:
     LFO(juce::AudioProcessorValueTreeState& apvts, juce::String lfoRateId, juce::String lfoIntId, juce::String lfoWaveId);
     ~LFO() override;
+    void paint(juce::Graphics& g) override;
     void resized() override;
 
 private:

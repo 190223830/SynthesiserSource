@@ -36,7 +36,7 @@ SynthOneAudioProcessorEditor::SynthOneAudioProcessorEditor(SynthOneAudioProcesso
     keyboard(p.keyboardState, juce::MidiKeyboardComponent::Orientation::horizontalKeyboard)
 {
     //set the editor's size
-    setSize(800, 900);
+    setSize(800, 875);
 
     addAndMakeVisible(gainSlider0);
     addAndMakeVisible(gainSlider1);
@@ -118,13 +118,13 @@ void SynthOneAudioProcessorEditor::resized()
     panSlider2.setBounds(courseTuneSlider2.getRight(), 120, 75, 100);
     panSlider3.setBounds(courseTuneSlider3.getRight(), 220, 75, 100);
 
-    //filter.setBounds(getWidth() / 2, getHeight() / 2, getWidth() / 2, getHeight() / 4 + 80);
-    //egAdsr.setBounds(getWidth() /2 + 80, filter.getY()+100, getWidth() /2 -80, (getHeight() / 8 + 80));
-    //lfo1.setBounds(getWidth()/2, 700, getWidth()/2, 100);
-    //lfo2.setBounds(getWidth() / 2, 800, getWidth() / 2, 100);
-    audioProcessor.visualiser.setBounds(25, getHeight() - 100, getWidth() / 2 - 50, 80);
-    //voiceSlider.setBounds(unisonSlider.getRight(), getHeight() - 200, 90, 100);
-    unisonSlider.setBounds(25, getHeight() - 200, 90, 100);
+    filter.setBounds(425, 420, getWidth() / 2, 200);
+    egAdsr.setBounds(500, 520, getWidth() /2 -75, 100);
+    lfo1.setBounds(425, 620, getWidth()/2-150, 100);
+    lfo2.setBounds(425, 720, getWidth()/2-150, 100);
+    audioProcessor.visualiser.setBounds(25, 720, getWidth() / 2 - 50, 80);
+    //voiceSlider.setBounds(getWidth()-75, 620, 60, 100);
+    unisonSlider.setBounds(getWidth()-75, 720, 75, 100);
 
     keyboard.setBounds(0, getHeight() - 50, getWidth(), 50);
 
