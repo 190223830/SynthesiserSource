@@ -44,9 +44,11 @@ void OscData::processBlock(juce::dsp::AudioBlock<float>& block) {
     process(juce::dsp::ProcessContextReplacing<float>(block));
 }
 
-void OscData::setFreq(const int midiNoteNumber, const int detune) {
-    midiNote = midiNoteNumber + (detune/100); //hundred cents in a note
-    setFrequency(juce::MidiMessage::getMidiNoteInHertz(midiNote) + modOne);
+void OscData::setFreq(const int midiNoteNumber, const int detuneValue, const int courseTuneValue) {
+    midiNote = midiNoteNumber + courseTuneValue;
+    //detuneValue == 0 ? detuneInHertz = 0 : detuneInHertz = pow(10, ((1200 / detuneValue * log(2)) + log(juce::MidiMessage::getMidiNoteInHertz(midiNote))));
+    detuneInHertz = detuneValue * ((juce::MidiMessage::getMidiNoteInHertz(midiNote) - juce::MidiMessage::getMidiNoteInHertz(midiNote - 1)) / 100);
+    setFrequency(juce::MidiMessage::getMidiNoteInHertz(midiNote) + detuneInHertz + modOne);
     
 }
 
@@ -70,6 +72,6 @@ void OscData:: setModParams(const float freq, const float intensity, const int w
 
     modOneOsc.setFrequency(freq);
     modOneInt = intensity;
-    auto currentFreq(juce::MidiMessage::getMidiNoteInHertz(midiNote) + modOne);
+    auto currentFreq(juce::MidiMessage::getMidiNoteInHertz(midiNote) + detuneInHertz + modOne);
     setFrequency(currentFreq >= 0 ? currentFreq : currentFreq * -1.0f);
 }

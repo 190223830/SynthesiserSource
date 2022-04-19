@@ -29,17 +29,19 @@ public:
     void prepareToPlay(double sampleRate, int samplesPerBlock, int outputChannels);
     void update(const float attack, const float decay, const float sustain, const float release);
     void updateGain(const float gainValue);
-    void updateDetune(const int detuneValue);
+    void updateDetune(const int detuneValue, const int courseTuneValue);
     OscData& getOsc();
     //LFOData& getLFO() { return lfo; };
     void updateFilter(const int filterType, const float filterCutoff, const float filterResonance, const float intensity);
     void updateEGADSR(const float attack, const float decay, const float sustain, const float release);
+    void setPanValue(const float pan);
 
 private:
     //juce::ADSR adsr;
     ADSRData adsr;
     OscData osc;
-    int detune;
+    int detune, courseTune;
+    juce::dsp::Panner<float> panner;
     
     FilterData filter;
     ADSRData egADSR;

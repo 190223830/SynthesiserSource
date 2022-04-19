@@ -23,7 +23,15 @@ SynthOneAudioProcessorEditor::SynthOneAudioProcessorEditor (SynthOneAudioProcess
     detuneSlider1("Detune", "DETUNE1", audioProcessor.valueTreeState, juce::Slider::SliderStyle::RotaryHorizontalVerticalDrag),
     detuneSlider2("Detune", "DETUNE2", audioProcessor.valueTreeState, juce::Slider::SliderStyle::RotaryHorizontalVerticalDrag),
     detuneSlider3("Detune", "DETUNE3", audioProcessor.valueTreeState, juce::Slider::SliderStyle::RotaryHorizontalVerticalDrag),
-    voiceSlider("Voices", "VOICES", audioProcessor.valueTreeState, juce::Slider::SliderStyle::RotaryHorizontalVerticalDrag),
+    courseTuneSlider0("Course Tune", "COURSETUNE0", audioProcessor.valueTreeState, juce::Slider::SliderStyle::RotaryHorizontalVerticalDrag),
+    courseTuneSlider1("Course Tune", "COURSETUNE1", audioProcessor.valueTreeState, juce::Slider::SliderStyle::RotaryHorizontalVerticalDrag),
+    courseTuneSlider2("Course Tune", "COURSETUNE2", audioProcessor.valueTreeState, juce::Slider::SliderStyle::RotaryHorizontalVerticalDrag),
+    courseTuneSlider3("Course Tune", "COURSETUNE3", audioProcessor.valueTreeState, juce::Slider::SliderStyle::RotaryHorizontalVerticalDrag),
+    panSlider0("Pan", "PAN0", audioProcessor.valueTreeState, juce::Slider::SliderStyle::RotaryHorizontalVerticalDrag),
+    panSlider1("Pan", "PAN1", audioProcessor.valueTreeState, juce::Slider::SliderStyle::RotaryHorizontalVerticalDrag),
+    panSlider2("Pan", "PAN2", audioProcessor.valueTreeState, juce::Slider::SliderStyle::RotaryHorizontalVerticalDrag),
+    panSlider3("Pan", "PAN3", audioProcessor.valueTreeState, juce::Slider::SliderStyle::RotaryHorizontalVerticalDrag),
+    voiceSlider("Voices", "VOICES", audioProcessor.valueTreeState, juce::Slider::SliderStyle::RotaryHorizontalVerticalDrag),        //removed
     unisonSlider("Poly/Unison", "UNISON", audioProcessor.valueTreeState, juce::Slider::SliderStyle::RotaryHorizontalVerticalDrag)
 {
     //set the editor's size
@@ -37,6 +45,14 @@ SynthOneAudioProcessorEditor::SynthOneAudioProcessorEditor (SynthOneAudioProcess
     addAndMakeVisible(detuneSlider1);
     addAndMakeVisible(detuneSlider2);
     addAndMakeVisible(detuneSlider3);
+    addAndMakeVisible(courseTuneSlider0);
+    addAndMakeVisible(courseTuneSlider1);
+    addAndMakeVisible(courseTuneSlider2);
+    addAndMakeVisible(courseTuneSlider3);
+    addAndMakeVisible(panSlider0);
+    addAndMakeVisible(panSlider1);
+    addAndMakeVisible(panSlider2);
+    addAndMakeVisible(panSlider3);
 
     //addAndMakeVisible(voiceSlider);
     addAndMakeVisible(unisonSlider);
@@ -75,22 +91,30 @@ void SynthOneAudioProcessorEditor::paint (juce::Graphics& g)
 
 void SynthOneAudioProcessorEditor::resized()
 {
-    adsr0.setBounds(getWidth() / 2 + 80, 300, getWidth() / 2 - 80, 100);
-    adsr1.setBounds(getWidth() / 2 + 80, 0, getWidth() / 2 - 80, 100);
-    adsr2.setBounds(getWidth() / 2 + 80, 100, getWidth() / 2 - 80, 100);
-    adsr3.setBounds(getWidth() / 2 + 80, 200, getWidth() / 2 - 80, 100);
+    adsr0.setBounds(getWidth() / 2 + 80, 300, getWidth() / 2 - 150, 100);
+    adsr1.setBounds(getWidth() / 2 + 80, 0, getWidth() / 2 - 150, 100);
+    adsr2.setBounds(getWidth() / 2 + 80, 100, getWidth() / 2 - 150, 100);
+    adsr3.setBounds(getWidth() / 2 + 80, 200, getWidth() / 2 - 150, 100);
     osc0.setBounds(0, 300, getWidth() / 2 - 120, 100);
     osc1.setBounds(0, 0, getWidth() / 2 - 120, 100);
     osc2.setBounds(0, 100, getWidth() / 2 - 120, 100);
     osc3.setBounds(0, 200, getWidth() / 2 - 120, 100);
-    gainSlider0.setBounds(osc0.getRight(), 300, 90, 100);
-    gainSlider1.setBounds(osc1.getRight(), 0, 90, 100);
-    gainSlider2.setBounds(osc2.getRight(), 100, 90, 100);
-    gainSlider3.setBounds(osc3.getRight(), 200, 90, 100);
-    detuneSlider0.setBounds(gainSlider0.getRight(), 300, 90, 100);
-    detuneSlider1.setBounds(gainSlider1.getRight(), 0, 90, 100);
-    detuneSlider2.setBounds(gainSlider2.getRight(), 100, 90, 100);
-    detuneSlider3.setBounds(gainSlider3.getRight(), 200, 90, 100);
+    gainSlider0.setBounds(osc0.getRight(), 300, 60, 100);
+    gainSlider1.setBounds(osc1.getRight(), 0, 60, 100);
+    gainSlider2.setBounds(osc2.getRight(), 100, 60, 100);
+    gainSlider3.setBounds(osc3.getRight(), 200, 60, 100);
+    detuneSlider0.setBounds(gainSlider0.getRight(), 300, 60, 100);
+    detuneSlider1.setBounds(gainSlider1.getRight(), 0, 60, 100);
+    detuneSlider2.setBounds(gainSlider2.getRight(), 100, 60, 100);
+    detuneSlider3.setBounds(gainSlider3.getRight(), 200, 60, 100);
+    courseTuneSlider0.setBounds(detuneSlider0.getRight(), 300, 60, 100);
+    courseTuneSlider1.setBounds(detuneSlider1.getRight(), 0, 60, 100);
+    courseTuneSlider2.setBounds(detuneSlider2.getRight(), 100, 60, 100);
+    courseTuneSlider3.setBounds(detuneSlider3.getRight(), 200, 60, 100);
+    panSlider0.setBounds(adsr0.getRight(), 300, 60, 100);
+    panSlider1.setBounds(adsr1.getRight(), 0, 60, 100);
+    panSlider2.setBounds(adsr2.getRight(), 100, 60, 100);
+    panSlider3.setBounds(adsr3.getRight(), 200, 60, 100);
 
     filter.setBounds(getWidth() / 2, getHeight() / 2, getWidth() / 2, getHeight() / 4 + 80);
     egAdsr.setBounds(getWidth() /2 + 80, filter.getY()+getHeight()/8 +40, getWidth() /2 -80, (getHeight() / 8 + 80));

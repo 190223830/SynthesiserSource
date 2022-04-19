@@ -34,6 +34,8 @@ private:
     //juce::Slider gainSlider;
     GenericSlider gainSlider0, gainSlider1, gainSlider2, gainSlider3;
     GenericSlider detuneSlider0, detuneSlider1, detuneSlider2, detuneSlider3;
+    GenericSlider courseTuneSlider0, courseTuneSlider1, courseTuneSlider2, courseTuneSlider3;
+    GenericSlider panSlider0, panSlider1, panSlider2, panSlider3;
     GenericSlider voiceSlider, unisonSlider;
     //juce::ComboBox waveSelect;
 
