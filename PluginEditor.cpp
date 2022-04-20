@@ -54,12 +54,8 @@ SynthOneAudioProcessorEditor::SynthOneAudioProcessorEditor(SynthOneAudioProcesso
     addAndMakeVisible(panSlider1);
     addAndMakeVisible(panSlider2);
     addAndMakeVisible(panSlider3);
-
     addAndMakeVisible(voiceSlider);
     addAndMakeVisible(unisonSlider);
-
-
-    //make adsr and osc visible
     addAndMakeVisible(adsr0);
     addAndMakeVisible(adsr1);
     addAndMakeVisible(adsr2);
@@ -72,8 +68,6 @@ SynthOneAudioProcessorEditor::SynthOneAudioProcessorEditor(SynthOneAudioProcesso
     addAndMakeVisible(egAdsr);
     addAndMakeVisible(lfo1);
     addAndMakeVisible(lfo2);
-
-    //setVisualiser();
     addAndMakeVisible(audioProcessor.visualiser);
     addAndMakeVisible(keyboard);
 
@@ -93,22 +87,22 @@ void SynthOneAudioProcessorEditor::paint(juce::Graphics& g)
 
 void SynthOneAudioProcessorEditor::resized()
 {
-    osc0.setBounds(0, 320, 200, 100);
-    osc1.setBounds(0, 20, 200, 100);
-    osc2.setBounds(0, 120, 200, 100);
-    osc3.setBounds(0, 220, 200, 100);
-    adsr0.setBounds(osc0.getRight(), 320, 300, 100);
-    adsr1.setBounds(osc1.getRight(), 20, 300, 100);
-    adsr2.setBounds(osc2.getRight(), 120, 300, 100);
-    adsr3.setBounds(osc3.getRight(), 220, 300, 100);
     gainSlider0.setBounds(adsr0.getRight(), 320, 75, 100);
     gainSlider1.setBounds(adsr1.getRight(), 20, 75, 100);
     gainSlider2.setBounds(adsr2.getRight(), 120, 75, 100);
     gainSlider3.setBounds(adsr3.getRight(), 220, 75, 100);
-    detuneSlider0.setBounds(gainSlider0.getRight(), 320, 75, 100);
-    detuneSlider1.setBounds(gainSlider1.getRight(), 20, 75, 100);
-    detuneSlider2.setBounds(gainSlider2.getRight(), 120, 75, 100);
-    detuneSlider3.setBounds(gainSlider3.getRight(), 220, 75, 100);
+    osc0.setBounds(gainSlider0.getRight(), 320, 200, 100);
+    osc1.setBounds(gainSlider1.getRight(), 20, 200, 100);
+    osc2.setBounds(gainSlider2.getRight(), 120, 200, 100);
+    osc3.setBounds(gainSlider3.getRight(), 220, 200, 100);
+    adsr0.setBounds(osc0.getRight(), 320, 300, 100);
+    adsr1.setBounds(osc1.getRight(), 20, 300, 100);
+    adsr2.setBounds(osc2.getRight(), 120, 300, 100);
+    adsr3.setBounds(osc3.getRight(), 220, 300, 100);
+    detuneSlider0.setBounds(adsr0.getRight(), 320, 75, 100);
+    detuneSlider1.setBounds(adsr1.getRight(), 20, 75, 100);
+    detuneSlider2.setBounds(adsr2.getRight(), 120, 75, 100);
+    detuneSlider3.setBounds(adsr3.getRight(), 220, 75, 100);
     courseTuneSlider0.setBounds(detuneSlider0.getRight(), 320, 75, 100);
     courseTuneSlider1.setBounds(detuneSlider1.getRight(), 20, 75, 100);
     courseTuneSlider2.setBounds(detuneSlider2.getRight(), 120, 75, 100);
@@ -125,7 +119,6 @@ void SynthOneAudioProcessorEditor::resized()
     audioProcessor.visualiser.setBounds(25, 720, getWidth() / 2 - 50, 80);
     voiceSlider.setBounds(getWidth()-75, 620, 75, 100);
     unisonSlider.setBounds(getWidth()-75, 720, 75, 100);
-
     keyboard.setBounds(0, getHeight() - 50, getWidth(), 50);
 
 };
