@@ -10,8 +10,9 @@
 
 #pragma once
 #include <JuceHeader.h>
+#include "Skin.h"
 
-static constexpr float fontSize{ 15.0f };
+static constexpr float fontSize{ 10.0f };
 
 class Utils : public juce::Component
 {
@@ -31,14 +32,16 @@ private:
 class GenericSlider : public juce::Component
 {
 public:
+    
     using SliderAttachment = juce::AudioProcessorValueTreeState::SliderAttachment;
     using SliderStyle = juce::Slider::SliderStyle;
 
     GenericSlider(juce::String labelName, juce::String parameter, juce::AudioProcessorValueTreeState& valueTreeState, SliderStyle style = SliderStyle::RotaryHorizontalVerticalDrag);
-
+    ~GenericSlider() override;
     void resized() override;
 
 private:
+    Skin skin;
     static constexpr int textBoxWidth{ 50 }, textBoxHeight{ 20 }, labelHeight{ 20 };
     int sliderWidth{ 70 }, sliderHeight{ 70 };
     juce::Slider slider;

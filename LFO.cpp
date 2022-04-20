@@ -41,7 +41,7 @@ void LFO::paint(juce::Graphics& g)
 
 void LFO::resized()
 {
-    lfoWaveSelect.setBounds(0, 35, 75, 40);
-    lfoRate.setBounds(lfoWaveSelect.getRight(), 0, 75, 100);
-    lfoInt.setBounds(lfoRate.getRight(), 0, 75, 100);
+    lfoWaveSelect.setBounds(0, 35, 70, 40);
+    lfoRate.setBounds(lfoWaveSelect.getRight(), 0, 70, 75);
+    lfoInt.setBounds(lfoRate.getRight(), 0, 70, 75);
 }

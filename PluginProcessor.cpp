@@ -272,8 +272,8 @@ juce::AudioProcessorValueTreeState::ParameterLayout SynthOneAudioProcessor::crea
     //
 
     params.push_back(std::make_unique<juce::AudioParameterChoice>("FILTERTYPE", "Filter Type", juce::StringArray{ "LPF", "BPF", "HPF" }, 0));
-    params.push_back(std::make_unique<juce::AudioParameterFloat>("CUTOFF", "Filter Cutoff Frequency", juce::NormalisableRange<float>{20.0f, 20000.0f, 0.0f, 0.3f}, 20000.0f));
-    params.push_back(std::make_unique<juce::AudioParameterFloat>("RESONANCE", "Filter Resonance", juce::NormalisableRange<float>{0.1f, 10.0f, 0.0f, 0.2f}, 0.0f));
+    params.push_back(std::make_unique<juce::AudioParameterFloat>("CUTOFF", "Filter Cutoff Frequency", juce::NormalisableRange<float>{20.f, 20000.f, 1.f, 0.3f}, 20000.f));
+    params.push_back(std::make_unique<juce::AudioParameterFloat>("RESONANCE", "Filter Resonance", juce::NormalisableRange<float>{0.1f, 10.f, 0.f, 0.2f}, 0.1f));
 
     params.push_back(std::make_unique<juce::AudioParameterFloat>("EGATTACK", "EG Attack", juce::NormalisableRange<float>{0.001f, 5.00f, 0.01f}, 0.050f));
     params.push_back(std::make_unique<juce::AudioParameterFloat>("EGDECAY", "EG Decay", juce::NormalisableRange<float>{0.003f, 5.00f, 0.01f}, 0.50f));
@@ -290,7 +290,7 @@ juce::AudioProcessorValueTreeState::ParameterLayout SynthOneAudioProcessor::crea
     params.push_back(std::make_unique<juce::AudioParameterChoice>("LFO2WAVE", "LFO Wave Type", juce::StringArray{ "Sine", "Saw", "Square" }, 0));
 
     params.push_back(std::make_unique<juce::AudioParameterInt>("UNISON", "Poly/Unison", 1, 4, 1));
-    params.push_back(std::make_unique<juce::AudioParameterInt>("VOICES", "Voices", 1, 64, 20));
+    params.push_back(std::make_unique<juce::AudioParameterInt>("VOICES", "Voices", 1, 20, 8));
 
     return { params.begin(), params.end() };
 }

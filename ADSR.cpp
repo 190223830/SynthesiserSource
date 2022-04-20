@@ -45,9 +45,9 @@ void ADSR::paint (juce::Graphics& g)
 void ADSR::resized()
 {
 
-    attackSlider.setBounds(0, 0, 75, 100);
-    decaySlider.setBounds(attackSlider.getRight(), 0, 75, 100);
-    sustainSlider.setBounds(decaySlider.getRight(), 0, 75, 100);
-    releaseSlider.setBounds(sustainSlider.getRight(), 0, 75, 100);
+    attackSlider.setBounds(0, 0, 70, 75);
+    decaySlider.setBounds(attackSlider.getRight(), 0, 70, 75);
+    sustainSlider.setBounds(decaySlider.getRight(), 0, 70, 75);
+    releaseSlider.setBounds(sustainSlider.getRight(), 0, 70, 75);
 
 }

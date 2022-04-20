@@ -12,11 +12,13 @@
 #include "Utils.h"
 
 
+
 using SliderAttachment = juce::AudioProcessorValueTreeState::SliderAttachment;
 using SliderStyle = juce::Slider::SliderStyle;
 
 GenericSlider::GenericSlider(juce::String labelName, juce::String parameter, juce::AudioProcessorValueTreeState& valueTreeState, SliderStyle style)
 {
+    juce::LookAndFeel::setDefaultLookAndFeel(&skin);
     slider.setSliderStyle(style);
     slider.setTextBoxStyle(juce::Slider::TextBoxAbove, false, textBoxWidth, textBoxHeight);
     addAndMakeVisible(slider);
@@ -28,11 +30,13 @@ GenericSlider::GenericSlider(juce::String labelName, juce::String parameter, juc
 
     attachment = std::make_unique<SliderAttachment>(valueTreeState, parameter, slider);
 }
+GenericSlider::~GenericSlider() { juce::LookAndFeel::setDefaultLookAndFeel(nullptr); }
+
 
 void GenericSlider::resized()
 {
     slider.setBounds(0, 0, sliderWidth, sliderHeight);
-    label.setBounds(0, sliderHeight, sliderWidth, labelHeight);   
+    label.setBounds(0, sliderHeight-10, sliderWidth, labelHeight);   
 }
 
 
