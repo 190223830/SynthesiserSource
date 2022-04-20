@@ -16,9 +16,7 @@ SynthOneAudioProcessor::SynthOneAudioProcessor()
 #endif
 {
     synth.addSound(new SynthSound());
-    for (int i = 0; i < userSetVoices; i++) {
-        synth.addVoice(new SynthVoice());
-    }
+    for (int i = 0; i < userSetVoices; i++) synth.addVoice(new SynthVoice());
 }
 
 SynthOneAudioProcessor::~SynthOneAudioProcessor()
@@ -136,11 +134,25 @@ void SynthOneAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer, juc
     auto totalNumOutputChannels = getTotalNumOutputChannels();
     keyboardState.processNextMidiBuffer(midiMessages, 0, buffer.getNumSamples(), true);
 
+    
     for (auto i = totalNumInputChannels; i < totalNumOutputChannels; ++i)
         buffer.clear (i, 0, buffer.getNumSamples());
 
-    //userSetVoices = *valueTreeState.getRawParameterValue("VOICES");
-    //if (userSetVoices != synth.getNumVoices()) voiceChange();
+    auto& unisonNo = *valueTreeState.getRawParameterValue("UNISON");
+    synth.setUnisonNo(unisonNo);
+
+    userSetVoices = *valueTreeState.getRawParameterValue("VOICES");
+    if (userSetVoices*unisonNo != synth.getNumVoices())
+    {
+        int voiceD = userSetVoices - synth.getNumVoices();
+        if (voiceD > 0) {
+            for (int i = 0; i < voiceD; i++) synth.addVoice(new SynthVoice);
+            prepareToPlay(synth.getSampleRate(), buffer.getNumSamples());
+        }
+        else {
+            synth.removeVoices(-voiceD);
+        }
+    }
 
     for (int i = 0; i < synth.getNumVoices(); i++) { 
         if (auto voice = dynamic_cast<SynthVoice*>(synth.getVoice(i))) {
@@ -161,8 +173,7 @@ void SynthOneAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer, juc
             voice->updateDetune(detune, courseTune);
             voice->setPanValue(pan);
             
-            auto& unisonNo = *valueTreeState.getRawParameterValue("UNISON");
-            synth.setUnisonNo(unisonNo);
+            
 
             
 
@@ -282,15 +293,4 @@ juce::AudioProcessorValueTreeState::ParameterLayout SynthOneAudioProcessor::crea
     params.push_back(std::make_unique<juce::AudioParameterInt>("VOICES", "Voices", 1, 64, 20));
 
     return { params.begin(), params.end() };
-}
-
-void SynthOneAudioProcessor::voiceChange() {
-    while (userSetVoices != synth.getNumVoices()) {
-        if (userSetVoices > synth.getNumVoices()) {
-            synth.addVoice(new SynthVoice);
-        }
-        else {
-            synth.removeVoice(synth.getNumVoices());
-        }
-    }
 }

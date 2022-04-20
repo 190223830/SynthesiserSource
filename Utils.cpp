@@ -82,3 +82,24 @@ void SynthesiserPlusAddons::setUnisonNo(const int unisonId)
 {
     unisonNo = unisonId;
 }
+
+void SynthesiserPlusAddons::removeVoices(const int voicesToRemove)
+{
+
+    for(int i=0; i<voicesToRemove; i++)
+    {
+        int indexToRemove = -1;
+        for (auto* voice : juce::Synthesiser::voices)
+        {
+            if (!voice->isVoiceActive())
+            {
+                indexToRemove = voices.indexOf(voice);
+                break;
+            }
+        }
+
+        if (indexToRemove > -1) { voices.remove(indexToRemove); }
+        else { voices.remove(0); }
+
+    }
+};

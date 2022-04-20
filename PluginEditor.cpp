@@ -55,7 +55,7 @@ SynthOneAudioProcessorEditor::SynthOneAudioProcessorEditor(SynthOneAudioProcesso
     addAndMakeVisible(panSlider2);
     addAndMakeVisible(panSlider3);
 
-    //addAndMakeVisible(voiceSlider);
+    addAndMakeVisible(voiceSlider);
     addAndMakeVisible(unisonSlider);
 
 
@@ -123,7 +123,7 @@ void SynthOneAudioProcessorEditor::resized()
     lfo1.setBounds(425, 620, getWidth()/2-150, 100);
     lfo2.setBounds(425, 720, getWidth()/2-150, 100);
     audioProcessor.visualiser.setBounds(25, 720, getWidth() / 2 - 50, 80);
-    //voiceSlider.setBounds(getWidth()-75, 620, 60, 100);
+    voiceSlider.setBounds(getWidth()-75, 620, 75, 100);
     unisonSlider.setBounds(getWidth()-75, 720, 75, 100);
 
     keyboard.setBounds(0, getHeight() - 50, getWidth(), 50);

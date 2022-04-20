@@ -10,6 +10,7 @@ class SynthOneAudioProcessor  : public juce::AudioProcessor
 {
 public:
     SynthOneAudioProcessor();
+    void Update();
     ~SynthOneAudioProcessor() override;
 
     void prepareToPlay (double sampleRate, int samplesPerBlock) override;
@@ -50,8 +51,6 @@ private:
     SynthesiserPlusAddons synth;
     //FilterData filter;
     juce::AudioProcessorValueTreeState::ParameterLayout createParams();
-
-    void voiceChange();
 
     int userSetVoices = 20;
     

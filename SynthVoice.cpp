@@ -33,6 +33,8 @@ void SynthVoice::controllerMoved(int ControllerNumber, int newControllerValue) {
 
 };
 void SynthVoice::renderNextBlock(juce::AudioBuffer<float>& outputBuffer, int startSample, int numSamples) {
+
+    //while (!isPrepared);
     jassert(isPrepared);
 
     if (!isVoiceActive()) {

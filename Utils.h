@@ -61,6 +61,7 @@ public:
         const float velocity) override;
 
     void setUnisonNo(const int unisonId);
+    void removeVoices(const int voicesToRemove);
 
 private:
     int unisonNo = 1;
