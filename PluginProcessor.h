@@ -45,6 +45,7 @@ public:
     //Visualiser getVisualiser();
     Visualiser visualiser;
     FilterVisualiser filterVisualiser;
+    FilterVisualiserSpectrogram filterVisualiserSpectrogram;
     juce::MidiKeyboardState keyboardState;
 
 private:

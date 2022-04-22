@@ -30,8 +30,9 @@ private:
     Filter filter;
     ADSR egAdsr;
     LFO lfo1, lfo2;
-    Visualiser visualiserToShow;
+    /*Visualiser visualiserToShow;
     FilterVisualiser filterVisualiser;
+    FilterVisualiser filterVisualiserSpectrogram;*/
 
     //juce::Slider gainSlider;
     GenericSlider gainSlider0, gainSlider1, gainSlider2, gainSlider3;

@@ -70,6 +70,7 @@ SynthOneAudioProcessorEditor::SynthOneAudioProcessorEditor(SynthOneAudioProcesso
     addAndMakeVisible(lfo2);
     addAndMakeVisible(audioProcessor.visualiser);
     addAndMakeVisible(audioProcessor.filterVisualiser);
+    addAndMakeVisible(audioProcessor.filterVisualiserSpectrogram);
     addAndMakeVisible(keyboard);
 
 
@@ -127,6 +128,7 @@ void SynthOneAudioProcessorEditor::resized()
     lfo1.setBounds(280, 420, 210, 75);
     lfo2.setBounds(280, 490, 210, 75);
     audioProcessor.visualiser.setBounds(0, 570, getWidth() / 2, 80);
+    audioProcessor.filterVisualiserSpectrogram.setBounds(getWidth() / 2, 570, getWidth() / 2, 80);
     audioProcessor.filterVisualiser.setBounds(getWidth() / 2, 570, getWidth() / 2, 80);
     voiceSlider.setBounds(560, 420, 70, 75);
     unisonSlider.setBounds(560, 490, 70, 75);

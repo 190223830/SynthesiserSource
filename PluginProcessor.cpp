@@ -173,10 +173,7 @@ void SynthOneAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer, juc
             voice->updateGain(gain);
             voice->updateDetune(detune, courseTune);
             voice->setPanValue(pan);
-            
-            
 
-            
 
             //LFO/FM MODS
             //auto& modOneFreq = *valueTreeState.getRawParameterValue("MODONEFREQ");
@@ -209,16 +206,19 @@ void SynthOneAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer, juc
             auto& filterCutoff = *valueTreeState.getRawParameterValue("CUTOFF");
             auto& filterResonance = *valueTreeState.getRawParameterValue("RESONANCE");
             auto& modIntensity = *valueTreeState.getRawParameterValue("EGINT");
-            voice->updateFilter(filterType, filterCutoff, filterResonance, modIntensity);        
+            voice->updateFilter(filterType, filterCutoff, filterResonance, modIntensity);    
         };
     };
-    
+
     filterVisualiser.update(*valueTreeState.getRawParameterValue("FILTERTYPE"),
-                            *valueTreeState.getRawParameterValue("CUTOFF"),
-                            *valueTreeState.getRawParameterValue("RESONANCE"));
+        dynamic_cast<SynthVoice*>(synth.getVoice(0))->getModulatedFilterCutoff(),
+        *valueTreeState.getRawParameterValue("RESONANCE"));
+
+    
 
     synth.renderNextBlock(buffer, midiMessages, 0, buffer.getNumSamples());
     visualiser.pushBuffer(buffer);
+    filterVisualiserSpectrogram.getNextAudioBlock(juce::AudioSourceChannelInfo::AudioSourceChannelInfo(buffer));
     //filter.prepare(buffer);*/
 }
 
