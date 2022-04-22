@@ -41,6 +41,8 @@ public:
 private:
 
     juce::Path filterResponse;
-    float cutoffPoint; 
+    float startingX, startingY;
+    juce::Point<float> cutoffPoint, peakPoint, endPoint;
+    //float cutoffPoint, startingPoint; 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (FilterVisualiser)
 };

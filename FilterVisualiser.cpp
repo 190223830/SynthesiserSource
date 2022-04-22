@@ -28,7 +28,17 @@ void FilterVisualiser::paint (juce::Graphics& g)
 
     g.fillAll(juce::Colours::black);
     g.setColour(juce::Colours::darkturquoise);
+
+    filterResponse.clear();
+
+    filterResponse.startNewSubPath(juce::Point<float>(startingX, startingY));
+    filterResponse.lineTo(cutoffPoint);
+    filterResponse.lineTo(peakPoint);
+    filterResponse.lineTo(endPoint);
     g.strokePath(filterResponse, juce::PathStrokeType(2.0f));
+    filterResponse.closeSubPath();
+    g.setColour(juce::Colours::black);
+    
     //g.fillAll(juce::Colours::black);
 }
 
@@ -38,25 +48,29 @@ void FilterVisualiser::resized()
 }
 
 void FilterVisualiser::update(int filterType, float cutoffFreq, float resonance) {
-        float startingPoint;
-        cutoffPoint = (cutoffFreq / 20000) * (getWidth());
-        switch (filterType) {
+    startingY = getHeight() / 2;
+    cutoffPoint = juce::Point<float>((cutoffFreq / 20000) * getWidth()-20, startingY);
+    peakPoint = juce::Point<float>(cutoffPoint.getX()+20*((-filterType)+1), (startingY) - (resonance / 10) * startingY);
+    endPoint;
+    switch (filterType) {
         case 0:
-            startingPoint = 0.0f;
+            startingX = 0.0f;
+            endPoint = juce::Point<float>(peakPoint.getX() + 40, getHeight());
             break;
         case 1:
-            startingPoint = cutoffPoint;
+            startingX = cutoffPoint.getX()-40;
+            startingY = getHeight();
+            cutoffPoint = peakPoint;
+            endPoint = juce::Point<float>(peakPoint.getX() + 40, getHeight());
+            
             break;
         case 2:
-            startingPoint = getWidth();
+            startingX = getWidth();
+            endPoint = juce::Point<float>(peakPoint.getX() - 40, getHeight());
             break;
         default:
             jassertfalse;
             break;
-        }
-        filterResponse.clear();
-        filterResponse.startNewSubPath(startingPoint, getHeight() / 2);
-        filterResponse.lineTo(cutoffPoint-50, (getHeight() / 2));
-        filterResponse.lineTo(cutoffPoint, (getHeight() / 2)+resonance*10);
-        filterResponse.closeSubPath();
+    }
+    
 }
