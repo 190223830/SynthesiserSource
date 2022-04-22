@@ -12,12 +12,11 @@
 #include "FilterVisualiser.h"
 
 //==============================================================================
-FilterVisualiser::FilterVisualiser()
+FilterVisualiser::FilterVisualiser() : AudioVisualiserComponent(0)
 {
-    // In your constructor, you should add any child components, and
-    // initialise any special settings that your component needs.
+    //setColours(juce::Colours::black, juce::Colours::black);
+};
 
-}
 
 FilterVisualiser::~FilterVisualiser()
 {
@@ -25,31 +24,39 @@ FilterVisualiser::~FilterVisualiser()
 
 void FilterVisualiser::paint (juce::Graphics& g)
 {
-    float cutoffPoint = (cutoff / 20000) * getWidth() / 2;
+    //g.drawRect(getLocalBounds(), 1);   // draw an outline around the component
+
+    g.fillAll(juce::Colours::black);
     g.setColour(juce::Colours::darkturquoise);
-    g.drawRect(getLocalBounds(), 1);   // draw an outline around the component
-
-    juce::Path filterResponse;
-    filterResponse.startNewSubPath(0.0f, getHeight() / 2);
-    filterResponse.lineTo(cutoffPoint, getHeight()/2);
-    filterResponse.closeSubPath();
-    g.strokePath(filterResponse, juce::PathStrokeType(5.0f));
-
-    g.setColour (juce::Colours::white);
-    g.setFont (14.0f);
-    g.drawText ("FilterVisualiser", getLocalBounds(),
-                juce::Justification::centred, true);   // draw some placeholder text
+    g.strokePath(filterResponse, juce::PathStrokeType(2.0f));
+    //g.fillAll(juce::Colours::black);
 }
 
 void FilterVisualiser::resized()
 {
-    // This method is where you should set the bounds of any child
-    // components that your component contains..
 
 }
 
-void FilterVisualiser::update(int filterType, int cutoffFreq, int resonance) {
-    type = filterType;
-    cutoff = cutoffFreq;
-    res = resonance;
+void FilterVisualiser::update(int filterType, float cutoffFreq, float resonance) {
+        float startingPoint;
+        cutoffPoint = (cutoffFreq / 20000) * (getWidth());
+        switch (filterType) {
+        case 0:
+            startingPoint = 0.0f;
+            break;
+        case 1:
+            startingPoint = cutoffPoint;
+            break;
+        case 2:
+            startingPoint = getWidth();
+            break;
+        default:
+            jassertfalse;
+            break;
+        }
+        filterResponse.clear();
+        filterResponse.startNewSubPath(startingPoint, getHeight() / 2);
+        filterResponse.lineTo(cutoffPoint-50, (getHeight() / 2));
+        filterResponse.lineTo(cutoffPoint, (getHeight() / 2)+resonance*10);
+        filterResponse.closeSubPath();
 }

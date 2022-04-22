@@ -94,6 +94,7 @@ void SynthOneAudioProcessor::prepareToPlay (double sampleRate, int samplesPerBlo
         };
     };
     
+
     //filter.prepareToPlay(sampleRate, samplesPerBlock, getTotalNumOutputChannels());
 
 }
@@ -129,11 +130,11 @@ bool SynthOneAudioProcessor::isBusesLayoutSupported (const BusesLayout& layouts)
 
 void SynthOneAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer, juce::MidiBuffer& midiMessages)
 {
+    int counter = 0;
     juce::ScopedNoDenormals noDenormals;
     auto totalNumInputChannels  = getTotalNumInputChannels();
     auto totalNumOutputChannels = getTotalNumOutputChannels();
     keyboardState.processNextMidiBuffer(midiMessages, 0, buffer.getNumSamples(), true);
-
     
     for (auto i = totalNumInputChannels; i < totalNumOutputChannels; ++i)
         buffer.clear (i, 0, buffer.getNumSamples());
@@ -200,7 +201,7 @@ void SynthOneAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer, juc
             auto& egDecay = *valueTreeState.getRawParameterValue("EGDECAY");
             auto& egSustain = *valueTreeState.getRawParameterValue("EGSUSTAIN");
             auto& egRelease = *valueTreeState.getRawParameterValue("EGRELEASE");
-            voice->updateEGADSR(egAttack.load(), egDecay.load(), egSustain.load(), egRelease.load());
+            voice->updateEGADSR(egAttack, egDecay, egSustain, egRelease);
             
 
             //FILTER
@@ -208,12 +209,13 @@ void SynthOneAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer, juc
             auto& filterCutoff = *valueTreeState.getRawParameterValue("CUTOFF");
             auto& filterResonance = *valueTreeState.getRawParameterValue("RESONANCE");
             auto& modIntensity = *valueTreeState.getRawParameterValue("EGINT");
-            voice->updateFilter(filterType.load(), filterCutoff.load(), filterResonance.load(), modIntensity.load());
-            //filterVisualiser.update(filterType, voice->getModulatedFilterCutoff(), filterResonance);
-            filterVisualiser.update(filterType, filterCutoff, filterResonance);
+            voice->updateFilter(filterType, filterCutoff, filterResonance, modIntensity);        
         };
     };
-
+    
+    filterVisualiser.update(*valueTreeState.getRawParameterValue("FILTERTYPE"),
+                            *valueTreeState.getRawParameterValue("CUTOFF"),
+                            *valueTreeState.getRawParameterValue("RESONANCE"));
 
     synth.renderNextBlock(buffer, midiMessages, 0, buffer.getNumSamples());
     visualiser.pushBuffer(buffer);
@@ -272,7 +274,7 @@ juce::AudioProcessorValueTreeState::ParameterLayout SynthOneAudioProcessor::crea
     //
 
     params.push_back(std::make_unique<juce::AudioParameterChoice>("FILTERTYPE", "Filter Type", juce::StringArray{ "LPF", "BPF", "HPF" }, 0));
-    params.push_back(std::make_unique<juce::AudioParameterFloat>("CUTOFF", "Filter Cutoff Frequency", juce::NormalisableRange<float>{20.f, 20000.f, 1.f, 0.3f}, 20000.f));
+    params.push_back(std::make_unique<juce::AudioParameterFloat>("CUTOFF", "Filter Cutoff Frequency", juce::NormalisableRange<float>{20.f, 20000.f, 1.f, 0.3f}, 10000.f));
     params.push_back(std::make_unique<juce::AudioParameterFloat>("RESONANCE", "Filter Resonance", juce::NormalisableRange<float>{0.1f, 10.f, 0.f, 0.2f}, 0.1f));
 
     params.push_back(std::make_unique<juce::AudioParameterFloat>("EGATTACK", "EG Attack", juce::NormalisableRange<float>{0.001f, 5.00f, 0.01f}, 0.050f));

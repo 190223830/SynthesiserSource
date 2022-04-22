@@ -15,7 +15,7 @@
 //==============================================================================
 /*
 */
-class FilterVisualiser  : public juce::Component
+class FilterVisualiser  : public juce::AudioVisualiserComponent//, juce::Timer
 {
 public:
     FilterVisualiser();
@@ -24,9 +24,23 @@ public:
     void paint (juce::Graphics&) override;
     void resized() override;
 
-    void update(int filterType, int cutoffFreq, int resonance);
+    void update(int filterType, float cutoffFreq, float resonance);
+
+    /*void FilterVisualiser::setRepaintRate(int frequencyInHz)
+    {
+        startTimerHz(frequencyInHz);
+    }
+
+    void FilterVisualiser::timerCallback()
+    {
+        repaint();
+    }*/
+
+    
 
 private:
-    int type{ 0 }, cutoff{ 0 }, res{ 0 };
+
+    juce::Path filterResponse;
+    float cutoffPoint; 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (FilterVisualiser)
 };
