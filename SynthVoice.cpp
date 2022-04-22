@@ -126,4 +126,7 @@ OscData& SynthVoice::getOsc() {
     return osc;
 }
 
+float SynthVoice::getModulatedFilterCutoff() {
+    return filter.getModulatedCutoff();
+}
 

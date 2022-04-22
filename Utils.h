@@ -54,6 +54,7 @@ public:
     Visualiser() : AudioVisualiserComponent(2) {
         setBufferSize(128);
         setSamplesPerBlock(16);
+        setColours(juce::Colours::black, juce::Colours::darkturquoise);
     };
 };
 

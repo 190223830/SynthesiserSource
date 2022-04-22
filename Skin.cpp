@@ -109,3 +109,42 @@ juce::Slider::SliderLayout Skin::getSliderLayout(juce::Slider& slider)
         return layout;
     }
 }
+
+void Skin::drawComboBox(juce::Graphics& g, int width, int height, bool,
+    int, int, int, int, juce::ComboBox& box)
+{
+    using namespace juce; {
+        auto cornerSize = box.findParentComponentOfClass<ChoicePropertyComponent>() != nullptr ? 0.0f : 3.0f;
+        Rectangle<int> boxBounds(0, 0, width, height);
+
+        //g.setColour(box.findColour(ComboBox::backgroundColourId));
+        //g.fillRoundedRectangle(boxBounds.toFloat(), cornerSize);
+
+        g.setColour(box.findColour(ComboBox::outlineColourId));
+        g.drawRoundedRectangle(boxBounds.toFloat().reduced(0.5f, 0.5f), cornerSize, 1.0f);
+
+        Rectangle<int> arrowZone(width - 30, 0, 20, height);
+        Path path;
+        path.startNewSubPath((float)arrowZone.getX() + 3.0f, (float)arrowZone.getCentreY() - 2.0f);
+        path.lineTo((float)arrowZone.getCentreX(), (float)arrowZone.getCentreY() + 3.0f);
+        path.lineTo((float)arrowZone.getRight() - 3.0f, (float)arrowZone.getCentreY() - 2.0f);
+
+        //g.setColour(box.findColour(ComboBox::arrowColourId).withAlpha((box.isEnabled() ? 0.9f : 0.2f)));
+        g.setColour(Colours::darkturquoise);
+        g.strokePath(path, PathStrokeType(1.0f));
+    }
+}
+
+juce::Font Skin::getComboBoxFont(juce::ComboBox& box)
+{
+    return { juce::jmin(12.0f, (float)box.getHeight() * 0.85f) };
+}
+
+void Skin::positionComboBoxText(juce::ComboBox& box, juce::Label& label)
+{
+    label.setBounds(1, 1,
+        box.getWidth() - 30,
+        box.getHeight() - 2);
+
+    label.setFont(getComboBoxFont(box));
+}

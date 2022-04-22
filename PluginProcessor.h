@@ -4,7 +4,6 @@
 #include "SynthSound.h"
 #include "SynthVoice.h"
 #include "Utils.h"
-//#include "FilterData.h"
 
 class SynthOneAudioProcessor  : public juce::AudioProcessor
 {
@@ -45,6 +44,7 @@ public:
 
     //Visualiser getVisualiser();
     Visualiser visualiser;
+    FilterVisualiser filterVisualiser;
     juce::MidiKeyboardState keyboardState;
 
 private:
@@ -52,7 +52,7 @@ private:
     //FilterData filter;
     juce::AudioProcessorValueTreeState::ParameterLayout createParams();
 
-    int userSetVoices = 20;
+    int userSetVoices = 8;
     
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (SynthOneAudioProcessor)

@@ -45,11 +45,10 @@ void FilterData::updateParams(const int type, float cutoff, float resonance, con
     }
 
     //float difference =  (mod * cutoff);
-    float dInt = intensity * mod * cutoff;
+    float dInt = intensity * mod     *cutoff;
     float modulatedCutoff = cutoff + dInt;  //  this feels incorrect
 
-    float modulatedCutoffWithinBounds = std::fmin(std::fmax(modulatedCutoff, 20.0f), 20000.0f); //sets upper and lower bounds for cutoff
-
+    modulatedCutoffWithinBounds = std::fmin(std::fmax(modulatedCutoff, 20.0f), 20000.0f); //sets upper and lower bounds for cutoff
     filter.setCutoffFrequency(modulatedCutoffWithinBounds);
     filter.setResonance(resonance);
     
@@ -59,3 +58,5 @@ void FilterData::prepare(juce::AudioBuffer<float>& buffer) {
     juce::dsp::AudioBlock<float> audioBlock{ buffer };
     filter.process(juce::dsp::ProcessContextReplacing<float>(audioBlock));
 }
+
+float FilterData::getModulatedCutoff() { return modulatedCutoffWithinBounds; }

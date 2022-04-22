@@ -69,6 +69,7 @@ SynthOneAudioProcessorEditor::SynthOneAudioProcessorEditor(SynthOneAudioProcesso
     addAndMakeVisible(lfo1);
     addAndMakeVisible(lfo2);
     addAndMakeVisible(audioProcessor.visualiser);
+    addAndMakeVisible(audioProcessor.filterVisualiser);
     addAndMakeVisible(keyboard);
 
 
@@ -83,12 +84,12 @@ void SynthOneAudioProcessorEditor::paint(juce::Graphics& g)
     g.setFont(10.0f);
     g.setGradientFill(
         juce::ColourGradient(
-            juce::Colour(0xFF202020),
+            juce::Colour(0xFF263238),
             0,
             0,
             juce::Colours::black,
             0,
-            getHeight(),
+            650,
             false
         ));
     g.fillAll();
@@ -100,10 +101,10 @@ void SynthOneAudioProcessorEditor::resized()
     gainSlider1.setBounds(0, 0, 70, 75);
     gainSlider2.setBounds(0, 70, 70, 75);
     gainSlider3.setBounds(0, 140, 70, 75);
-    osc0.setBounds(gainSlider0.getRight(), 210, 150, 75);
-    osc1.setBounds(gainSlider1.getRight(), 0, 150, 75);
-    osc2.setBounds(gainSlider2.getRight(), 70, 150, 75);
-    osc3.setBounds(gainSlider3.getRight(), 140, 150, 75);
+    osc0.setBounds(gainSlider0.getRight(), 210, 70, 75);
+    osc1.setBounds(gainSlider1.getRight(), 0, 70, 75);
+    osc2.setBounds(gainSlider2.getRight(), 70, 70, 75);
+    osc3.setBounds(gainSlider3.getRight(), 140, 70, 75);
     adsr0.setBounds(osc0.getRight(), 210, 280, 75);
     adsr1.setBounds(osc1.getRight(), 0, 280, 75);
     adsr2.setBounds(osc2.getRight(), 70, 280, 75);
@@ -121,13 +122,14 @@ void SynthOneAudioProcessorEditor::resized()
     panSlider2.setBounds(courseTuneSlider2.getRight(), 70, 70, 75);
     panSlider3.setBounds(courseTuneSlider3.getRight(), 140, 70, 75);
 
-    filter.setBounds(360, 280, 210, 150);
-    egAdsr.setBounds(430, 350, 280, 75);
-    lfo1.setBounds(360, 420, 210, 75);
-    lfo2.setBounds(360, 490, 210, 75);
+    filter.setBounds(280, 280, 210, 150);
+    egAdsr.setBounds(350, 350, 280, 75);
+    lfo1.setBounds(280, 420, 210, 75);
+    lfo2.setBounds(280, 490, 210, 75);
     audioProcessor.visualiser.setBounds(0, 570, getWidth() / 2, 80);
-    voiceSlider.setBounds(getWidth()-70, 420, 70, 75);
-    unisonSlider.setBounds(getWidth()-70, 490, 70, 75);
+    audioProcessor.filterVisualiser.setBounds(getWidth() / 2, 570, getWidth() / 2, 80);
+    voiceSlider.setBounds(560, 420, 70, 75);
+    unisonSlider.setBounds(560, 490, 70, 75);
     keyboard.setBounds(0, 650, getWidth(), 50);
 
 };

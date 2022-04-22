@@ -7,6 +7,7 @@
 #include "Filter.h"
 #include "Utils.h"
 #include "LFO.h"
+#include "FilterVisualiser.h"
 
 class SynthOneAudioProcessorEditor  : public juce::AudioProcessorEditor
 {
@@ -30,6 +31,7 @@ private:
     ADSR egAdsr;
     LFO lfo1, lfo2;
     Visualiser visualiserToShow;
+    FilterVisualiser filterVisualiser;
 
     //juce::Slider gainSlider;
     GenericSlider gainSlider0, gainSlider1, gainSlider2, gainSlider3;

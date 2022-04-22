@@ -18,4 +18,7 @@
     private:
         juce::Label* createSliderTextBox(juce::Slider& slider) override;
         juce::Slider::SliderLayout getSliderLayout(juce::Slider& slider) override;
+        void drawComboBox(juce::Graphics& g, int width, int height, bool, int, int, int, int, juce::ComboBox& box) override;
+        juce::Font getComboBoxFont(juce::ComboBox& box) override;
+        void positionComboBoxText(juce::ComboBox& box, juce::Label& label) override;
     };

@@ -50,7 +50,7 @@ void Osc::paint (juce::Graphics& g)
 
 void Osc::resized()
 {
-    waveSelect.setBounds(10, 20, 100, 40);
+    waveSelect.setBounds(0, 20, 70, 40);
     waveSelectLabel.setBounds(0, 70, 150, 20);
     
     /*modOneWaveSelect.setBounds(15, getHeight() / 2, 100, 40);

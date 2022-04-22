@@ -35,6 +35,7 @@ public:
     void updateFilter(const int filterType, const float filterCutoff, const float filterResonance, const float intensity);
     void updateEGADSR(const float attack, const float decay, const float sustain, const float release);
     void setPanValue(const float pan);
+    float getModulatedFilterCutoff();
 
 private:
     

@@ -47,3 +47,4 @@ void Filter::resized()
     filterResonanceSlider.setBounds(filterCutoffSlider.getRight(), 0, 70, 75);
     modIntensitySlider.setBounds(0, 70, 70, 75);
 }
+

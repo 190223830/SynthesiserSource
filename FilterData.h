@@ -10,6 +10,7 @@
 
 #pragma once
 #include <JuceHeader.h>
+#include "FilterVisualiser.h"
 
 class FilterData {
 public:
@@ -19,10 +20,11 @@ public:
 
 
     void updateParams(const int type, float cutoff, float resonance, const float intensity, const float mod = 1.0f);
+    float getModulatedCutoff();
     
-
 private:
     juce::dsp::StateVariableTPTFilter<float> filter; // TODO: look at creating own filter with different dB/Oct types
+    float modulatedCutoffWithinBounds;
 
     //enum FilterType { LPF, BPF, HPF };
     //FilterType filterType{ FilterType::LPF };
