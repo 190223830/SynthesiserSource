@@ -7,32 +7,32 @@ SynthOneAudioProcessorEditor::SynthOneAudioProcessorEditor(SynthOneAudioProcesso
     adsr1(audioProcessor.valueTreeState, "ATTACK1", "DECAY1", "SUSTAIN1", "RELEASE1"),
     adsr2(audioProcessor.valueTreeState, "ATTACK2", "DECAY2", "SUSTAIN2", "RELEASE2"),
     adsr3(audioProcessor.valueTreeState, "ATTACK3", "DECAY3", "SUSTAIN3", "RELEASE3"),
-    osc0(audioProcessor.valueTreeState, "WAVE0", "LFO1RATE", "LFO1INT", "LFO1WAVE"),
-    osc1(audioProcessor.valueTreeState, "WAVE1", "LFO1RATE", "LFO1INT", "LFO1WAVE"),
+    osc0(audioProcessor.valueTreeState, "WAVE0", "LFO2RATE", "LFO2INT", "LFO2WAVE"),
+    osc1(audioProcessor.valueTreeState, "WAVE1", "LFO2RATE", "LFO2INT", "LFO2WAVE"),
     osc2(audioProcessor.valueTreeState, "WAVE2", "LFO2RATE", "LFO2INT", "LFO2WAVE"),
     osc3(audioProcessor.valueTreeState, "WAVE3", "LFO2RATE", "LFO2INT", "LFO2WAVE"),
     filter(audioProcessor.valueTreeState, "FILTERTYPE"),
     egAdsr(audioProcessor.valueTreeState, "EGATTACK", "EGDECAY", "EGSUSTAIN", "EGRELEASE"),
     lfo1(audioProcessor.valueTreeState, "LFO1RATE", "LFO1INT", "LFO1WAVE"),
     lfo2(audioProcessor.valueTreeState, "LFO2RATE", "LFO2INT", "LFO2WAVE"),
-    gainSlider0("Gain", "GAIN0", audioProcessor.valueTreeState, juce::Slider::SliderStyle::RotaryHorizontalVerticalDrag),
-    gainSlider1("Gain", "GAIN1", audioProcessor.valueTreeState, juce::Slider::SliderStyle::RotaryHorizontalVerticalDrag),
-    gainSlider2("Gain", "GAIN2", audioProcessor.valueTreeState, juce::Slider::SliderStyle::RotaryHorizontalVerticalDrag),
-    gainSlider3("Gain", "GAIN3", audioProcessor.valueTreeState, juce::Slider::SliderStyle::RotaryHorizontalVerticalDrag),
-    detuneSlider0("Detune", "DETUNE0", audioProcessor.valueTreeState, juce::Slider::SliderStyle::RotaryHorizontalVerticalDrag),
-    detuneSlider1("Detune", "DETUNE1", audioProcessor.valueTreeState, juce::Slider::SliderStyle::RotaryHorizontalVerticalDrag),
-    detuneSlider2("Detune", "DETUNE2", audioProcessor.valueTreeState, juce::Slider::SliderStyle::RotaryHorizontalVerticalDrag),
-    detuneSlider3("Detune", "DETUNE3", audioProcessor.valueTreeState, juce::Slider::SliderStyle::RotaryHorizontalVerticalDrag),
-    courseTuneSlider0("Course Tune", "COURSETUNE0", audioProcessor.valueTreeState, juce::Slider::SliderStyle::RotaryHorizontalVerticalDrag),
-    courseTuneSlider1("Course Tune", "COURSETUNE1", audioProcessor.valueTreeState, juce::Slider::SliderStyle::RotaryHorizontalVerticalDrag),
-    courseTuneSlider2("Course Tune", "COURSETUNE2", audioProcessor.valueTreeState, juce::Slider::SliderStyle::RotaryHorizontalVerticalDrag),
-    courseTuneSlider3("Course Tune", "COURSETUNE3", audioProcessor.valueTreeState, juce::Slider::SliderStyle::RotaryHorizontalVerticalDrag),
-    panSlider0("Pan", "PAN0", audioProcessor.valueTreeState, juce::Slider::SliderStyle::RotaryHorizontalVerticalDrag),
-    panSlider1("Pan", "PAN1", audioProcessor.valueTreeState, juce::Slider::SliderStyle::RotaryHorizontalVerticalDrag),
-    panSlider2("Pan", "PAN2", audioProcessor.valueTreeState, juce::Slider::SliderStyle::RotaryHorizontalVerticalDrag),
-    panSlider3("Pan", "PAN3", audioProcessor.valueTreeState, juce::Slider::SliderStyle::RotaryHorizontalVerticalDrag),
-    voiceSlider("Voices", "VOICES", audioProcessor.valueTreeState, juce::Slider::SliderStyle::RotaryHorizontalVerticalDrag),        //removed
-    unisonSlider("Poly/Unison", "UNISON", audioProcessor.valueTreeState, juce::Slider::SliderStyle::RotaryHorizontalVerticalDrag),
+    gainSlider0("Gain", "GAIN0", audioProcessor.valueTreeState ),
+    gainSlider1("Gain", "GAIN1", audioProcessor.valueTreeState ),
+    gainSlider2("Gain", "GAIN2", audioProcessor.valueTreeState ),
+    gainSlider3("Gain", "GAIN3", audioProcessor.valueTreeState ),
+    detuneSlider0("Detune", "DETUNE0", audioProcessor.valueTreeState ),
+    detuneSlider1("Detune", "DETUNE1", audioProcessor.valueTreeState ),
+    detuneSlider2("Detune", "DETUNE2", audioProcessor.valueTreeState ),
+    detuneSlider3("Detune", "DETUNE3", audioProcessor.valueTreeState ),
+    courseTuneSlider0("Course Tune", "COURSETUNE0", audioProcessor.valueTreeState ),
+    courseTuneSlider1("Course Tune", "COURSETUNE1", audioProcessor.valueTreeState ),
+    courseTuneSlider2("Course Tune", "COURSETUNE2", audioProcessor.valueTreeState ),
+    courseTuneSlider3("Course Tune", "COURSETUNE3", audioProcessor.valueTreeState ),
+    panSlider0("Pan", "PAN0", audioProcessor.valueTreeState ),
+    panSlider1("Pan", "PAN1", audioProcessor.valueTreeState ),
+    panSlider2("Pan", "PAN2", audioProcessor.valueTreeState ),
+    panSlider3("Pan", "PAN3", audioProcessor.valueTreeState ),
+    voiceSlider("Voices", "VOICES", audioProcessor.valueTreeState ),
+    unisonSlider("Poly/Unison", "UNISON", audioProcessor.valueTreeState ),
     keyboard(p.keyboardState, juce::MidiKeyboardComponent::Orientation::horizontalKeyboard)
 {
     //set the editor's size
@@ -72,6 +72,7 @@ SynthOneAudioProcessorEditor::SynthOneAudioProcessorEditor(SynthOneAudioProcesso
     addAndMakeVisible(audioProcessor.filterVisualiser);
     addAndMakeVisible(audioProcessor.filterVisualiserSpectrogram);
     addAndMakeVisible(keyboard);
+    addAndMakeVisible(matrix);
 
 
 }
@@ -133,5 +134,6 @@ void SynthOneAudioProcessorEditor::resized()
     voiceSlider.setBounds(560, 420, 70, 75);
     unisonSlider.setBounds(560, 490, 70, 75);
     keyboard.setBounds(0, 650, getWidth(), 50);
+    matrix->setBounds(0, 280, 280, 290);
 
 };

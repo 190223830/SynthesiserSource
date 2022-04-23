@@ -31,7 +31,6 @@ void LFOData::setWaveType(const int waveType) {
 }
 
 void LFOData::prepareToPlay(juce::dsp::ProcessSpec& spec) {
-
     prepare(spec);
 }
 
@@ -41,4 +40,10 @@ void LFOData::processBlock(juce::dsp::AudioBlock<float>& block) {
 
 void LFOData::setFreq(const float rate) {
     setFrequency(rate);
+}
+
+void LFOData::setParams(float lfoRate, float lfoInt, int lfoWaveType) {
+    setWaveType(lfoWaveType);
+    setFreq(lfoRate);
+    //setInt(lfoInt);
 }

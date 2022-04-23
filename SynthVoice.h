@@ -16,6 +16,7 @@
 #include "OscData.h"
 #include "FilterData.h"
 #include "LFOData.h"
+#include "Matrix.h"
 
 class SynthVoice : public juce::SynthesiserVoice {
 public:
@@ -36,19 +37,18 @@ public:
     void updateEGADSR(const float attack, const float decay, const float sustain, const float release);
     void setPanValue(const float pan);
     float getModulatedFilterCutoff();
+    void setLFO(int lfoNo, float lfoRate, float lfoInt, int lfoWaveType, int oscNum);
 
 private:
-    
-    //juce::ADSR adsr;
+    juce::dsp::ProcessSpec spec;
+    Matrix* matrix = Matrix::getInstance();
     ADSRData adsr;
     OscData osc;
     int detune{ 0 }, courseTune{ 0 };
     juce::dsp::Panner<float> panner;
-    
     FilterData filter;
     ADSRData egADSR;
-    //LFOData lfo; //Create new LFOData class and move/inherit the stuff from OscData, or try and use OscData (but that sounds like it's gonna suck)
-
+    LFOData lfo1, lfo2;
     juce::AudioBuffer<float> oscBuffer;
                         
     juce::dsp::Gain<float> gain;

@@ -75,7 +75,6 @@ void FilterVisualiser::update(int filterType, float cutoffFreq, float resonance)
 FilterVisualiserSpectrogram::FilterVisualiserSpectrogram() : forwardFFT(fftOrder),
                                                              window(fftSize, juce::dsp::WindowingFunction<float>::hann)
 {
-    setAudioChannels(2, 0);
     startTimerHz(60);
 }
 
@@ -100,8 +99,6 @@ void FilterVisualiserSpectrogram::pushNextSampleIntoInbound(float sample) noexce
     {
         if (!nextFFTBlockReady)
         {
-            //std::fill(results.begin(), results.end(), 0.0f);
-            //std::copy(inbound.begin(), inbound.end(), results.begin());
             juce::zeromem(results, sizeof(results));
             memcpy(results, inbound, sizeof(inbound));
             nextFFTBlockReady = true;
@@ -113,33 +110,24 @@ void FilterVisualiserSpectrogram::pushNextSampleIntoInbound(float sample) noexce
 
 void FilterVisualiserSpectrogram::drawNextFrame()
 {
-    // first apply a windowing function to our data
-    window.multiplyWithWindowingTable(results, fftSize);       // [1]
+    window.multiplyWithWindowingTable(results, fftSize);
+    forwardFFT.performFrequencyOnlyForwardTransform(results);
 
-    // then render our FFT data..
-    forwardFFT.performFrequencyOnlyForwardTransform(results);  // [2]
-
-    auto mindB = -100.0f;
-    auto maxdB = 0.0f;
-
-    for (int i = 0; i < graphPoints; ++i)                         // [3]
+    for (int i = 0; i < graphPoints; i++)
     {
         auto skewedProportionX = 1.0f - std::exp(std::log(1.0f - (float)i / (float)graphPoints) * 0.2f);
         auto resultsIndex = juce::jlimit(0, fftSize / 2, (int)(skewedProportionX * (float)fftSize * 0.5f));
-        auto level = juce::jmap(juce::jlimit(mindB, maxdB, juce::Decibels::gainToDecibels(results[resultsIndex])
+        auto level = juce::jmap(juce::jlimit(-100.0f, 0.0f, juce::Decibels::gainToDecibels(results[resultsIndex])
             - juce::Decibels::gainToDecibels((float)fftSize)),
-            mindB, maxdB, 0.0f, 1.0f);
+            -100.0f, 0.0f, 0.0f, 1.0f);
 
-        graph[i] = level;                                   // [4]
+        graph[i] = level;
     }
 }
 
 void FilterVisualiserSpectrogram::paint(juce::Graphics& g)
 {
-    g.fillAll(juce::Colours::black);
-
-    g.setOpacity(1.0f);
-    g.setColour(juce::Colours::white);
+    g.setColour(juce::Colours::darkturquoise);
     drawFrame(g);
 }
 
@@ -155,18 +143,16 @@ void FilterVisualiserSpectrogram::timerCallback()
 
 void FilterVisualiserSpectrogram::drawFrame(juce::Graphics& g)
 {
-    for (int i = 1; i < graphPoints; ++i)
+    for (int i = 1; i < graphPoints; i++)
     {
-        auto width = getLocalBounds().getWidth();
-        auto height = getLocalBounds().getHeight();
 
-        g.drawLine({ (float)juce::jmap(i - 1, 0, graphPoints - 1, 0, width),
-                              juce::jmap(graph[i - 1], 0.0f, 1.0f, (float)height, 0.0f),
-                      (float)juce::jmap(i,     0, graphPoints - 1, 0, width),
-                              juce::jmap(graph[i],     0.0f, 1.0f, (float)height, 0.0f) });
+        g.drawLine({ (float)juce::jmap(i - 1, 0, graphPoints - 1, 0, getWidth()),
+                            juce::jmap(graph[i - 1], 0.0f, 1.0f, (float)getHeight(), 0.0f),
+
+                     (float)juce::jmap(i,     0, graphPoints - 1, 0, getWidth()),
+                            juce::jmap(graph[i],     0.0f, 1.0f, (float)getHeight(), 0.0f) });
     }
 }
 
 void FilterVisualiserSpectrogram::prepareToPlay(int samplesPerBlockExpected, double sampleRate) {}
-
 void FilterVisualiserSpectrogram::releaseResources() {}

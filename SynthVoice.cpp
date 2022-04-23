@@ -89,7 +89,6 @@ void SynthVoice::pitchWheelMoved(int newPitchWheelValue) {
 };
 
 void SynthVoice::prepareToPlay(double sampleRate, int samplesPerBlock, int outputChannels) {
-    juce::dsp::ProcessSpec spec;
 
     spec.maximumBlockSize = samplesPerBlock;
     spec.sampleRate = sampleRate;
@@ -128,5 +127,25 @@ OscData& SynthVoice::getOsc() {
 
 float SynthVoice::getModulatedFilterCutoff() {
     return filter.getModulatedCutoff();
+}
+
+void SynthVoice::setLFO(int lfoNum, float lfoRate, float lfoInt, int lfoWaveType, int oscNum) {
+    if(true) {
+    //if (matrix->getValue(oscNum, lfoNum)) {
+        switch (lfoNum) {
+        case 1:
+            lfo1.setParams(lfoRate, lfoInt, lfoWaveType);
+            getOsc().setLFOint(lfoInt);
+            lfo1.prepare(spec);
+            break;
+        case 2:
+            lfo2.setParams(lfoRate, lfoInt, lfoWaveType);
+            lfo2.prepare(spec);
+            break;
+        default:
+            jassertfalse;
+            break;
+        }
+    }
 }
 

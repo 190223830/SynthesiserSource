@@ -19,6 +19,7 @@ public:
     void prepareToPlay(juce::dsp::ProcessSpec& spec);
     void processBlock(juce::dsp::AudioBlock<float>& block);
     void LFOData::setFreq(const float rate);
+    void setParams(float lfoRate, float lfoInt, int lfoWaveType);
 
 
 private:
