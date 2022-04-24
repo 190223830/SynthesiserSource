@@ -17,7 +17,7 @@ class LFOData : public juce::dsp::Oscillator<float> { //this may need to inherit
 public:
     LFOData();
     void LFOData::setWaveType(const int waveType);
-    void processBlock(juce::dsp::AudioBlock<float>& block);
+    float processBlock(juce::dsp::AudioBlock<float>& block);
     void LFOData::setFreq(const float rate);
     void setParams(float lfoRate, float lfoInt, int lfoWaveType);
     float mod{ 0.0f };

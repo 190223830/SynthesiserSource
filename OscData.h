@@ -24,6 +24,7 @@ public:
 private:
     LFOData* modulatorOsc;
     bool modCalled = false;
+    float modValue{ 0.000f };
     int midiNote{0};
     float detuneInHertz{ 0.00f };
     float currentFreq{ 0.0f };

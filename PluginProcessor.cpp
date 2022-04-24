@@ -178,15 +178,15 @@ void SynthOneAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer, juc
             voice->setPanValue(pan);
             voice->getOsc().updateModulator();
 
+
             auto& lfo1Rate = *valueTreeState.getRawParameterValue("LFO1RATE");
             auto& lfo1Int = *valueTreeState.getRawParameterValue("LFO1INT");
             auto& lfo1WaveType = *valueTreeState.getRawParameterValue("LFO1WAVE");
+            voice->setLFO(1, lfo1Rate, lfo1Int, lfo1WaveType, oscNum);
 
             auto& lfo2Rate = *valueTreeState.getRawParameterValue("LFO2RATE");
             auto& lfo2Int = *valueTreeState.getRawParameterValue("LFO2INT");
             auto& lfo2WaveType = *valueTreeState.getRawParameterValue("LFO2WAVE");
-
-            voice->setLFO(1, lfo1Rate, lfo1Int, lfo1WaveType, oscNum);
             voice->setLFO(2, lfo2Rate, lfo2Int, lfo2WaveType, oscNum);
             
 
@@ -222,7 +222,6 @@ void SynthOneAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer, juc
     synth.renderNextBlock(buffer, midiMessages, 0, buffer.getNumSamples());
     visualiser.pushBuffer(buffer);
     filterVisualiserSpectrogram.getNextAudioBlock(juce::AudioSourceChannelInfo::AudioSourceChannelInfo(buffer));
-    //filter.prepare(buffer);*/
 }
 
 bool SynthOneAudioProcessor::hasEditor() const
@@ -286,11 +285,11 @@ juce::AudioProcessorValueTreeState::ParameterLayout SynthOneAudioProcessor::crea
     params.push_back(std::make_unique<juce::AudioParameterFloat>("EGRELEASE", "EG Release", juce::NormalisableRange<float>{0.004f, 5.00f, 0.01f}, 0.00f));
     params.push_back(std::make_unique<juce::AudioParameterFloat>("EGINT", "EG Intensity", juce::NormalisableRange<float>{-1.0f, 1000.0f, 0.1f, 0.3f}, 0.00f));
 
-    params.push_back(std::make_unique<juce::AudioParameterFloat>("LFO1RATE", "LFO Rate", juce::NormalisableRange<float>{0.0f, 20.0f, 0.1f, 0.2f}, 0.0f));
+    params.push_back(std::make_unique<juce::AudioParameterFloat>("LFO1RATE", "LFO Rate", juce::NormalisableRange<float>{0, 10000, 10}, 0));
     params.push_back(std::make_unique<juce::AudioParameterFloat>("LFO1INT", "LFO Intensity", juce::NormalisableRange<float>{0.0f, 1000.0f, 1.0f, 0.3f}, 0.0f));
     params.push_back(std::make_unique<juce::AudioParameterChoice>("LFO1WAVE", "LFO Wave Type", juce::StringArray{ "Sine", "Saw", "Square" }, 0));
 
-    params.push_back(std::make_unique<juce::AudioParameterFloat>("LFO2RATE", "LFO Rate", juce::NormalisableRange<float>{0.0f, 20.0f, 0.1f, 0.2f}, 0.0f));
+    params.push_back(std::make_unique<juce::AudioParameterFloat>("LFO2RATE", "LFO Rate", juce::NormalisableRange<float>{0, 10000, 10}, 0));
     params.push_back(std::make_unique<juce::AudioParameterFloat>("LFO2INT", "LFO Intensity", juce::NormalisableRange<float>{0.0f, 1000.0f, 1.0f, 0.3f}, 0.0f));
     params.push_back(std::make_unique<juce::AudioParameterChoice>("LFO2WAVE", "LFO Wave Type", juce::StringArray{ "Sine", "Saw", "Square" }, 0));
 

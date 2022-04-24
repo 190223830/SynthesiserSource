@@ -15,7 +15,7 @@ bool SynthVoice::canPlaySound(juce::SynthesiserSound* sound) {
     return dynamic_cast<juce::SynthesiserSound*>(sound) != nullptr;
 };
 void SynthVoice::startNote(int midiNoteNumber, float velocity, juce::SynthesiserSound* sound, int currentPitchWheelPosition) {
-    osc.reset();
+    //osc.reset();
     lfo1.reset();
     lfo2.reset();
     osc.setFreq(midiNoteNumber, detune, courseTune);
@@ -29,9 +29,9 @@ void SynthVoice::stopNote(float velocity, bool allowTailOff) {
         clearCurrentNote(); //if envelope is finished, no need to output
         adsr.reset();
     };
-    osc.reset();
-    lfo1.reset();
-    lfo2.reset();
+    //osc.reset();
+    //lfo1.reset();
+    //lfo2.reset();
 };
 void SynthVoice::controllerMoved(int ControllerNumber, int newControllerValue) {};
 
@@ -109,7 +109,7 @@ void SynthVoice::update(const float attack, const float decay, const float susta
     adsr.updateADSR(attack, decay, sustain, release);
 }
 
-void SynthVoice::updateGain(const float gainValue) {    //TODO: Incorporate into update method
+void SynthVoice::updateGain(const float gainValue) {
     gain.setGainLinear(gainValue);
 }
 
@@ -126,7 +126,6 @@ float SynthVoice::getModulatedFilterCutoff() {
 }
 
 void SynthVoice::setLFO(int lfoNum, float lfoRate, float lfoInt, int lfoWaveType, int oscNum) {
-    //if (oscNum == 3) oscNum == 0;
     if(matrix->getValue((oscNum+3)%4, 3+lfoNum)) {
         switch (lfoNum) {
         case 1:

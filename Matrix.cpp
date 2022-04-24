@@ -13,11 +13,10 @@
 
 JUCE_IMPLEMENT_SINGLETON(Matrix)
 
-//==============================================================================
+
 
 void Matrix::paint (juce::Graphics& g)
 {
-    //g.drawRect (getLocalBounds(), 1);   // draw an outline around the component
     g.setColour (juce::Colours::white);
     g.setFont (10.0f);
 
