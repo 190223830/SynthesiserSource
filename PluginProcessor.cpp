@@ -180,6 +180,7 @@ void SynthOneAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer, juc
             auto& lfo1Rate = *valueTreeState.getRawParameterValue("LFO1RATE");
             auto& lfo1Int = *valueTreeState.getRawParameterValue("LFO1INT");
             auto& lfo1WaveType = *valueTreeState.getRawParameterValue("LFO1WAVE");
+
             auto& lfo2Rate = *valueTreeState.getRawParameterValue("LFO2RATE");
             auto& lfo2Int = *valueTreeState.getRawParameterValue("LFO2INT");
             auto& lfo2WaveType = *valueTreeState.getRawParameterValue("LFO2WAVE");
@@ -283,11 +284,11 @@ juce::AudioProcessorValueTreeState::ParameterLayout SynthOneAudioProcessor::crea
     params.push_back(std::make_unique<juce::AudioParameterFloat>("EGRELEASE", "EG Release", juce::NormalisableRange<float>{0.004f, 5.00f, 0.01f}, 0.00f));
     params.push_back(std::make_unique<juce::AudioParameterFloat>("EGINT", "EG Intensity", juce::NormalisableRange<float>{-1.0f, 1000.0f, 0.1f, 0.3f}, 0.00f));
 
-    params.push_back(std::make_unique<juce::AudioParameterFloat>("LFO1RATE", "LFO Rate", juce::NormalisableRange<float>{0.0f, 20.0f, 0.1f, 0.2f}, 0.0f));
+    params.push_back(std::make_unique<juce::AudioParameterFloat>("LFO1RATE", "LFO Rate", juce::NormalisableRange<float>{0.0f, 200.0f, 0.1f, 0.2f}, 0.0f));
     params.push_back(std::make_unique<juce::AudioParameterFloat>("LFO1INT", "LFO Intensity", juce::NormalisableRange<float>{0.0f, 1000.0f, 1.0f, 0.3f}, 0.0f));
     params.push_back(std::make_unique<juce::AudioParameterChoice>("LFO1WAVE", "LFO Wave Type", juce::StringArray{ "Sine", "Saw", "Square" }, 0));
 
-    params.push_back(std::make_unique<juce::AudioParameterFloat>("LFO2RATE", "LFO Rate", juce::NormalisableRange<float>{0.0f, 20.0f, 0.1f, 0.2f}, 0.0f));
+    params.push_back(std::make_unique<juce::AudioParameterFloat>("LFO2RATE", "LFO Rate", juce::NormalisableRange<float>{0.0f, 200.0f, 0.1f, 0.2f}, 0.0f));
     params.push_back(std::make_unique<juce::AudioParameterFloat>("LFO2INT", "LFO Intensity", juce::NormalisableRange<float>{0.0f, 1000.0f, 1.0f, 0.3f}, 0.0f));
     params.push_back(std::make_unique<juce::AudioParameterChoice>("LFO2WAVE", "LFO Wave Type", juce::StringArray{ "Sine", "Saw", "Square" }, 0));
 

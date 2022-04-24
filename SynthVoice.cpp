@@ -49,8 +49,8 @@ void SynthVoice::renderNextBlock(juce::AudioBuffer<float>& outputBuffer, int sta
 
     //juce::dsp::AudioBlock<float> audioBlock{ outputBuffer };
     osc.processBlock(audioBlock);
-    lfo1.processBlock(audioBlock);
-    lfo2.processBlock(audioBlock);
+    //lfo1.processBlock(audioBlock);
+    //lfo2.processBlock(audioBlock);
 
     gain.process(juce::dsp::ProcessContextReplacing<float>(audioBlock));
     filter.prepare(oscBuffer);
@@ -98,20 +98,12 @@ void SynthVoice::prepareToPlay(double sampleRate, int samplesPerBlock, int outpu
     spec.numChannels = outputChannels;
 
     adsr.setSampleRate(sampleRate);
-    lfo1.prepareToPlay(spec);
-    lfo2.prepareToPlay(spec);
     osc.prepareToPlay(spec);
-    
     filter.prepareToPlay(sampleRate, samplesPerBlock, outputChannels);
     gain.prepare(spec);
     egADSR.setSampleRate(sampleRate);
     panner.prepare(spec);
     
-    
-    //lfo.initialise([](float x) { return std::sin(x); });
-
-    
-
     isPrepared = true;
 }
 

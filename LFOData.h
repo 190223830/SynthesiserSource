@@ -16,16 +16,14 @@
 class LFOData : public juce::dsp::Oscillator<float> { //this may need to inherit from oscdata once more modulation parameters are in place
 public:
     LFOData();
-    //~LFOData() override;
     void LFOData::setWaveType(const int waveType);
-    void prepareToPlay(juce::dsp::ProcessSpec& spec);
     void processBlock(juce::dsp::AudioBlock<float>& block);
     void LFOData::setFreq(const float rate);
     void setParams(float lfoRate, float lfoInt, int lfoWaveType);
-    float mod = 0.0f;
+    float mod{ 0.0f };
 
 private:
+    float intensity{ 0.0f };
     
-    float intensity{0.0f};
     
 };
