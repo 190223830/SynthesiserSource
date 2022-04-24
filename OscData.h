@@ -19,10 +19,12 @@ public:
     void processBlock(juce::dsp::AudioBlock<float>& block);
     void OscData::setFreq(const int midiNoteNumber, const int detune, const int courseTune);
     void setModulator(LFOData* modOsc);
+    void updateModulator();
 
 private:
     LFOData* modulatorOsc;
-    bool called = false;
+    bool modCalled = false;
     int midiNote{0};
     float detuneInHertz{ 0.00f };
+    float currentFreq{ 0.0f };
 };

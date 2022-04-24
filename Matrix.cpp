@@ -24,9 +24,7 @@ void Matrix::paint (juce::Graphics& g)
     for (int i = 0; i < destinations; i++) {
         for (int j = 0; j < modulators; j++) {
             addAndMakeVisible(buttons[i][j]);
-            //buttons[i][j].setBounds(oscDest0.getRight() + (i * 30),  oscMod0.getBottom() + (j * 60), 30, 30);
             buttons[i][j].setBounds(60 + (i * 40), 60 + (j * 40), 30, 30);
-            buttons[i][j].setToggleState(true, juce::dontSendNotification);
             buttons[i][j].onClick = [this, i, j]() {toggleValue(i, j);};
         }
     }

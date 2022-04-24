@@ -31,25 +31,33 @@ void OscData::setWaveType(const int waveType) {
 }
 
 void OscData::prepareToPlay(juce::dsp::ProcessSpec& spec) {
+    //if (modCalled) modulatorOsc->prepare(spec);
     prepare(spec);
-    if (called) modulatorOsc->prepare(spec);
 }
 
 void OscData::processBlock(juce::dsp::AudioBlock<float>& block) {
     process(juce::dsp::ProcessContextReplacing<float>(block));
+    if (modCalled) modulatorOsc->processBlock(block);
+    
 }
 
 void OscData::setFreq(const int midiNoteNumber, const int detuneValue, const int courseTuneValue) {
     midiNote = midiNoteNumber + courseTuneValue;
     //detuneValue == 0 ? detuneInHertz = 0 : detuneInHertz = pow(10, ((1200 / detuneValue * log(2)) + log(juce::MidiMessage::getMidiNoteInHertz(midiNote))));
     detuneInHertz = detuneValue * ((juce::MidiMessage::getMidiNoteInHertz(midiNote) - juce::MidiMessage::getMidiNoteInHertz(midiNote - 1)) / 100);
-    auto currentFreq = juce::MidiMessage::getMidiNoteInHertz(midiNote) + detuneInHertz;
-    if (called) currentFreq = currentFreq + modulatorOsc->mod;
+    currentFreq = juce::MidiMessage::getMidiNoteInHertz(midiNote) + detuneInHertz;
+    //if (modCalled)currentFreq += modulatorOsc->mod;
     setFrequency(currentFreq >= 0 ? currentFreq : 0);
 }
 
 
 void OscData::setModulator(LFOData* modOsc) {
-    called = true;
+    modCalled = true;
     modulatorOsc = modOsc;
+}
+
+void OscData::updateModulator() {
+    currentFreq = juce::MidiMessage::getMidiNoteInHertz(midiNote) + detuneInHertz;
+    if (modCalled)currentFreq += modulatorOsc->mod;
+    setFrequency(currentFreq >= 0 ? currentFreq : 0);
 }

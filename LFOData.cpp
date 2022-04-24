@@ -12,7 +12,8 @@
 #include "LFOData.h"
 
 LFOData::LFOData() {
-    //initialise([](float x) {return x = 0; });
+//    initialise([](float x) {return x = 0; });
+    initialise([](float x) {return std::sin(x); });
 }
 
 void LFOData::setWaveType(const int waveType) {
@@ -37,8 +38,7 @@ void LFOData::setWaveType(const int waveType) {
 void LFOData::processBlock(juce::dsp::AudioBlock<float>& block) {
     for (int channel = 0; channel < block.getNumChannels(); channel++) {
         for (int sample = 0; sample < block.getNumSamples(); sample++) {
-            if (block.getSample(channel, sample) == isInitialised()) {
-                mod = processSample(block.getSample(channel, sample)) * intensity;}
+            mod = processSample(block.getSample(channel, sample))*intensity;
         }
     }
 }
@@ -48,6 +48,7 @@ void LFOData::setFreq(const float rate) {
 }
 
 void LFOData::setParams(float lfoRate, float lfoInt, int lfoWaveType) {
+    //reset();
     setWaveType(lfoWaveType);
     setFreq(lfoRate);
     intensity = lfoInt;
