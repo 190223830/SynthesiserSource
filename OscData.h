@@ -9,7 +9,8 @@
 */
 
 #pragma once
-#include<JuceHeader.h>
+#include <JuceHeader.h>
+#include "LFOData.h"
 
 class OscData : public juce::dsp::Oscillator<float> {
 public:
@@ -17,15 +18,13 @@ public:
     void prepareToPlay(juce::dsp::ProcessSpec& spec);
     void processBlock(juce::dsp::AudioBlock<float>& block);
     void OscData::setFreq(const int midiNoteNumber, const int detune, const int courseTune, float modOne=0.0f);
-    void setLFOint(float intensity);
-
-    //void setModParams(const float intensity, const float freq, const int waveType);
+    void setModulator(LFOData* modOsc);
 
 private:
-    //juce::dsp::Oscillator<float>modOneOsc;
-    //juce::dsp::Oscillator<float>modOneOsc{ [](float x) {return std::sin(x); } }; //TODO: call setWaveType() here
-    float modOne{ 0.0f };
-    float modOneInt{ 0.0f };
+    LFOData* modulatorOsc;
+    bool called = false;
+    float modulator{ 0.0f };
+    float modulatorInt{ 0.0f };
     int midiNote{0};
     float detuneInHertz{ 0.00f };
     float modTotal{ 0.0f };

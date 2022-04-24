@@ -156,9 +156,10 @@ void SynthOneAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer, juc
         }
     }
 
+
     for (int i = 0; i < synth.getNumVoices(); i++) { 
         if (auto voice = dynamic_cast<SynthVoice*>(synth.getVoice(i))) {
-            int oscNum = ((i + 1) % 4);
+            int oscNum = ((i+1) % 4);
             juce::String oscNumStr = std::to_string(oscNum);
             int waveType = *valueTreeState.getRawParameterValue("WAVE" + oscNumStr);
             float attack = *valueTreeState.getRawParameterValue("ATTACK" + oscNumStr);
@@ -176,26 +177,21 @@ void SynthOneAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer, juc
             voice->updateDetune(detune, courseTune);
             voice->setPanValue(pan);
 
+            auto& lfo1Rate = *valueTreeState.getRawParameterValue("LFO1RATE");
+            auto& lfo1Int = *valueTreeState.getRawParameterValue("LFO1INT");
+            auto& lfo1WaveType = *valueTreeState.getRawParameterValue("LFO1WAVE");
+            auto& lfo2Rate = *valueTreeState.getRawParameterValue("LFO2RATE");
+            auto& lfo2Int = *valueTreeState.getRawParameterValue("LFO2INT");
+            auto& lfo2WaveType = *valueTreeState.getRawParameterValue("LFO2WAVE");
+
+            voice->setLFO(1, lfo1Rate, lfo1Int, lfo1WaveType, oscNum);
+            voice->setLFO(2, lfo2Rate, lfo2Int, lfo2WaveType, oscNum);
 
             //LFO/FM MODS
             //auto& modOneFreq = *valueTreeState.getRawParameterValue("MODONEFREQ");
             //auto& modOneInt = *valueTreeState.getRawParameterValue("MODONEINT");
             //auto& modOneWaveType = *valueTreeState.getRawParameterValue("MODONEWAVE");
             //voice->getOsc().setModParams(modOneFreq, modOneInt, modOneWaveType);
-
-            auto& lfo1Rate = *valueTreeState.getRawParameterValue("LFO1RATE");
-            auto& lfo1Int = *valueTreeState.getRawParameterValue("LFO1INT");
-            auto& lfo1WaveType = *valueTreeState.getRawParameterValue("LFO1WAVE");
-            auto& lfo1Destinations = *valueTreeState.getRawParameterValue("LFO1DEST");
-            //voice->getLFO().setParams(lfo1Rate, lfo1Int, lfo1WaveType);
-            voice->setLFO(1, lfo1Rate, lfo1Int, lfo1WaveType, oscNum);
-
-            auto& lfo2Rate = *valueTreeState.getRawParameterValue("LFO2RATE");
-            auto& lfo2Int = *valueTreeState.getRawParameterValue("LFO2INT");
-            auto& lfo2WaveType = *valueTreeState.getRawParameterValue("LFO2WAVE");
-            auto& lfo2Destinations = *valueTreeState.getRawParameterValue("LFO2DEST");
-            //voice->getLFO().setParams(lfo2Rate, lfo2Int, lfo2WaveType);
-            voice->setLFO(2, lfo2Rate, lfo2Int, lfo2WaveType, oscNum);
 
             //EG ADSR
             auto& egAttack = *valueTreeState.getRawParameterValue("EGATTACK");

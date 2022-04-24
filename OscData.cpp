@@ -8,7 +8,8 @@
   ==============================================================================
 */
 
-#include "oscData.h"
+#include "OscData.h"
+
 
 void OscData::setWaveType(const int waveType) {
 
@@ -36,11 +37,12 @@ void OscData::prepareToPlay(juce::dsp::ProcessSpec& spec) {
 }
 
 void OscData::processBlock(juce::dsp::AudioBlock<float>& block) {
-    //for (int channel = 0; channel < block.getNumChannels(); channel++) {
-    //    for (int sample = 0; sample < block.getNumSamples(); sample++) {
-    //        modOne = modOneOsc.processSample(block.getSample(channel, sample))*modOneInt;
-    //    }
-    //}
+    /*for (int channel = 0; channel < block.getNumChannels(); channel++) {
+        for (int sample = 0; sample < block.getNumSamples(); sample++) {
+            modulator = modulatorOsc.processSample(block.getSample(channel, sample))*modulatorInt;
+        }
+    }*/
+    if(called) modulator = modulatorOsc->mod;
     process(juce::dsp::ProcessContextReplacing<float>(block));
 }
 
@@ -48,7 +50,8 @@ void OscData::setFreq(const int midiNoteNumber, const int detuneValue, const int
     midiNote = midiNoteNumber + courseTuneValue;
     //detuneValue == 0 ? detuneInHertz = 0 : detuneInHertz = pow(10, ((1200 / detuneValue * log(2)) + log(juce::MidiMessage::getMidiNoteInHertz(midiNote))));
     detuneInHertz = detuneValue * ((juce::MidiMessage::getMidiNoteInHertz(midiNote) - juce::MidiMessage::getMidiNoteInHertz(midiNote - 1)) / 100);
-    setFrequency(juce::MidiMessage::getMidiNoteInHertz(midiNote) + detuneInHertz + modOne);
+    auto currentFreq(juce::MidiMessage::getMidiNoteInHertz(midiNote) + detuneInHertz + modulator);
+    setFrequency(currentFreq >= 0 ? currentFreq : 0);
     
 }
 
@@ -76,6 +79,7 @@ void OscData::setFreq(const int midiNoteNumber, const int detuneValue, const int
     //setFrequency(currentFreq >= 0 ? currentFreq : currentFreq * -1.0f);
 //}
 
-void OscData::setLFOint(float intensity) {
-    modOne = intensity;
+void OscData::setModulator(LFOData* modOsc) {
+    called = true;
+    modulatorOsc = modOsc;
 }
