@@ -11,9 +11,6 @@
 #include <JuceHeader.h>
 #include "LFOData.h"
 
-LFOData::LFOData() {
-}
-
 void LFOData::setWaveType(const int waveType) {
     switch (waveType)
     {

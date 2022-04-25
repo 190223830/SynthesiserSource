@@ -35,13 +35,13 @@ void OscData::prepareToPlay(juce::dsp::ProcessSpec& spec) {
     prepare(spec);
 }
 
-void OscData::processBlock(juce::dsp::AudioBlock<float>& block) {
+float OscData::processBlock(juce::dsp::AudioBlock<float>& block) {
     float temp = 0.0f;
     for (int i = 0; i < modulators; i++) if (modCalled[i]) temp += modulatorOsc[i]->processBlock(block);
     modValue = temp;
     process(juce::dsp::ProcessContextReplacing<float>(block));
     
-    
+    return 0;
 }
 
 void OscData::setFreq(const int midiNoteNumber, const int detuneValue, const int courseTuneValue) {
@@ -53,7 +53,7 @@ void OscData::setFreq(const int midiNoteNumber, const int detuneValue, const int
 }
 
 
-void OscData::setModulator(LFOData* modOsc, int modNum) {
+void OscData::setModulator(VirtualOsc* modOsc, int modNum) {
     modCalled[modNum] = true;
     jassert(modNum < modulators);
     modulatorOsc[modNum] = modOsc;
@@ -64,7 +64,7 @@ void OscData::updateModulator() {
     setFrequency(currentFreq >= 0 ? currentFreq : 0);
 }
 
-void OscData::removeModulator(LFOData* modOsc) {
+void OscData::removeModulator(VirtualOsc* modOsc) {
     for (int i=0; i < modulators; i++) {
         if (modulatorOsc[i] == modOsc) {
             modOsc->setParams(0, 0, 0);
@@ -72,3 +72,5 @@ void OscData::removeModulator(LFOData* modOsc) {
         }
     }
 }
+
+void OscData::setParams(float lfoRate, float lfoInt, int lfoWaveType) {}

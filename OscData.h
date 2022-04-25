@@ -10,22 +10,23 @@
 
 #pragma once
 #include <JuceHeader.h>
-#include "LFOData.h"
+#include "VirtualOsc.h"
 
-class OscData : public juce::dsp::Oscillator<float> {
+class OscData : public VirtualOsc {
 public:
-    void OscData::setWaveType(const int waveType);
+    void setWaveType(const int waveType);
     void prepareToPlay(juce::dsp::ProcessSpec& spec);
-    void processBlock(juce::dsp::AudioBlock<float>& block);
-    void OscData::setFreq(const int midiNoteNumber, const int detune, const int courseTune);
+    float processBlock(juce::dsp::AudioBlock<float>& block);
+    void setFreq(const int midiNoteNumber, const int detune, const int courseTune);
     //void setModulator(LFOData* modOsc);
-    void setModulator(LFOData* modOsc, int modNum);
+    void setModulator(VirtualOsc* modOsc, int modNum);
     void updateModulator();
-    void OscData::removeModulator(LFOData* modOsc);
+    void removeModulator(VirtualOsc* modOsc);
+    void setParams(float lfoRate, float lfoInt, int lfoWaveType);
 
 private:
     static constexpr auto modulators = 2;
-    LFOData* modulatorOsc[modulators];
+    VirtualOsc* modulatorOsc[modulators];
     bool modCalled[modulators];
     float modValue{ 0.000f };
     int midiNote{0};

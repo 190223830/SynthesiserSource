@@ -28,10 +28,8 @@ void SynthVoice::stopNote(float velocity, bool allowTailOff) {
         clearCurrentNote(); //if envelope is finished, no need to output
         adsr.reset();
     };
-    //osc.reset();
-    //lfo1.reset();
-    //lfo2.reset();
 };
+
 void SynthVoice::controllerMoved(int ControllerNumber, int newControllerValue) {};
 
 void SynthVoice::renderNextBlock(juce::AudioBuffer<float>& outputBuffer, int startSample, int numSamples) {
