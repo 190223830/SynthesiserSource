@@ -18,14 +18,15 @@ public:
     void prepareToPlay(juce::dsp::ProcessSpec& spec);
     void processBlock(juce::dsp::AudioBlock<float>& block);
     void OscData::setFreq(const int midiNoteNumber, const int detune, const int courseTune);
-    void setModulator(LFOData* modOsc);
+    //void setModulator(LFOData* modOsc);
+    void setModulator(LFOData* modOsc, int modNum);
     void updateModulator();
     void OscData::removeModulator(LFOData* modOsc);
 
 private:
-    int modulators{ 2 };
+    static constexpr auto modulators = 2;
     LFOData* modulatorOsc[modulators];
-    bool modCalled = false;
+    bool modCalled[modulators];
     float modValue{ 0.000f };
     int midiNote{0};
     float detuneInHertz{ 0.00f };

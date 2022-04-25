@@ -129,11 +129,11 @@ void SynthVoice::setLFO(int lfoNum, float lfoRate, float lfoInt, int lfoWaveType
         switch (lfoNum) {
         case 1:
             lfo1.setParams(lfoRate, lfoInt, lfoWaveType);
-            getOsc().setModulator(&lfo1);
+            getOsc().setModulator(&lfo1, lfoNum-1);
             break;
         case 2:
             lfo2.setParams(lfoRate, lfoInt, lfoWaveType);
-            //getOsc().setModulator(&lfo2);                         //TODO: MAKE ADD MODULATOR METHOD WITH MODULATOR ARRAY, THIS WILL CURRENTLY OVERWRITE LFO1
+            getOsc().setModulator(&lfo2, lfoNum-1);                         //TODO: MAKE ADD MODULATOR METHOD WITH MODULATOR ARRAY, THIS WILL CURRENTLY OVERWRITE LFO1
             break;
         default:
             jassertfalse;
@@ -146,7 +146,7 @@ void SynthVoice::setLFO(int lfoNum, float lfoRate, float lfoInt, int lfoWaveType
             getOsc().removeModulator(&lfo1);
             break;
         case 2:
-            //getOsc().removeModulator(&lfo2);
+            getOsc().removeModulator(&lfo2);
             break;
         default:
             jassertfalse;
