@@ -143,12 +143,10 @@ void SynthVoice::setLFO(int lfoNum, float lfoRate, float lfoInt, int lfoWaveType
     else {
         switch (lfoNum) {
         case 1:
-            lfo1.setParams(0, 0, 0);
-            getOsc().setModulator(&lfo1);
+            getOsc().removeModulator(&lfo1);
             break;
         case 2:
-            lfo2.setParams(0, 0, 0);
-            //getOsc().setModulator(&lfo2);
+            //getOsc().removeModulator(&lfo2);
             break;
         default:
             jassertfalse;

@@ -20,12 +20,15 @@ public:
     void OscData::setFreq(const int midiNoteNumber, const int detune, const int courseTune);
     void setModulator(LFOData* modOsc);
     void updateModulator();
+    void OscData::removeModulator(LFOData* modOsc);
 
 private:
-    LFOData* modulatorOsc;
+    int modulators{ 2 };
+    LFOData* modulatorOsc[modulators];
     bool modCalled = false;
     float modValue{ 0.000f };
     int midiNote{0};
     float detuneInHertz{ 0.00f };
     float currentFreq{ 0.0f };
+    
 };
