@@ -30,9 +30,6 @@ private:
     juce::ComboBox modOneWaveSelect;
     std::unique_ptr<juce::AudioProcessorValueTreeState::ComboBoxAttachment> modOneWaveSelectAttachment;
     juce::Label modOneWaveSelectLabel{ "modOneWaveSelectLabel", "Modulator Wave Type" };
-
-    GenericSlider modOneFreqSlider;
-    GenericSlider modOneIntSlider;
   
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (Osc)

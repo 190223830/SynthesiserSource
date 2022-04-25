@@ -188,13 +188,6 @@ void SynthOneAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer, juc
             auto& lfo2Int = *valueTreeState.getRawParameterValue("LFO2INT");
             auto& lfo2WaveType = *valueTreeState.getRawParameterValue("LFO2WAVE");
             voice->setLFO(2, lfo2Rate, lfo2Int, lfo2WaveType, oscNum);
-            
-
-            //LFO/FM MODS
-            //auto& modOneFreq = *valueTreeState.getRawParameterValue("MODONEFREQ");
-            //auto& modOneInt = *valueTreeState.getRawParameterValue("MODONEINT");
-            //auto& modOneWaveType = *valueTreeState.getRawParameterValue("MODONEWAVE");
-            //voice->getOsc().setModParams(modOneFreq, modOneInt, modOneWaveType);
 
             //EG ADSR
             auto& egAttack = *valueTreeState.getRawParameterValue("EGATTACK");
@@ -265,15 +258,6 @@ juce::AudioProcessorValueTreeState::ParameterLayout SynthOneAudioProcessor::crea
         params.push_back(std::make_unique<juce::AudioParameterInt>("COURSETUNE" + str, "Course Tune", -100, 100, 0));
         params.push_back(std::make_unique<juce::AudioParameterFloat>("PAN" + str, "Pan", -1.0f, 1.0f, 0.0f));
     }
-
-    //params.push_back(std::make_unique<juce::AudioParameterFloat>("MODONEFREQ", "Modulator 1 Frequency", juce::NormalisableRange<float>{0.0f, 1000.0f, 0.1f, 0.2f}, 0.0f));
-    //params.push_back(std::make_unique<juce::AudioParameterFloat>("MODONEINT", "Modulator 1 Intensity", juce::NormalisableRange<float>{0.0f, 1000.0f, 1.0f, 0.3f}, 0.0f));
-    //params.push_back(std::make_unique<juce::AudioParameterChoice>("MODONEWAVE", "Wave Type", juce::StringArray{ "Sine", "Saw", "Square" }, 0));
-
-    //params.push_back(std::make_unique<juce::AudioParameterFloat>("MODTWOFREQ", "Modulator 2 Frequency", juce::NormalisableRange<float>{0.0f, 1000.0f, 0.1f, 0.2f}, 0.0f));
-    //params.push_back(std::make_unique<juce::AudioParameterFloat>("MODTWOINT", "Modulator 2 Intensity", juce::NormalisableRange<float>{0.0f, 1000.0f, 1.0f, 0.3f}, 0.0f));
-    //params.push_back(std::make_unique<juce::AudioParameterChoice>("MODTWOWAVE", "Wave Type", juce::StringArray{ "Sine", "Saw", "Square" }, 0));
-    //
 
     params.push_back(std::make_unique<juce::AudioParameterChoice>("FILTERTYPE", "Filter Type", juce::StringArray{ "LPF", "BPF", "HPF" }, 0));
     params.push_back(std::make_unique<juce::AudioParameterFloat>("CUTOFF", "Filter Cutoff Frequency", juce::NormalisableRange<float>{20.f, 20000.f, 1.f, 0.3f}, 10000.f));
