@@ -11,9 +11,7 @@
 #include <JuceHeader.h>
 #include "LFOData.h"
 
-<<<<<<< Updated upstream
 void LFOData::setWaveType(const int waveType) {
-
     switch (waveType)
     {
     case 0:
@@ -31,24 +29,20 @@ void LFOData::setWaveType(const int waveType) {
     }
 }
 
-void LFOData::prepareToPlay(juce::dsp::ProcessSpec& spec) {
-
-    prepare(spec);
-=======
 float LFOData::processBlock(juce::dsp::AudioBlock<float>& block) {
-    return processSample(block.getSample(0, 0)) * intensity;
     for (int channel = 0; channel < block.getNumChannels(); channel++) {
         for (int sample = 0; sample < block.getNumSamples(); sample++) {
             return processSample(block.getSample(channel, sample))*intensity;
         }
     }
->>>>>>> Stashed changes
-}
-
-void LFOData::processBlock(juce::dsp::AudioBlock<float>& block) {
-    process(juce::dsp::ProcessContextReplacing<float>(block));
 }
 
 void LFOData::setFreq(const float rate) {
     setFrequency(rate);
+}
+
+void LFOData::setParams(float lfoRate, float lfoInt, int lfoWaveType) {
+    setWaveType(lfoWaveType);
+    setFreq(lfoRate);
+    intensity = lfoInt;
 }

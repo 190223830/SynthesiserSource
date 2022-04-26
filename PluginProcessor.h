@@ -49,7 +49,6 @@ public:
     juce::MidiKeyboardState keyboardState;
 
 private:
-    OscData* oscs[4];
     SynthesiserPlusAddons synth;
     //FilterData filter;
     juce::AudioProcessorValueTreeState::ParameterLayout createParams();

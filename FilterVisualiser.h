@@ -20,11 +20,14 @@ class FilterVisualiser  : public juce::AudioVisualiserComponent//, juce::Timer
 public:
     FilterVisualiser();
     ~FilterVisualiser() override;
+
     void paint (juce::Graphics&) override;
     void resized() override;
+
     void update(int filterType, float cutoffFreq, float resonance);
 
 private:
+
     juce::Path filterResponse;
     float startingX, startingY;
     juce::Point<float> cutoffPoint, peakPoint, endPoint;
