@@ -73,7 +73,7 @@ void FilterVisualiser::update(int filterType, float cutoffFreq, float resonance)
 }
 
 FilterVisualiserSpectrogram::FilterVisualiserSpectrogram() : forwardFFT(fftOrder),
-                                                             window(fftSize, juce::dsp::WindowingFunction<float>::hann)
+                                                             window(fftSize, juce::dsp::WindowingFunction<float>::blackman)
 {
     startTimerHz(60);
 }
@@ -82,14 +82,12 @@ FilterVisualiserSpectrogram::~FilterVisualiserSpectrogram() { shutdownAudio(); }
 
 
 
-void FilterVisualiserSpectrogram::getNextAudioBlock(const juce::AudioSourceChannelInfo& bufferToFill)
+void FilterVisualiserSpectrogram::getNextAudioBlock(const juce::AudioSourceChannelInfo& emptyBuffer)
 {
-    if (bufferToFill.buffer->getNumChannels() > 0)
+    if (emptyBuffer.buffer->getNumChannels() > 0)
     {
-        auto* channelData = bufferToFill.buffer->getReadPointer(0, bufferToFill.startSample);
-
-        for (auto i = 0; i < bufferToFill.numSamples; ++i)
-            pushNextSampleIntoInbound(channelData[i]);
+        auto* channelData = emptyBuffer.buffer->getReadPointer(0, emptyBuffer.startSample);
+        for (int i = 0; i < emptyBuffer.numSamples; i++) pushNextSampleIntoInbound(channelData[i]);
     }
 }
 
@@ -115,12 +113,11 @@ void FilterVisualiserSpectrogram::drawNextFrame()
 
     for (int i = 0; i < graphPoints; i++)
     {
-        auto skewedProportionX = 1.0f - std::exp(std::log(1.0f - (float)i / (float)graphPoints) * 0.2f);
-        auto resultsIndex = juce::jlimit(0, fftSize / 2, (int)(skewedProportionX * (float)fftSize * 0.5f));
+        auto logSkew = 1.0f - std::exp(std::log(1.0f - (float)i / (float)graphPoints) * 0.2f);
+        auto resultsIndex = juce::jlimit(0, fftSize / 2, (int)(logSkew * (float)fftSize * 0.5f));
         auto level = juce::jmap(juce::jlimit(-100.0f, 0.0f, juce::Decibels::gainToDecibels(results[resultsIndex])
             - juce::Decibels::gainToDecibels((float)fftSize)),
             -100.0f, 0.0f, 0.0f, 1.0f);
-
         graph[i] = level;
     }
 }
@@ -145,10 +142,8 @@ void FilterVisualiserSpectrogram::drawFrame(juce::Graphics& g)
 {
     for (int i = 1; i < graphPoints; i++)
     {
-
         g.drawLine({ (float)juce::jmap(i - 1, 0, graphPoints - 1, 0, getWidth()),
                             juce::jmap(graph[i - 1], 0.0f, 1.0f, (float)getHeight(), 0.0f),
-
                      (float)juce::jmap(i,     0, graphPoints - 1, 0, getWidth()),
                             juce::jmap(graph[i],     0.0f, 1.0f, (float)getHeight(), 0.0f) });
     }

@@ -16,7 +16,6 @@
 #include "OscData.h"
 #include "FilterData.h"
 #include "LFOData.h"
-#include "Matrix.h"
 
 class SynthVoice : public juce::SynthesiserVoice {
 public:
@@ -32,23 +31,28 @@ public:
     void updateGain(const float gainValue);
     void updateDetune(const int detuneValue, const int courseTuneValue);
     OscData& getOsc();
-    //LFOData& getLFO() { return lfo; };
     void updateFilter(const int filterType, const float filterCutoff, const float filterResonance, const float intensity);
     void updateEGADSR(const float attack, const float decay, const float sustain, const float release);
     void setPanValue(const float pan);
+<<<<<<< Updated upstream
+=======
     float getModulatedFilterCutoff();
     void setLFO(int lfoNo, float lfoRate, float lfoInt, int lfoWaveType, int oscNum);
+    void setFM(int modOsc, int destOsc, OscData* osc);
+>>>>>>> Stashed changes
 
 private:
     juce::dsp::ProcessSpec spec;
-    Matrix* matrix = Matrix::getInstance();
+    //juce::ADSR adsr;
     ADSRData adsr;
     OscData osc;
-    int detune{ 0 }, courseTune{ 0 };
+    int detune, courseTune;
     juce::dsp::Panner<float> panner;
+    
     FilterData filter;
     ADSRData egADSR;
-    LFOData lfo1, lfo2;
+    //LFOData lfo; //Create new LFOData class and move/inherit the stuff from OscData, or try and use OscData (but that sounds like it's gonna suck)
+
     juce::AudioBuffer<float> oscBuffer;
                         
     juce::dsp::Gain<float> gain;

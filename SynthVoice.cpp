@@ -15,8 +15,7 @@ bool SynthVoice::canPlaySound(juce::SynthesiserSound* sound) {
     return dynamic_cast<juce::SynthesiserSound*>(sound) != nullptr;
 };
 void SynthVoice::startNote(int midiNoteNumber, float velocity, juce::SynthesiserSound* sound, int currentPitchWheelPosition) {
-    lfo1.reset();
-    lfo2.reset();
+
     osc.setFreq(midiNoteNumber, detune, courseTune);
     adsr.noteOn();
     egADSR.noteOn();
@@ -28,13 +27,12 @@ void SynthVoice::stopNote(float velocity, bool allowTailOff) {
         clearCurrentNote(); //if envelope is finished, no need to output
         adsr.reset();
     };
+    
 };
+void SynthVoice::controllerMoved(int ControllerNumber, int newControllerValue) {
 
-void SynthVoice::controllerMoved(int ControllerNumber, int newControllerValue) {};
-
+};
 void SynthVoice::renderNextBlock(juce::AudioBuffer<float>& outputBuffer, int startSample, int numSamples) {
-
-    //while (!isPrepared);
     jassert(isPrepared);
 
     if (!isVoiceActive()) {
@@ -46,10 +44,14 @@ void SynthVoice::renderNextBlock(juce::AudioBuffer<float>& outputBuffer, int sta
     egADSR.applyEnvelopeToBuffer(oscBuffer, 0, numSamples);
     oscBuffer.clear();
     juce::dsp::AudioBlock<float> audioBlock{ oscBuffer };
+
+    //juce::dsp::AudioBlock<float> audioBlock{ outputBuffer };
     osc.processBlock(audioBlock);
     gain.process(juce::dsp::ProcessContextReplacing<float>(audioBlock));
     filter.prepare(oscBuffer);
     panner.process(juce::dsp::ProcessContextReplacing<float>(audioBlock));
+
+    //adsr.applyEnvelopeToBuffer(outputBuffer, startSample, numSamples);
     adsr.applyEnvelopeToBuffer(oscBuffer, 0, oscBuffer.getNumSamples());
     
 
@@ -92,13 +94,16 @@ void SynthVoice::prepareToPlay(double sampleRate, int samplesPerBlock, int outpu
 
     adsr.setSampleRate(sampleRate);
     osc.prepareToPlay(spec);
-    lfo1.prepare(spec);
-    lfo2.prepare(spec);
     filter.prepareToPlay(sampleRate, samplesPerBlock, outputChannels);
     gain.prepare(spec);
     egADSR.setSampleRate(sampleRate);
     panner.prepare(spec);
     
+    //lfo.prepare(spec);
+    //lfo.initialise([](float x) { return std::sin(x); });
+
+    
+
     isPrepared = true;
 }
 
@@ -106,7 +111,7 @@ void SynthVoice::update(const float attack, const float decay, const float susta
     adsr.updateADSR(attack, decay, sustain, release);
 }
 
-void SynthVoice::updateGain(const float gainValue) {
+void SynthVoice::updateGain(const float gainValue) {    //TODO: Incorporate into update method
     gain.setGainLinear(gainValue);
 }
 
@@ -118,6 +123,8 @@ OscData& SynthVoice::getOsc() {
     return osc;
 }
 
+<<<<<<< Updated upstream
+=======
 float SynthVoice::getModulatedFilterCutoff() {
     return filter.getModulatedCutoff();
 }
@@ -127,11 +134,11 @@ void SynthVoice::setLFO(int lfoNum, float lfoRate, float lfoInt, int lfoWaveType
         switch (lfoNum) {
         case 1:
             lfo1.setParams(lfoRate, lfoInt, lfoWaveType);
-            getOsc().setModulator(&lfo1, lfoNum-1);
+            getOsc().setModulator(&lfo1, lfoNum+3);
             break;
         case 2:
             lfo2.setParams(lfoRate, lfoInt, lfoWaveType);
-            getOsc().setModulator(&lfo2, lfoNum-1);                         //TODO: MAKE ADD MODULATOR METHOD WITH MODULATOR ARRAY, THIS WILL CURRENTLY OVERWRITE LFO1
+            getOsc().setModulator(&lfo2, lfoNum+3);                         //TODO: MAKE ADD MODULATOR METHOD WITH MODULATOR ARRAY, THIS WILL CURRENTLY OVERWRITE LFO1
             break;
         default:
             jassertfalse;
@@ -151,5 +158,11 @@ void SynthVoice::setLFO(int lfoNum, float lfoRate, float lfoInt, int lfoWaveType
             break;
         }
     }
+}
+>>>>>>> Stashed changes
+
+void SynthVoice::setFM(int modOsc, int destOsc, OscData* osc) {
+    if (matrix->getValue((destOsc + 3) % 4, (modOsc + 3) % 4)) getOsc().setModulator(osc, (modOsc + 3) % 4);
+    else getOsc().removeModulator(osc);
 }
 
