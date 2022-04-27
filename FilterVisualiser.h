@@ -12,26 +12,19 @@
 
 #include <JuceHeader.h>
 
-//==============================================================================
-/*
-*/
 class FilterVisualiser  : public juce::AudioVisualiserComponent//, juce::Timer
 {
 public:
     FilterVisualiser();
     ~FilterVisualiser() override;
-
     void paint (juce::Graphics&) override;
     void resized() override;
-
     void update(int filterType, float cutoffFreq, float resonance);
 
 private:
-
     juce::Path filterResponse;
     float startingX, startingY;
     juce::Point<float> cutoffPoint, peakPoint, endPoint;
-    //float cutoffPoint, startingPoint; 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (FilterVisualiser)
 };
 
@@ -44,32 +37,23 @@ public:
     FilterVisualiserSpectrogram();
     ~FilterVisualiserSpectrogram() override;
     void paint(juce::Graphics&) override;
-
-
     void prepareToPlay(int samplesPerBlockExpected, double sampleRate) override;
     void releaseResources() override;
-
     void getNextAudioBlock(const juce::AudioSourceChannelInfo& bufferToFill) override;
     void pushNextSampleIntoInbound(float sample) noexcept;
-    
     void timerCallback() override;
-
     void drawFrame(juce::Graphics& g);
     void drawNextFrame();
 
 private:
     juce::dsp::FFT forwardFFT;
-    juce::dsp::WindowingFunction<float> window;
-
-    //std::array<float, fftSize> inbound;                    // incoming samples
-    //std::array<float, fftSize * 2> results;                // calculation results
-    float inbound[fftSize];
-    float results[2 * fftSize];
-
+    juce::dsp::WindowingFunction<float> window;         
+    float inbound[fftSize];         // incoming samples
+    float results[2 * fftSize];     // calculation 
     int graphPoints = 512;
     float graph[512];
     int index = 0;
-    bool nextFFTBlockReady = false;                        // renderNextBlock trigger
+    bool nextFFTBlockReady = false; // renderNextBlock trigger
 
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(FilterVisualiserSpectrogram)

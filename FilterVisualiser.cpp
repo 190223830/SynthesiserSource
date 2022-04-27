@@ -11,25 +11,15 @@
 #include <JuceHeader.h>
 #include "FilterVisualiser.h"
 
-//==============================================================================
-FilterVisualiser::FilterVisualiser() : AudioVisualiserComponent(0)
-{
-};
-
-
-FilterVisualiser::~FilterVisualiser()
-{
-}
+FilterVisualiser::FilterVisualiser() : AudioVisualiserComponent(0) {}
+FilterVisualiser::~FilterVisualiser() {}
 
 void FilterVisualiser::paint (juce::Graphics& g)
 {
-    //g.drawRect(getLocalBounds(), 1);   // draw an outline around the component
-
     g.fillAll(juce::Colours::black);
     g.setColour(juce::Colours::darkturquoise);
 
     filterResponse.clear();
-
     filterResponse.startNewSubPath(juce::Point<float>(startingX, startingY));
     filterResponse.lineTo(cutoffPoint);
     filterResponse.lineTo(peakPoint);
@@ -38,10 +28,7 @@ void FilterVisualiser::paint (juce::Graphics& g)
     filterResponse.closeSubPath();
 }
 
-void FilterVisualiser::resized()
-{
-
-}
+void FilterVisualiser::resized() {}
 
 void FilterVisualiser::update(int filterType, float cutoffFreq, float resonance) {
     startingY = getHeight() / 2;
@@ -58,7 +45,6 @@ void FilterVisualiser::update(int filterType, float cutoffFreq, float resonance)
             startingY = getHeight();
             cutoffPoint = peakPoint;
             endPoint = juce::Point<float>(peakPoint.getX() + 80, getHeight());
-            
             break;
         case 2:
             startingX = getWidth();
@@ -73,23 +59,19 @@ void FilterVisualiser::update(int filterType, float cutoffFreq, float resonance)
 }
 
 FilterVisualiserSpectrogram::FilterVisualiserSpectrogram() : forwardFFT(fftOrder),
-                                                             window(fftSize, juce::dsp::WindowingFunction<float>::hann)
-{
-    startTimerHz(60);
-}
+                                                             window(fftSize, juce::dsp::WindowingFunction<float>::blackman)
+{ startTimerHz(60); }
 
 FilterVisualiserSpectrogram::~FilterVisualiserSpectrogram() { shutdownAudio(); }
 
 
 
-void FilterVisualiserSpectrogram::getNextAudioBlock(const juce::AudioSourceChannelInfo& bufferToFill)
+void FilterVisualiserSpectrogram::getNextAudioBlock(const juce::AudioSourceChannelInfo& emptyBuffer)
 {
-    if (bufferToFill.buffer->getNumChannels() > 0)
+    if (emptyBuffer.buffer->getNumChannels() > 0)
     {
-        auto* channelData = bufferToFill.buffer->getReadPointer(0, bufferToFill.startSample);
-
-        for (auto i = 0; i < bufferToFill.numSamples; ++i)
-            pushNextSampleIntoInbound(channelData[i]);
+        auto* channelData = emptyBuffer.buffer->getReadPointer(0, emptyBuffer.startSample);
+        for (int i = 0; i < emptyBuffer.numSamples; i++) pushNextSampleIntoInbound(channelData[i]);
     }
 }
 
@@ -115,8 +97,8 @@ void FilterVisualiserSpectrogram::drawNextFrame()
 
     for (int i = 0; i < graphPoints; i++)
     {
-        auto skewedProportionX = 1.0f - std::exp(std::log(1.0f - (float)i / (float)graphPoints) * 0.2f);
-        auto resultsIndex = juce::jlimit(0, fftSize / 2, (int)(skewedProportionX * (float)fftSize * 0.5f));
+        auto logSkew = 1.0f - std::exp(std::log(1.0f - (float)i / (float)graphPoints) * 0.2f);
+        auto resultsIndex = juce::jlimit(0, fftSize / 2, (int)(logSkew * (float)fftSize * 0.5f));
         auto level = juce::jmap(juce::jlimit(-100.0f, 0.0f, juce::Decibels::gainToDecibels(results[resultsIndex])
             - juce::Decibels::gainToDecibels((float)fftSize)),
             -100.0f, 0.0f, 0.0f, 1.0f);
