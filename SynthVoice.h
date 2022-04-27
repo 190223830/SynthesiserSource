@@ -38,6 +38,7 @@ public:
     void setPanValue(const float pan);
     float getModulatedFilterCutoff();
     void setLFO(int lfoNo, float lfoRate, float lfoInt, int lfoWaveType, int oscNum);
+    void setFM(int modOsc, int destOsc, OscData* osc);
 
 private:
     juce::dsp::ProcessSpec spec;

@@ -12,22 +12,6 @@
 
 
 void OscData::setWaveType(const int waveType) {
-
-    switch ((int)waveType)
-    {
-    case 0:
-        initialise([](float x) {return std::sin(x); });
-        break;
-    case 1:
-        initialise([](float x) {return x / juce::MathConstants<float>::pi; });
-        break;
-    case 2:
-        initialise([](float x) {return x < 0.0f ? -1.0f : 1.0f; });
-        break;
-    default:
-        jassertfalse; //error
-        break;
-    }
 }
 
 void OscData::prepareToPlay(juce::dsp::ProcessSpec& spec) {

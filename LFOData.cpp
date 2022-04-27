@@ -11,34 +11,9 @@
 #include <JuceHeader.h>
 #include "LFOData.h"
 
-void LFOData::setWaveType(const int waveType) {
-    switch (waveType)
-    {
-    case 0:
-        initialise([](float x) {return std::sin(x); });
-        break;
-    case 1:
-        initialise([](float x) {return x / juce::MathConstants<float>::pi; });
-        break;
-    case 2:
-        initialise([](float x) {return x < 0.0f ? -1.0f : 1.0f; });
-        break;
-    default:
-        jassertfalse; //error
-        break;
-    }
-}
 
 float LFOData::processBlock(juce::dsp::AudioBlock<float>& block) {
-<<<<<<< Updated upstream
     return processSample(block.getSample(0, 0))*intensity;
-=======
-    /*for (int channel = 0; channel < block.getNumChannels(); channel++) {
-        for (int sample = 0; sample < block.getNumSamples(); sample++) {*/
-            return processSample(block.getSample(0, 0))*intensity;
-        //}
-    //}
->>>>>>> Stashed changes
 }
 
 void LFOData::setFreq(const float rate) {

@@ -178,6 +178,10 @@ void SynthOneAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer, juc
             voice->setPanValue(pan);
             voice->getOsc().updateModulator();
 
+            oscs[oscNum] = &voice->getOsc();
+            for (int j = 0; j < 4; j++) {
+                if (oscs[j] != NULL) voice->setFM(j, oscNum, oscs[j]);
+            }
 
             auto& lfo1Rate = *valueTreeState.getRawParameterValue("LFO1RATE");
             auto& lfo1Int = *valueTreeState.getRawParameterValue("LFO1INT");
