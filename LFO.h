@@ -18,7 +18,15 @@ class LFO : public Utils
 public:
     LFO(juce::AudioProcessorValueTreeState& apvts, juce::String lfoRateId, juce::String lfoIntId, juce::String lfoWaveId);
     ~LFO() override;
+
+    /// <summary>
+    /// Re-skins the component.
+    /// </summary>
     void paint(juce::Graphics& g) override;
+
+    /// <summary>
+    /// How the component will be laid out on screen.
+    /// </summary>
     void resized() override;
 private:
     juce::ComboBox lfoWaveSelect;

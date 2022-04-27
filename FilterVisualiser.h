@@ -16,8 +16,23 @@ class FilterVisualiser  : public juce::AudioVisualiserComponent//, juce::Timer
 public:
     FilterVisualiser();
     ~FilterVisualiser() override;
+
+    /// <summary>
+    /// Re-skins the component.
+    /// </summary>
     void paint (juce::Graphics&) override;
+
+    /// <summary>
+    /// How the component will be laid out on screen.
+    /// </summary>
     void resized() override;
+
+    /// <summary>
+    /// Polls the component to show updated information.
+    /// </summary>
+    /// <param name="filterType">Filter Type</param>
+    /// <param name="cutoffFreq">Filter Cutoff</param>
+    /// <param name="resonance">Filter Resonance</param>
     void update(int filterType, float cutoffFreq, float resonance);
 
 private:
@@ -35,13 +50,49 @@ public:
 
     FilterVisualiserSpectrogram();
     ~FilterVisualiserSpectrogram() override;
+
+    /// <summary>
+    /// Re-skins the component.
+    /// </summary>
     void paint(juce::Graphics&) override;
+
+    /// <summary>
+    /// Sets the 'resolution' of the component, and how often it should pass to the output.
+    /// </summary>
+    /// <param name="sampleRate"> How often does the parameter register a change </param>
+    /// <param name="samplesPerBlockExpected"> How often should the component output </param>
     void prepareToPlay(int samplesPerBlockExpected, double sampleRate) override;
+
+    /// <summary>
+    /// Runs upon destruction of component.
+    /// </summary>
     void releaseResources() override;
+
+    /// <summary>
+    /// Retreives the next audio block before passing it into the visualiser
+    /// </summary>
+    /// <param name="bufferToFill"> Audio buffer </param>
     void getNextAudioBlock(const juce::AudioSourceChannelInfo& bufferToFill) override;
+
+    /// <summary>
+    /// Pushes each sample into the visualiser from memory.
+    /// </summary>
+    /// <param name="sample">Sample to push</param>
     void pushNextSampleIntoInbound(float sample) noexcept;
+
+    /// <summary>
+    /// Repaints component to update on the interface.
+    /// </summary>
     void timerCallback() override;
+
+    /// <summary>
+    /// Draws each frame of the visualiser.
+    /// </summary>
     void drawFrame(juce::Graphics& g);
+
+    /// <summary>
+    /// Draws the frame onto the interface.
+    /// </summary>
     void drawNextFrame();
 
 private:

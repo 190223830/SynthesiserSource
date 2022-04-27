@@ -14,10 +14,29 @@
 class Matrix : public juce::Component
 {
 public:
+    /// <summary>
+    /// Re-skins the component.
+    /// </summary>
     void paint(juce::Graphics& g) override;
+
+    /// <summary>
+    /// How the component will be laid out on screen.
+    /// </summary>
     void resized() override;
 
+    /// <summary>
+    /// Sets the value of a point in the matrix so other components can check where to send modulation.
+    /// </summary>
+    /// <param name="modulator">Modulation input</param>
+    /// <param name="destination">Modulation output</param>
     void toggleValue(int modulator, int destination);
+
+    /// <summary>
+    /// Gets the value of a given point in the matrix
+    /// </summary>
+    /// <param name="modulator">Modulation input</param>
+    /// <param name="destination">Modulation output</param>
+    /// <returns>Value of matrix point</returns>
     bool getValue(int modulator, int destination);
 
     JUCE_DECLARE_SINGLETON(Matrix, true)

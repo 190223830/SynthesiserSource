@@ -18,7 +18,14 @@ public:
     Filter(juce::AudioProcessorValueTreeState& valueTreeState, juce::String type);
     ~Filter() override;
 
+    /// <summary>
+    /// Re-skins the component.
+    /// </summary>
     void paint (juce::Graphics&) override;
+
+    /// <summary>
+    /// How the component will be laid out on screen.
+    /// </summary>
     void resized() override;
 
 private:

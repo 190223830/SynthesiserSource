@@ -20,7 +20,14 @@ public:
         juce::String modulationTarget = "");
     ~ADSR() override;
 
+    /// <summary>
+    /// Re-skins the component.
+    /// </summary>
     void paint (juce::Graphics&) override;
+
+    /// <summary>
+    /// How the component will be laid out on screen.
+    /// </summary>
     void resized() override;
 
 private:
