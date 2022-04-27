@@ -2,7 +2,6 @@
   ==============================================================================
 
     LFO.cpp
-    Created: 26 Mar 2022 11:59:36am
     Author:  ellio
 
   ==============================================================================
@@ -29,15 +28,7 @@ LFO::~LFO()
 {
 }
 
-void LFO::paint(juce::Graphics& g)
-{
-
-
-    //g.fillAll (getLookAndFeel().findColour (juce::ResizableWindow::backgroundColourId));   // clear the background
-
-    //g.setColour (juce::Colours::grey);
-    //g.drawRect (getLocalBounds(), 1);   // draw an outline around the component
-}
+void LFO::paint(juce::Graphics& g){}
 
 void LFO::resized()
 {

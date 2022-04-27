@@ -2,7 +2,6 @@
   ==============================================================================
 
     Filter.cpp
-    Created: 12 Feb 2022 3:00:26pm
     Author:  ellio
 
   ==============================================================================
@@ -29,16 +28,8 @@ Filter::Filter(juce::AudioProcessorValueTreeState& valueTreeState, juce::String 
 
 }
 
-Filter::~Filter()
-{
-}
-
-void Filter::paint (juce::Graphics& g)
-{
-    //g.fillAll(getLookAndFeel().findColour(juce::ResizableWindow::backgroundColourId));
-    //g.setColour(juce::Colours::white);
-    //g.drawRect(getLocalBounds());
-}
+Filter::~Filter(){}
+void Filter::paint (juce::Graphics& g) {}
 
 void Filter::resized()
 {

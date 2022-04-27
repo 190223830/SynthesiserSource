@@ -2,7 +2,6 @@
   ==============================================================================
 
     Osc.cpp
-    Created: 2 Feb 2022 3:49:21pm
     Author:  ellio
 
   ==============================================================================
@@ -24,21 +23,11 @@ Osc::Osc(juce::AudioProcessorValueTreeState& valueTreeState, juce::String wave, 
 
 }
 
-Osc::~Osc()
-{
-}
-
-void Osc::paint (juce::Graphics& g)
-{
-    //g.fillAll (getLookAndFeel().findColour (juce::ResizableWindow::backgroundColourId));
-    /*g.setColour(juce::Colours::white);
-    g.drawRect(getLocalBounds());*/
-
-}
+Osc::~Osc(){}
+void Osc::paint (juce::Graphics& g){}
 
 void Osc::resized()
 {
     waveSelect.setBounds(0, 20, 70, 40);
     waveSelectLabel.setBounds(0, 70, 150, 20);
-
 }

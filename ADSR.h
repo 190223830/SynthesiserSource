@@ -2,7 +2,6 @@
   ==============================================================================
 
     ADSR.h
-    Created: 2 Feb 2022 10:16:55am
     Author:  ellio
 
   ==============================================================================
@@ -27,6 +26,5 @@ public:
 private:
     
     GenericSlider attackSlider, decaySlider, sustainSlider, releaseSlider;
-
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (ADSR)
 };

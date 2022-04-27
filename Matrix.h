@@ -2,7 +2,6 @@
   ==============================================================================
 
     Matrix.h
-    Created: 10 Apr 2022 6:15:09pm
     Author:  ellio
 
   ==============================================================================
@@ -12,9 +11,6 @@
 
 #include <JuceHeader.h>
 
-//==============================================================================
-/*
-*/
 class Matrix : public juce::Component
 {
 public:
@@ -34,9 +30,7 @@ private:
     juce::ToggleButton buttons[destinations][modulators];
 
     Matrix() = default;
-    ~Matrix() override
-    {
-    }
+    ~Matrix() override {}
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(Matrix)
 };

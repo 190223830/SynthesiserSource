@@ -22,8 +22,6 @@ public:
     
 
 private:
-    //void setVisualiser();
-    // This reference is provided as a quick way for your editor to access the processor object that created it
     SynthOneAudioProcessor& audioProcessor;
 
     ADSR adsr0, adsr1, adsr2, adsr3;
@@ -31,11 +29,7 @@ private:
     Filter filter;
     ADSR egAdsr;
     LFO lfo1, lfo2;
-    /*Visualiser visualiserToShow;
-    FilterVisualiser filterVisualiser;
-    FilterVisualiser filterVisualiserSpectrogram;*/
 
-    //juce::Slider gainSlider;
     GenericSlider gainSlider0, gainSlider1, gainSlider2, gainSlider3;
     GenericSlider detuneSlider0, detuneSlider1, detuneSlider2, detuneSlider3;
     GenericSlider courseTuneSlider0, courseTuneSlider1, courseTuneSlider2, courseTuneSlider3;
@@ -45,11 +39,5 @@ private:
     Matrix* matrix = Matrix::getInstance();
 
     juce::MidiKeyboardComponent keyboard;
-    //juce::ComboBox waveSelect;
-
-    //std::unique_ptr<juce::AudioProcessorValueTreeState::SliderAttachment> gainAttachment;
-    //juce::Label gainLabel{ "gainLabel", "Gain" };
-    //std::unique_ptr<juce::AudioProcessorValueTreeState::ComboBoxAttachment> waveSelectAttachment;
-
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (SynthOneAudioProcessorEditor)
 };

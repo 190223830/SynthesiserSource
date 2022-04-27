@@ -2,7 +2,6 @@
   ==============================================================================
 
     Utils.cpp
-    Created: 24 Mar 2022 6:03:27am
     Author:  ellio
 
   ==============================================================================
@@ -40,22 +39,10 @@ void GenericSlider::resized()
 }
 
 
-Utils::Utils()
-{
-}
-
-Utils::~Utils()
-{
-}
-
-void Utils::paint(juce::Graphics& g)
-{
-    //add in colour scheme here
-}
-
-void Utils::resized()
-{
-}
+Utils::Utils(){}
+Utils::~Utils(){}
+void Utils::paint(juce::Graphics& g){}
+void Utils::resized(){}
 
 
 
@@ -63,8 +50,6 @@ void SynthesiserPlusAddons::noteOn(const int midiChannel,
     const int midiNoteNumber,
     const float velocity)
 {
-    //const ScopedLock sl(lock);
-
     for (auto* sound : sounds)
     {
         if (sound->appliesToNote(midiNoteNumber) && sound->appliesToChannel(midiChannel))
@@ -102,8 +87,7 @@ void SynthesiserPlusAddons::removeVoices(const int voicesToRemove)
             }
         }
 
-        if (indexToRemove > -1) { voices.remove(indexToRemove); }
+        if (indexToRemove > -1) voices.remove(indexToRemove);
         else { voices.remove(0); }
-
     }
 };

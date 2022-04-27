@@ -2,7 +2,6 @@
   ==============================================================================
 
     FilterData.h
-    Created: 12 Feb 2022 12:10:59pm
     Author:  ellio
 
   ==============================================================================
@@ -25,7 +24,4 @@ public:
 private:
     juce::dsp::StateVariableTPTFilter<float> filter; // TODO: look at creating own filter with different dB/Oct types
     float modulatedCutoffWithinBounds;
-
-    //enum FilterType { LPF, BPF, HPF };
-    //FilterType filterType{ FilterType::LPF };
 };

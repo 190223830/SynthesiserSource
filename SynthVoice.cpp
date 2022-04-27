@@ -2,7 +2,6 @@
   ==============================================================================
 
     SynthVoice.cpp
-    Created: 31 Jan 2022 5:40:27am
     Author:  ellio
 
   ==============================================================================
@@ -34,7 +33,6 @@ void SynthVoice::controllerMoved(int ControllerNumber, int newControllerValue) {
 
 void SynthVoice::renderNextBlock(juce::AudioBuffer<float>& outputBuffer, int startSample, int numSamples) {
 
-    //while (!isPrepared);
     jassert(isPrepared);
 
     if (!isVoiceActive()) {
@@ -55,14 +53,10 @@ void SynthVoice::renderNextBlock(juce::AudioBuffer<float>& outputBuffer, int sta
 
     for (int channel = 0; channel < outputBuffer.getNumChannels(); channel++) {
         outputBuffer.addFrom(channel, startSample, oscBuffer, channel, 0, numSamples);
-        
         if (!adsr.isActive()) {
             clearCurrentNote(); //if envelope is finished, no need to output
         };
     };
-
-    
-    
 };
 
 void SynthVoice::updateFilter(const int filterType, const float filterCutoff, const float filterResonance, const float intensity) {
@@ -85,7 +79,7 @@ void SynthVoice::pitchWheelMoved(int newPitchWheelValue) {
 };
 
 void SynthVoice::prepareToPlay(double sampleRate, int samplesPerBlock, int outputChannels) {
-
+    juce::dsp::ProcessSpec spec;
     spec.maximumBlockSize = samplesPerBlock;
     spec.sampleRate = sampleRate;
     spec.numChannels = outputChannels;
@@ -98,7 +92,6 @@ void SynthVoice::prepareToPlay(double sampleRate, int samplesPerBlock, int outpu
     gain.prepare(spec);
     egADSR.setSampleRate(sampleRate);
     panner.prepare(spec);
-    
     isPrepared = true;
 }
 
@@ -131,7 +124,7 @@ void SynthVoice::setLFO(int lfoNum, float lfoRate, float lfoInt, int lfoWaveType
             break;
         case 2:
             lfo2.setParams(lfoRate, lfoInt, lfoWaveType);
-            getOsc().setModulator(&lfo2, lfoNum-1);                         //TODO: MAKE ADD MODULATOR METHOD WITH MODULATOR ARRAY, THIS WILL CURRENTLY OVERWRITE LFO1
+            getOsc().setModulator(&lfo2, lfoNum - 1);
             break;
         default:
             jassertfalse;
@@ -153,14 +146,14 @@ void SynthVoice::setLFO(int lfoNum, float lfoRate, float lfoInt, int lfoWaveType
     }
 }
 
-void SynthVoice::setFM(int modOsc, int destOsc, OscData* osc) {
-    if (matrix->getValue((destOsc + 3) % 4, (modOsc + 3) % 4)) {
-        osc->setAsMod(true);
-        getOsc().setModulator(osc, (modOsc + 3) % 4);
-    }
-    else {
-        //osc->setAsMod(true);
-        getOsc().removeModulator(osc);
-    }
-}
+//void SynthVoice::setFM(int modOsc, int destOsc, OscData* osc) {
+//    if (matrix->getValue((destOsc + 3) % 4, (modOsc + 3) % 4)) {
+//        osc->setAsMod(true);
+//        getOsc().setModulator(osc, (modOsc + 3) % 4);
+//    }
+//    else {
+//        osc->setAsMod(false);
+//        getOsc().removeModulator(osc);
+//    }
+//}
 

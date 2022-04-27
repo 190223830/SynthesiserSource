@@ -2,7 +2,6 @@
   ==============================================================================
 
     Matrix.cpp
-    Created: 23 Apr 2022 7:14:44pm
     Author:  ellio
 
   ==============================================================================
@@ -12,8 +11,6 @@
 #include "Matrix.h"
 
 JUCE_IMPLEMENT_SINGLETON(Matrix)
-
-
 
 void Matrix::paint (juce::Graphics& g)
 {
@@ -38,10 +35,7 @@ void Matrix::paint (juce::Graphics& g)
     }
 }
 
-void Matrix::resized()
-{
-
-}
+void Matrix::resized(){}
 
 void Matrix::toggleValue(int destination, int modulator) {
     jassert(modulator <= modulators && destination <= destinations);

@@ -2,7 +2,6 @@
   ==============================================================================
 
     Skin.cpp
-    Created: 20 Apr 2022 12:02:31pm
     Author:  ellio
 
   ==============================================================================
@@ -80,8 +79,6 @@ juce::Label* Skin::createSliderTextBox(juce::Slider& slider)
 juce::Slider::SliderLayout Skin::getSliderLayout(juce::Slider& slider)
 {
     using namespace juce; {
-        // 1. compute the actually visible textBox size from the slider textBox size and some additional constraints
-
         int minXSpace = 0;
         int minYSpace = 15;
         auto localBounds = slider.getLocalBounds();
@@ -90,15 +87,11 @@ juce::Slider::SliderLayout Skin::getSliderLayout(juce::Slider& slider)
 
         Slider::SliderLayout layout;
 
-        // 2. set the textBox bounds
         layout.textBoxBounds.setWidth(textBoxWidth);
         layout.textBoxBounds.setHeight(textBoxHeight);
         layout.textBoxBounds.setX((localBounds.getWidth() - textBoxWidth) / 2);
         layout.textBoxBounds.setY(10);
 
-
-
-        // 3. set the slider bounds
         layout.sliderBounds = localBounds;
         layout.sliderBounds.removeFromTop(textBoxHeight);
 
@@ -117,9 +110,6 @@ void Skin::drawComboBox(juce::Graphics& g, int width, int height, bool,
         auto cornerSize = box.findParentComponentOfClass<ChoicePropertyComponent>() != nullptr ? 0.0f : 3.0f;
         Rectangle<int> boxBounds(0, 0, width, height);
 
-        //g.setColour(box.findColour(ComboBox::backgroundColourId));
-        //g.fillRoundedRectangle(boxBounds.toFloat(), cornerSize);
-
         g.setColour(box.findColour(ComboBox::outlineColourId));
         g.drawRoundedRectangle(boxBounds.toFloat().reduced(0.5f, 0.5f), cornerSize, 1.0f);
 
@@ -129,7 +119,6 @@ void Skin::drawComboBox(juce::Graphics& g, int width, int height, bool,
         path.lineTo((float)arrowZone.getCentreX(), (float)arrowZone.getCentreY() + 3.0f);
         path.lineTo((float)arrowZone.getRight() - 3.0f, (float)arrowZone.getCentreY() - 2.0f);
 
-        //g.setColour(box.findColour(ComboBox::arrowColourId).withAlpha((box.isEnabled() ? 0.9f : 0.2f)));
         g.setColour(Colours::darkturquoise);
         g.strokePath(path, PathStrokeType(1.0f));
     }

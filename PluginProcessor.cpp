@@ -87,17 +87,12 @@ void SynthOneAudioProcessor::changeProgramName (int index, const juce::String& n
 void SynthOneAudioProcessor::prepareToPlay (double sampleRate, int samplesPerBlock)
 {
     // pre-playback initialisation
-
     synth.setCurrentPlaybackSampleRate(sampleRate);
     for (int i = 0; i < synth.getNumVoices(); i++) {
         if (auto voice = dynamic_cast<SynthVoice*>(synth.getVoice(i))) {
             voice->prepareToPlay(sampleRate, samplesPerBlock, getTotalNumOutputChannels());
         };
     };
-    
-
-    //filter.prepareToPlay(sampleRate, samplesPerBlock, getTotalNumOutputChannels());
-
 }
 
 void SynthOneAudioProcessor::releaseResources()
@@ -178,10 +173,11 @@ void SynthOneAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer, juc
             voice->setPanValue(pan);
             voice->getOsc().updateModulator();
 
-            oscs[oscNum] = &voice->getOsc();
-            for (int j = 0; j < 4; j++) {
-                if (oscs[j] != NULL) voice->setFM(j, oscNum, oscs[j]);
-            }
+            //for (int j = 0; j < 4; j++) {
+                //if (auto voiceTest = dynamic_cast<SynthVoice*>(synth.getVoice(j))) {
+                    //voice->setFM(j, oscNum, &voiceTest->getOsc());
+                //}
+            //}
 
             auto& lfo1Rate = *valueTreeState.getRawParameterValue("LFO1RATE");
             auto& lfo1Int = *valueTreeState.getRawParameterValue("LFO1INT");
@@ -238,7 +234,7 @@ void SynthOneAudioProcessor::getStateInformation (juce::MemoryBlock& destData)
 
 void SynthOneAudioProcessor::setStateInformation (const void* data, int sizeInBytes)
 {
-    // use this method to restore your parameters from this memory block
+    // TODO: use this method to restore your parameters from this memory block, allows for saving in the DAW
 }
 
 // create new instances of the plugin

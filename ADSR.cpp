@@ -2,7 +2,6 @@
   ==============================================================================
 
     ADSR.cpp
-    Created: 2 Feb 2022 10:16:55am
     Author:  ellio
 
   ==============================================================================
@@ -20,27 +19,14 @@ ADSR::ADSR(juce::AudioProcessorValueTreeState& valueTreeState,
     sustainSlider("Sustain", sustainID, valueTreeState, juce::Slider::SliderStyle::RotaryHorizontalVerticalDrag),
     releaseSlider("Release", releaseID, valueTreeState, juce::Slider::SliderStyle::RotaryHorizontalVerticalDrag)
 {
-    //TODO: Add modulation target changing
-
     addAndMakeVisible(attackSlider);
     addAndMakeVisible(decaySlider);
     addAndMakeVisible(sustainSlider);
     addAndMakeVisible(releaseSlider);
 }
 
-ADSR::~ADSR()
-{
-}
-
-void ADSR::paint (juce::Graphics& g)
-{
- 
-
-    //g.fillAll (getLookAndFeel().findColour (juce::ResizableWindow::backgroundColourId));   // clear the background
-
-    //g.setColour (juce::Colours::grey);
-    //g.drawRect (getLocalBounds(), 1);   // draw an outline around the component
-}
+ADSR::~ADSR() {}
+void ADSR::paint (juce::Graphics& g) {}
 
 void ADSR::resized()
 {

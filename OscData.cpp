@@ -2,7 +2,6 @@
   ==============================================================================
 
     oscData.cpp
-    Created: 2 Feb 2022 3:15:58pm
     Author:  ellio
 
   ==============================================================================
@@ -11,12 +10,16 @@
 #include "OscData.h"
 
 void OscData::prepareToPlay(juce::dsp::ProcessSpec& spec) {
-    for (int i = 0; i < modulators; i++) if (modCalled[i]) modulatorOsc[i]->prepare(spec);
+    for (int i = 0; i < modulators; i++) {
+        if (modCalled[i]) {
+            //if (auto osc = dynamic_cast<OscData*>(modulatorOsc[i])) osc->prepare(spec);
+        }
+    }
     prepare(spec);
 }
 
 float OscData::processBlock(juce::dsp::AudioBlock<float>& block) {
-    if (thisIsModulator) return processSample(block.getSample(0, 0));
+    //if (thisIsModulator) return processSample(block.getSample(0, 0));
     float temp = 0.0f;
     for (int i = 0; i < modulators; i++) if (modCalled[i]) temp += modulatorOsc[i]->processBlock(block);
     modValue = temp;
@@ -26,7 +29,6 @@ float OscData::processBlock(juce::dsp::AudioBlock<float>& block) {
 
 void OscData::setFreq(const int midiNoteNumber, const int detuneValue, const int courseTuneValue) {
     midiNote = midiNoteNumber + courseTuneValue;
-    //detuneValue == 0 ? detuneInHertz = 0 : detuneInHertz = pow(10, ((1200 / detuneValue * log(2)) + log(juce::MidiMessage::getMidiNoteInHertz(midiNote))));
     detuneInHertz = detuneValue * ((juce::MidiMessage::getMidiNoteInHertz(midiNote) - juce::MidiMessage::getMidiNoteInHertz(midiNote - 1)) / 100);
     if(!modCalled) currentFreq = juce::MidiMessage::getMidiNoteInHertz(midiNote) + detuneInHertz;
     setFrequency(currentFreq >= 0 ? currentFreq : 0);
@@ -53,5 +55,5 @@ void OscData::removeModulator(VirtualOsc* modOsc) {
     }
 }
 
-void OscData::setAsMod(bool status) {thisIsModulator = status;}
+//void OscData::setAsMod(bool status) {thisIsModulator = status;}
 void OscData::setParams(float lfoRate, float lfoInt, int lfoWaveType) {}

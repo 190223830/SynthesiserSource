@@ -40,9 +40,8 @@ public:
 
     void getStateInformation (juce::MemoryBlock& destData) override;
     void setStateInformation (const void* data, int sizeInBytes) override;
-    juce::AudioProcessorValueTreeState valueTreeState;  //TODO: make private with a get method
+    juce::AudioProcessorValueTreeState valueTreeState;
 
-    //Visualiser getVisualiser();
     Visualiser visualiser;
     FilterVisualiser filterVisualiser;
     FilterVisualiserSpectrogram filterVisualiserSpectrogram;
@@ -50,11 +49,9 @@ public:
 
 private:
     SynthesiserPlusAddons synth;
-    //FilterData filter;
     juce::AudioProcessorValueTreeState::ParameterLayout createParams();
 
     int userSetVoices = 8;
-    OscData* oscs[4];
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (SynthOneAudioProcessor)
 };

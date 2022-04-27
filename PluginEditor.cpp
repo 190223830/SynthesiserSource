@@ -77,9 +77,7 @@ SynthOneAudioProcessorEditor::SynthOneAudioProcessorEditor(SynthOneAudioProcesso
 
 }
 
-SynthOneAudioProcessorEditor::~SynthOneAudioProcessorEditor()
-{
-}
+SynthOneAudioProcessorEditor::~SynthOneAudioProcessorEditor(){}
 
 void SynthOneAudioProcessorEditor::paint(juce::Graphics& g)
 {
