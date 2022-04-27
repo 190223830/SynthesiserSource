@@ -30,11 +30,7 @@ void LFOData::setWaveType(const int waveType) {
 }
 
 float LFOData::processBlock(juce::dsp::AudioBlock<float>& block) {
-    for (int channel = 0; channel < block.getNumChannels(); channel++) {
-        for (int sample = 0; sample < block.getNumSamples(); sample++) {
-            return processSample(block.getSample(channel, sample))*intensity;
-        }
-    }
+    return processSample(block.getSample(0, 0))*intensity;
 }
 
 void LFOData::setFreq(const float rate) {
