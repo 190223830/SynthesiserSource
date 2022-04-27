@@ -281,7 +281,7 @@ juce::AudioProcessorValueTreeState::ParameterLayout SynthOneAudioProcessor::crea
     params.push_back(std::make_unique<juce::AudioParameterFloat>("LFO2INT", "LFO Intensity", juce::NormalisableRange<float>{0.0f, 1000.0f, 1.0f, 0.3f}, 0.0f));
     params.push_back(std::make_unique<juce::AudioParameterChoice>("LFO2WAVE", "LFO Wave Type", juce::StringArray{ "Sine", "Saw", "Square" }, 0));
 
-    params.push_back(std::make_unique<juce::AudioParameterInt>("UNISON", "Poly/Unison", 1, 4, 1));
+    params.push_back(std::make_unique<juce::AudioParameterInt>("UNISON", "Poly/Unison", 1, 4, 4));
     params.push_back(std::make_unique<juce::AudioParameterInt>("VOICES", "Voices", 1, 20, 8));
 
     return { params.begin(), params.end() };

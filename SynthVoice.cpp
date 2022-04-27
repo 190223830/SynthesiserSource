@@ -154,7 +154,13 @@ void SynthVoice::setLFO(int lfoNum, float lfoRate, float lfoInt, int lfoWaveType
 }
 
 void SynthVoice::setFM(int modOsc, int destOsc, OscData* osc) {
-    if (matrix->getValue((destOsc + 3) % 4, (modOsc + 3) % 4)) getOsc().setModulator(osc, (modOsc + 3) % 4);
-    else getOsc().removeModulator(osc);
+    if (matrix->getValue((destOsc + 3) % 4, (modOsc + 3) % 4)) {
+        osc->setAsMod(true);
+        getOsc().setModulator(osc, (modOsc + 3) % 4);
+    }
+    else {
+        //osc->setAsMod(true);
+        getOsc().removeModulator(osc);
+    }
 }
 

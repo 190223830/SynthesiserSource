@@ -15,7 +15,6 @@
 
 class LFOData : public VirtualOsc {
 public:
-    void setWaveType(const int waveType);
     float processBlock(juce::dsp::AudioBlock<float>& block);
     void setFreq(const float rate);
     void setParams(float lfoRate, float lfoInt, int lfoWaveType);

@@ -10,21 +10,17 @@
 
 #include "OscData.h"
 
-
-void OscData::setWaveType(const int waveType) {
-}
-
 void OscData::prepareToPlay(juce::dsp::ProcessSpec& spec) {
     for (int i = 0; i < modulators; i++) if (modCalled[i]) modulatorOsc[i]->prepare(spec);
     prepare(spec);
 }
 
 float OscData::processBlock(juce::dsp::AudioBlock<float>& block) {
+    if (thisIsModulator) return processSample(block.getSample(0, 0));
     float temp = 0.0f;
     for (int i = 0; i < modulators; i++) if (modCalled[i]) temp += modulatorOsc[i]->processBlock(block);
     modValue = temp;
     process(juce::dsp::ProcessContextReplacing<float>(block));
-    
     return 0;
 }
 
@@ -57,4 +53,5 @@ void OscData::removeModulator(VirtualOsc* modOsc) {
     }
 }
 
+void OscData::setAsMod(bool status) {thisIsModulator = status;}
 void OscData::setParams(float lfoRate, float lfoInt, int lfoWaveType) {}

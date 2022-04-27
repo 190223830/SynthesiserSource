@@ -11,7 +11,6 @@
 #include <JuceHeader.h>
 #include "LFOData.h"
 
-
 float LFOData::processBlock(juce::dsp::AudioBlock<float>& block) {
     return processSample(block.getSample(0, 0))*intensity;
 }
